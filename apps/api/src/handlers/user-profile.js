@@ -32,40 +32,35 @@ exports.UserProfileHandler = async (event) => {
       break;
     case "GET":
       try {
-        let results = await mysql.query("call creditodds.user_records(?)", [
-          event.requestContext.authorizer.claims.sub,
+        const userId = event.requestContext.authorizer.claims.sub;
+        const claims = event.requestContext.authorizer.claims;
+
+        // Get counts from database
+        const [recordsResult, referralsResult] = await Promise.all([
+          mysql.query("SELECT COUNT(*) as count FROM records WHERE submitter_id = ?", [userId]),
+          mysql.query("SELECT COUNT(*) as count FROM referrals WHERE submitter_id = ?", [userId])
         ]);
-        // Run clean up function
         await mysql.end();
-        results = JSON.parse(JSON.stringify(results[0]));
 
-        if (results.length > 0) {
-          approvedCards = results.filter(function (element) {
-            return element.result == 1;
-          });
-          let daysOfCredit = 0;
-          approvedCards.forEach((element) => {
-            daysOfCredit += parseInt(
-              (new Date() - Date.parse(element.date_applied.toString())) /
-                86400000
-            );
-          });
-          const aaoa = parseInt(daysOfCredit / approvedCards.length);
-          response = {
-            statusCode: 200,
-            headers: responseHeaders,
-            body: JSON.stringify([aaoa]),
-          };
-        } else {
-          response = {
-            statusCode: 200,
-            headers: responseHeaders,
-            body: JSON.stringify([]),
-          };
-        }
+        const recordsCount = recordsResult[0]?.count || 0;
+        const referralsCount = referralsResult[0]?.count || 0;
 
+        // Build profile response from Cognito claims
+        const profile = {
+          username: claims['cognito:username'] || claims.preferred_username || claims.email?.split('@')[0] || 'User',
+          email: claims.email || '',
+          records_count: recordsCount,
+          referrals_count: referralsCount,
+        };
+
+        response = {
+          statusCode: 200,
+          headers: responseHeaders,
+          body: JSON.stringify(profile),
+        };
         break;
       } catch (error) {
+        console.error("Profile error:", error);
         response = {
           statusCode: 500,
           body: `Error: ${error}`,
@@ -74,10 +69,9 @@ exports.UserProfileHandler = async (event) => {
         break;
       }
     default:
-      //Throw an error if the request method is not GET
       response = {
         statusCode: 405,
-        body: `getCardGraphs only accepts GET and POST method, you tried: ${event.httpMethod}`,
+        body: `UserProfile only accepts GET method, you tried: ${event.httpMethod}`,
         headers: responseHeaders,
       };
       break;

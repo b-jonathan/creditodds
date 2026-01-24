@@ -34,10 +34,26 @@ async function fetchCardsFromCDN() {
   });
 }
 
-// Fetch detailed stats for a specific card from MySQL
-async function fetchCardDetailedStats(cardId) {
+// Look up card in database by name and get stats
+async function fetchCardFromDB(cardName) {
   try {
-    const results = await mysql.query(`
+    // First find the card by name (fuzzy match - the CDN has "Card" suffix but DB might not)
+    const cardResults = await mysql.query(`
+      SELECT card_id, card_name, card_image_link
+      FROM cards
+      WHERE card_name = ? OR card_name = ? OR ? LIKE CONCAT(card_name, '%')
+      LIMIT 1
+    `, [cardName, cardName.replace(/ Card$/, ''), cardName]);
+
+    if (!cardResults || cardResults.length === 0) {
+      await mysql.end();
+      return null;
+    }
+
+    const dbCard = cardResults[0];
+
+    // Now get the stats using the database card_id
+    const statsResults = await mysql.query(`
       SELECT
         COUNT(*) as total_records,
         SUM(CASE WHEN result = 1 THEN 1 ELSE 0 END) as approved_count,
@@ -47,13 +63,19 @@ async function fetchCardDetailedStats(cardId) {
         (SELECT ROUND(AVG(length_credit)) FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1) as approved_median_length_credit
       FROM records
       WHERE card_id = ? AND admin_review = 1
-    `, [cardId, cardId, cardId, cardId]);
+    `, [dbCard.card_id, dbCard.card_id, dbCard.card_id, dbCard.card_id]);
+
     await mysql.end();
 
-    return results[0] || {};
+    return {
+      card_id: dbCard.card_id,
+      card_image_link: dbCard.card_image_link,
+      stats: statsResults[0] || {}
+    };
   } catch (error) {
-    console.error('Error fetching card stats:', error);
-    return {};
+    console.error('Error fetching card from DB:', error);
+    await mysql.end();
+    return null;
   }
 }
 
@@ -95,18 +117,21 @@ exports.CardByIdHandler = async (event) => {
           break;
         }
 
-        // Fetch detailed stats from MySQL
-        const stats = await fetchCardDetailedStats(card.card_id);
+        // Fetch card data and stats from MySQL using card name
+        const dbData = await fetchCardFromDB(card.card_name || card.name);
 
-        // Merge card data with stats
+        // Merge card data with database data
+        // Use database card_id (numeric) for record submissions, keep CDN card_id as slug
         const enrichedCard = {
           ...card,
-          approved_count: stats.approved_count || 0,
-          rejected_count: stats.rejected_count || 0,
-          total_records: stats.total_records || 0,
-          approved_median_credit_score: stats.approved_median_credit_score || null,
-          approved_median_income: stats.approved_median_income || null,
-          approved_median_length_credit: stats.approved_median_length_credit || null,
+          card_id: dbData?.card_id || card.card_id, // Override with database numeric ID
+          card_image_link: dbData?.card_image_link || card.image || null,
+          approved_count: dbData?.stats?.approved_count || 0,
+          rejected_count: dbData?.stats?.rejected_count || 0,
+          total_records: dbData?.stats?.total_records || 0,
+          approved_median_credit_score: dbData?.stats?.approved_median_credit_score || null,
+          approved_median_income: dbData?.stats?.approved_median_income || null,
+          approved_median_length_credit: dbData?.stats?.approved_median_length_credit || null,
         };
 
         response = {

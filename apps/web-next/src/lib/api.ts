@@ -1,13 +1,14 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://c301gwdbok.execute-api.us-east-2.amazonaws.com/Prod';
 
 export interface Card {
+  card_id: string | number;
   card_name: string;
   bank: string;
   card_image_link?: string;
   accepting_applications: boolean;
   approved_median_credit_score?: number;
   approved_median_income?: number;
-  approved_median_length_credit?: string;
+  approved_median_length_credit?: string | number;
   approved_count?: number;
   rejected_count?: number;
 }
