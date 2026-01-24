@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Need previous commit to detect new files
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -35,14 +37,35 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
 
-      - name: Upload to S3
+      - name: Upload cards.json to S3
         run: |
           aws s3 cp data/cards.json s3://${{ secrets.S3_BUCKET_NAME }}/cards.json \
             --content-type application/json \
             --cache-control "max-age=300"
 
+      - name: Upload card images to S3
+        run: |
+          # Check if there are any images to upload (excluding .gitkeep)
+          if find data/cards/images -type f ! -name '.gitkeep' | grep -q .; then
+            echo "Uploading card images to S3..."
+            aws s3 sync data/cards/images/ s3://${{ secrets.S3_IMAGES_BUCKET_NAME }}/card_images/ \
+              --exclude ".gitkeep" \
+              --cache-control "max-age=86400"
+            echo "Images uploaded successfully"
+          else
+            echo "No images to upload"
+          fi
+
       - name: Invalidate CloudFront cache
         run: |
+          # Invalidate cards.json cache
           aws cloudfront create-invalidation \
             --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
             --paths "/cards.json"
+
+          # Invalidate images cache if images were uploaded
+          if find data/cards/images -type f ! -name '.gitkeep' | grep -q .; then
+            aws cloudfront create-invalidation \
+              --distribution-id ${{ secrets.CLOUDFRONT_IMAGES_DISTRIBUTION_ID }} \
+              --paths "/card_images/*"
+          fi

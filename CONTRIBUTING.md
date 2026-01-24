@@ -24,7 +24,7 @@ Use this template:
 name: "Full Card Name"
 bank: "Issuing Bank"
 slug: "your-card-name"  # Must match filename without .yaml
-image: "your-card-name.png"  # Optional
+image: "your-card-name.png"  # Optional - see "Adding a Card Image" below
 accepting_applications: true
 category: "travel"  # Optional: travel, cashback, business, student, secured, rewards, other
 annual_fee: 0  # Optional: Annual fee in USD
@@ -43,11 +43,40 @@ annual_fee: 0  # Optional: Annual fee in USD
 
 | Field | Description |
 |-------|-------------|
-| `image` | Filename for card image (stored in CloudFront) |
+| `image` | Filename for card image (see below for how to add) |
 | `category` | Card category for filtering |
 | `annual_fee` | Annual fee in USD (0 for no annual fee) |
 
-### 3. Validate Your Changes
+### 3. Adding a Card Image (Optional)
+
+To include an image of the credit card:
+
+1. **Prepare your image**:
+   - Use PNG or JPG format
+   - Recommended size: 400x250 pixels (or similar aspect ratio)
+   - Name it to match your card slug: `your-card-name.png`
+
+2. **Add the image to your PR**:
+   ```
+   data/cards/images/your-card-name.png
+   ```
+
+3. **Reference it in your YAML**:
+   ```yaml
+   image: "your-card-name.png"
+   ```
+
+When your PR is merged, the GitHub Action will automatically upload the image to our CDN.
+
+**Example file structure for a new card with image:**
+```
+data/cards/
+├── your-card-name.yaml
+└── images/
+    └── your-card-name.png
+```
+
+### 4. Validate Your Changes
 
 Run the build script to validate your YAML file:
 
@@ -61,22 +90,22 @@ This will check for:
 - Valid category values
 - Proper YAML syntax
 
-### 4. Submit a Pull Request
+### 5. Submit a Pull Request
 
 1. Fork the repository
 2. Create a branch: `git checkout -b add-card-name`
-3. Add your YAML file
+3. Add your YAML file (and image if applicable)
 4. Run `npm run build:cards` to validate
 5. Commit your changes: `git commit -m "Add Card Name"`
 6. Push to your fork: `git push origin add-card-name`
 7. Open a Pull Request
 
-### Example
+## Complete Example
 
-Here's a complete example for the Chase Sapphire Preferred:
+Here's a complete example for adding a new card with an image:
 
+**File: `data/cards/chase-sapphire-preferred.yaml`**
 ```yaml
-# data/cards/chase-sapphire-preferred.yaml
 name: "Chase Sapphire Preferred Card"
 bank: "Chase"
 slug: "chase-sapphire-preferred"
@@ -85,6 +114,9 @@ accepting_applications: true
 category: "travel"
 annual_fee: 95
 ```
+
+**File: `data/cards/images/chase-sapphire-preferred.png`**
+(Your card image file)
 
 ## Questions?
 
