@@ -1,0 +1,39 @@
+{
+  "generated_at": "2026-01-24T18:54:09.188Z",
+  "count": 3,
+  "cards": [
+    {
+      "name": "American Express Platinum Card",
+      "bank": "American Express",
+      "slug": "amex-platinum",
+      "image": "amex-platinum.png",
+      "accepting_applications": true,
+      "category": "travel",
+      "annual_fee": 695,
+      "card_id": "amex-platinum",
+      "card_name": "American Express Platinum Card"
+    },
+    {
+      "name": "Chase Sapphire Preferred Card",
+      "bank": "Chase",
+      "slug": "chase-sapphire-preferred",
+      "image": "chase-sapphire-preferred.png",
+      "accepting_applications": true,
+      "category": "travel",
+      "annual_fee": 95,
+      "card_id": "chase-sapphire-preferred",
+      "card_name": "Chase Sapphire Preferred Card"
+    },
+    {
+      "name": "Discover it Cash Back",
+      "bank": "Discover",
+      "slug": "discover-it",
+      "image": "discover-it.png",
+      "accepting_applications": true,
+      "category": "cashback",
+      "annual_fee": 0,
+      "card_id": "discover-it",
+      "card_name": "Discover it Cash Back"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+name: "Chase Sapphire Preferred Card"
+bank: "Chase"
+slug: "chase-sapphire-preferred"
+image: "chase-sapphire-preferred.png"
+accepting_applications: true
+category: "travel"
+annual_fee: 95

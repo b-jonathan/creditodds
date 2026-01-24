@@ -1,0 +1,9 @@
+{
+  "name": "@creditodds/shared",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "yup": "^0.32.9"
+  }
+}

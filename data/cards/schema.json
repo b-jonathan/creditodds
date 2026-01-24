@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["name", "bank", "slug", "accepting_applications"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Full name of the credit card"
+    },
+    "bank": {
+      "type": "string",
+      "description": "Issuing bank or financial institution"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "URL-friendly identifier (lowercase, hyphens only)"
+    },
+    "image": {
+      "type": "string",
+      "description": "Filename of the card image (optional)"
+    },
+    "accepting_applications": {
+      "type": "boolean",
+      "description": "Whether the card is currently accepting new applications"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["travel", "cashback", "business", "student", "secured", "rewards", "other"],
+      "description": "Card category (optional)"
+    },
+    "annual_fee": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Annual fee in USD (optional)"
+    }
+  },
+  "additionalProperties": false
+}

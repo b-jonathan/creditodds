@@ -1,0 +1,23 @@
+{
+  "name": "creditodds",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build:web": "npm run build -w @creditodds/web",
+    "build:cards": "node scripts/build-cards.js",
+    "start:web": "npm run start -w @creditodds/web",
+    "test:web": "npm run test -w @creditodds/web",
+    "test:api": "npm run test -w @creditodds/api",
+    "lint": "npm run lint --workspaces --if-present"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
