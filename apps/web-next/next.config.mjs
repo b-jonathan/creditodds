@@ -13,6 +13,47 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
+    // Optimize image formats
+    formats: ['image/avif', 'image/webp'],
+  },
+
+  // Enable compression
+  compress: true,
+
+  // Powered by header removal for security
+  poweredByHeader: false,
+
+  // Security and caching headers
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on',
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin',
+          },
+        ],
+      },
+      {
+        // Cache static assets
+        source: '/assets/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
   },
 };
 

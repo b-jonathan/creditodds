@@ -25,6 +25,7 @@
     "react-dom": "^18",
     "react-number-format": "^5.4.4",
     "react-toastify": "^11.0.5",
+    "web-vitals": "^5.1.0",
     "yup": "^1.7.1"
   },
   "devDependencies": {

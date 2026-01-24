@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from "react";
+import Image from "next/image";
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle, Listbox, ListboxButton, ListboxOption, ListboxOptions, Label } from "@headlessui/react";
 import { LinkIcon, CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { useFormik } from "formik";
@@ -126,11 +127,15 @@ export default function ReferralModal({ show, handleClose, openReferrals, onSucc
                       <ListboxButton className="relative w-full cursor-default rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-left shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
                         <span className="flex items-center">
                           {selected.card_image_link && (
-                            <img
-                              src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${selected.card_image_link}`}
-                              alt=""
-                              className="h-8 w-12 flex-shrink-0"
-                            />
+                            <div className="h-8 w-12 flex-shrink-0 relative">
+                              <Image
+                                src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${selected.card_image_link}`}
+                                alt=""
+                                fill
+                                className="object-contain"
+                                sizes="48px"
+                              />
+                            </div>
                           )}
                           <span className="ml-3 block truncate">{selected.card_name}</span>
                         </span>
@@ -155,11 +160,15 @@ export default function ReferralModal({ show, handleClose, openReferrals, onSucc
                               <>
                                 <div className="flex items-center">
                                   {card.card_image_link && (
-                                    <img
-                                      src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`}
-                                      alt=""
-                                      className="h-8 w-12 flex-shrink-0"
-                                    />
+                                    <div className="h-8 w-12 flex-shrink-0 relative">
+                                      <Image
+                                        src={`https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`}
+                                        alt=""
+                                        fill
+                                        className="object-contain"
+                                        sizes="48px"
+                                      />
+                                    </div>
                                   )}
                                   <span
                                     className={classNames(

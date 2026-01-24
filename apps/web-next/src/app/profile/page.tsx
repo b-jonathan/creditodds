@@ -3,10 +3,16 @@
 import { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
 import { getProfile, getRecords, getReferrals } from "@/lib/api";
-import ReferralModal from "@/components/forms/ReferralModal";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
+
+// Lazy load ReferralModal - only loaded when user opens it
+const ReferralModal = dynamic(() => import("@/components/forms/ReferralModal"), {
+  ssr: false,
+  loading: () => null,
+});
 
 interface Record {
   record_id: number;
