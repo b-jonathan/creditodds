@@ -29,7 +29,7 @@ function classNames(...classes: string[]) {
 }
 
 export default function ReferralModal({ show, handleClose, openReferrals, onSuccess }: ReferralModalProps) {
-  const { getSession } = useAuth();
+  const { getToken } = useAuth();
 
   const defaultCard: OpenReferral = {
     card_id: "",
@@ -58,9 +58,10 @@ export default function ReferralModal({ show, handleClose, openReferrals, onSucc
 
       setSubmitting(true);
       try {
-        const session = await getSession();
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const token = (session as any).idToken?.jwtToken || session.getIdToken().getJwtToken();
+        const token = await getToken();
+        if (!token) {
+          throw new Error('Not authenticated');
+        }
 
         const response = await fetch(`${API_BASE}/referrals`, {
           method: 'POST',

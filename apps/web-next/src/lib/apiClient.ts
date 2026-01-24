@@ -2,30 +2,29 @@
 
 /**
  * Centralized API client with auth token handling (#9)
+ * Updated for Firebase Authentication
  */
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://c301gwdbok.execute-api.us-east-2.amazonaws.com/Prod';
 
-type SessionGetter = () => Promise<{
-  getIdToken: () => { getJwtToken: () => string };
-  idToken?: { jwtToken: string };
-}>;
+type TokenGetter = () => Promise<string | null>;
 
 class ApiClient {
-  private getSession: SessionGetter | null = null;
+  private getToken: TokenGetter | null = null;
 
-  setSessionGetter(getter: SessionGetter) {
-    this.getSession = getter;
+  setTokenGetter(getter: TokenGetter) {
+    this.getToken = getter;
   }
 
-  private async getToken(): Promise<string> {
-    if (!this.getSession) {
-      throw new Error('Session getter not initialized. Call setSessionGetter first.');
+  private async fetchToken(): Promise<string> {
+    if (!this.getToken) {
+      throw new Error('Token getter not initialized. Call setTokenGetter first.');
     }
-    const session = await this.getSession();
-    // Handle both old and new Cognito SDK formats
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (session as any).idToken?.jwtToken || session.getIdToken().getJwtToken();
+    const token = await this.getToken();
+    if (!token) {
+      throw new Error('Not authenticated');
+    }
+    return token;
   }
 
   async get<T>(endpoint: string, authenticated = false): Promise<T> {
@@ -34,7 +33,7 @@ class ApiClient {
     };
 
     if (authenticated) {
-      const token = await this.getToken();
+      const token = await this.fetchToken();
       headers['Authorization'] = `Bearer ${token}`;
     }
 
@@ -58,7 +57,7 @@ class ApiClient {
     };
 
     if (authenticated) {
-      const token = await this.getToken();
+      const token = await this.fetchToken();
       headers['Authorization'] = `Bearer ${token}`;
     }
 

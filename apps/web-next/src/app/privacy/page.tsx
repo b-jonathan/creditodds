@@ -51,7 +51,7 @@ export default function PrivacyPage() {
 
           <h2>Third Party Services</h2>
           <p>
-            We use AWS Cognito for authentication. Please review Amazon&apos;s privacy policy for
+            We use Google Firebase for authentication. Please review Google&apos;s privacy policy for
             information about how they handle your data.
           </p>
 

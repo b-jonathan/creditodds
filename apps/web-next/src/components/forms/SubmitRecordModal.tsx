@@ -35,7 +35,7 @@ function classNames(...classes: string[]) {
 }
 
 export default function SubmitRecordModal({ show, handleClose, card, onSuccess }: SubmitRecordModalProps) {
-  const { getSession } = useAuth();
+  const { getToken } = useAuth();
   const [submitting, setSubmitting] = useState(false);
   const [hasExistingRecord, setHasExistingRecord] = useState(false);
   const [checkingRecords, setCheckingRecords] = useState(true);
@@ -81,9 +81,11 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
 
       setCheckingRecords(true);
       try {
-        const session = await getSession();
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const token = (session as any).idToken?.jwtToken || session.getIdToken().getJwtToken();
+        const token = await getToken();
+        if (!token) {
+          setCheckingRecords(false);
+          return;
+        }
         const records = await getRecords(token);
 
         // Check if user has already submitted for this card
@@ -101,14 +103,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
     };
 
     checkExistingRecords();
-  }, [show, card.card_name, getSession]);
-
-  // Auto-save form data when values change (#7)
-  useEffect(() => {
-    if (show && !hasExistingRecord && formik.dirty) {
-      saveFormData(formik.values);
-    }
-  }, [show, hasExistingRecord, formik.values, formik.dirty, saveFormData]);
+  }, [show, card.card_name, getToken]);
 
   // Default form values
   const defaultValues = {
@@ -165,9 +160,10 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
     onSubmit: async (values) => {
       setSubmitting(true);
       try {
-        const session = await getSession();
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const token = (session as any).idToken?.jwtToken || session.getIdToken().getJwtToken();
+        const token = await getToken();
+        if (!token) {
+          throw new Error('Not authenticated');
+        }
 
         const response = await fetch(`${API_BASE}/records`, {
           method: 'POST',
@@ -203,6 +199,13 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
       }
     },
   });
+
+  // Auto-save form data when values change (#7)
+  useEffect(() => {
+    if (show && !hasExistingRecord && formik.dirty) {
+      saveFormData(formik.values);
+    }
+  }, [show, hasExistingRecord, formik.values, formik.dirty, saveFormData]);
 
   const handleModalClose = () => {
     formik.resetForm();
@@ -326,7 +329,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
                               )}
                             </div>
                             {formik.errors.credit_score && formik.touched.credit_score ? (
-                              <p className="mt-2 text-sm text-red-600">{formik.errors.credit_score}</p>
+                              <p className="mt-2 text-sm text-red-600">{String(formik.errors.credit_score)}</p>
                             ) : (
                               <p className="mt-2 text-sm text-gray-500">FICO credit score at the time of application.</p>
                             )}
@@ -359,7 +362,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
                               </div>
                             </div>
                             {formik.errors.listed_income && formik.touched.listed_income ? (
-                              <p className="mt-2 text-sm text-red-600">{formik.errors.listed_income}</p>
+                              <p className="mt-2 text-sm text-red-600">{String(formik.errors.listed_income)}</p>
                             ) : (
                               <p className="mt-2 text-sm text-gray-500">Income you listed on your application.</p>
                             )}
@@ -410,7 +413,7 @@ export default function SubmitRecordModal({ show, handleClose, card, onSuccess }
                               </div>
                             </div>
                             {formik.errors.length_credit && formik.touched.length_credit && (
-                              <p className="mt-2 text-sm text-red-600">{formik.errors.length_credit}</p>
+                              <p className="mt-2 text-sm text-red-600">{String(formik.errors.length_credit)}</p>
                             )}
                           </div>
 

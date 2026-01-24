@@ -1,126 +1,150 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState, useCallback, ReactNode } from "react";
-import { CognitoUser, AuthenticationDetails, CognitoUserSession } from "amazon-cognito-identity-js";
-import Pool from "./user-pool";
+import {
+  User,
+  onAuthStateChanged,
+  signInWithPopup,
+  signOut,
+  GoogleAuthProvider,
+  sendSignInLinkToEmail,
+  isSignInWithEmailLink,
+  signInWithEmailLink,
+} from "firebase/auth";
+import { auth } from "./firebase";
+
+// Key for storing email in localStorage for email link sign-in
+const EMAIL_FOR_SIGN_IN_KEY = 'emailForSignIn';
 
 interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
+  user: User | null;
 }
 
 interface AuthContextType {
   authState: AuthState;
-  authenticate: (email: string, password: string) => Promise<CognitoUserSession>;
-  logout: () => void;
-  getSession: () => Promise<CognitoUserSession>;
-  forgot: (email: string) => Promise<unknown>;
-  reset: (email: string, code: string, newPassword: string) => Promise<unknown>;
+  signInWithGoogle: () => Promise<void>;
+  sendEmailLink: (email: string) => Promise<void>;
+  completeEmailLinkSignIn: (email: string) => Promise<void>;
+  logout: () => Promise<void>;
+  getToken: () => Promise<string | null>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+// Action code settings for email link sign-in
+const actionCodeSettings = {
+  url: typeof window !== 'undefined' ? `${window.location.origin}/login` : 'https://creditodds.com/login',
+  handleCodeInApp: true,
+};
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [authState, setAuthState] = useState<AuthState>({
     isAuthenticated: false,
     isLoading: true,
+    user: null,
   });
 
-  const getSession = useCallback(async (): Promise<CognitoUserSession> => {
-    return new Promise((resolve, reject) => {
-      const user = Pool.getCurrentUser();
-      if (user) {
-        user.getSession((err: Error | null, session: CognitoUserSession | null) => {
-          if (err || !session) {
-            setAuthState({ isAuthenticated: false, isLoading: false });
-            reject(err);
-          } else {
-            setAuthState({ isAuthenticated: true, isLoading: false });
-            resolve(session);
-          }
-        });
-      } else {
-        setAuthState({ isAuthenticated: false, isLoading: false });
-        reject(new Error('No user'));
-      }
+  // Listen for auth state changes
+  useEffect(() => {
+    if (!auth) {
+      setAuthState({ isAuthenticated: false, isLoading: false, user: null });
+      return;
+    }
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setAuthState({
+        isAuthenticated: !!user,
+        isLoading: false,
+        user,
+      });
     });
+
+    return () => unsubscribe();
   }, []);
 
+  // Check for email link sign-in on mount
   useEffect(() => {
-    getSession().catch(() => {
-      // No active session - user is not logged in, which is expected
-    });
-  }, [getSession]);
+    if (typeof window === 'undefined' || !auth) return;
 
-  const authenticate = async (Username: string, Password: string): Promise<CognitoUserSession> => {
-    return new Promise((resolve, reject) => {
-      const user = new CognitoUser({
-        Username,
-        Pool,
-      });
-      const authDetails = new AuthenticationDetails({
-        Username,
-        Password,
-      });
-      user.authenticateUser(authDetails, {
-        onSuccess: (data) => {
-          setAuthState({ isAuthenticated: true, isLoading: false });
-          resolve(data);
-        },
-        onFailure: (err) => {
-          reject(err);
-        },
-        newPasswordRequired: (data) => {
-          resolve(data);
-        },
-      });
-    });
-  };
+    if (isSignInWithEmailLink(auth, window.location.href)) {
+      let email = window.localStorage.getItem(EMAIL_FOR_SIGN_IN_KEY);
 
-  const logout = () => {
-    const user = Pool.getCurrentUser();
-    if (user) {
-      setAuthState({ isAuthenticated: false, isLoading: false });
-      user.signOut();
+      if (!email) {
+        // User opened the link on a different device, prompt for email
+        email = window.prompt('Please provide your email for confirmation');
+      }
+
+      if (email) {
+        signInWithEmailLink(auth, email, window.location.href)
+          .then(() => {
+            window.localStorage.removeItem(EMAIL_FOR_SIGN_IN_KEY);
+            // Clean up the URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+          })
+          .catch((error) => {
+            console.error('Error signing in with email link:', error);
+          });
+      }
     }
-  };
+  }, []);
 
-  const forgot = async (email: string): Promise<unknown> => {
-    return new Promise((resolve, reject) => {
-      const user = new CognitoUser({
-        Username: email,
-        Pool,
-      });
-      user.forgotPassword({
-        onSuccess: function (data) {
-          resolve(data);
-        },
-        onFailure: function (err) {
-          reject(err);
-        },
-      });
-    });
-  };
+  // Sign in with Google
+  const signInWithGoogle = useCallback(async () => {
+    if (!auth) throw new Error('Firebase not initialized');
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider);
+  }, []);
 
-  const reset = async (email: string, verificationCode: string, newPassword: string): Promise<unknown> => {
-    return new Promise((resolve, reject) => {
-      const user = new CognitoUser({
-        Username: email,
-        Pool: Pool,
-      });
-      user.confirmPassword(verificationCode, newPassword, {
-        onSuccess(data) {
-          resolve(data);
-        },
-        onFailure(err) {
-          reject(err);
-        },
-      });
-    });
-  };
+  // Send email link for passwordless sign-in
+  const sendEmailLink = useCallback(async (email: string) => {
+    if (!auth) throw new Error('Firebase not initialized');
+    await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+    // Save the email locally to complete sign-in if user opens link on same device
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(EMAIL_FOR_SIGN_IN_KEY, email);
+    }
+  }, []);
+
+  // Complete email link sign-in (for manual completion)
+  const completeEmailLinkSignIn = useCallback(async (email: string) => {
+    if (typeof window === 'undefined' || !auth) return;
+
+    if (isSignInWithEmailLink(auth, window.location.href)) {
+      await signInWithEmailLink(auth, email, window.location.href);
+      window.localStorage.removeItem(EMAIL_FOR_SIGN_IN_KEY);
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
+
+  // Sign out
+  const logout = useCallback(async () => {
+    if (!auth) return;
+    await signOut(auth);
+  }, []);
+
+  // Get ID token for API calls
+  const getToken = useCallback(async (): Promise<string | null> => {
+    if (!auth) return null;
+    const user = auth.currentUser;
+    if (user) {
+      return user.getIdToken();
+    }
+    return null;
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ authState, authenticate, logout, getSession, forgot, reset }}>
+    <AuthContext.Provider
+      value={{
+        authState,
+        signInWithGoogle,
+        sendEmailLink,
+        completeEmailLinkSignIn,
+        logout,
+        getToken,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -48,7 +48,7 @@ interface Profile {
 }
 
 export default function ProfilePage() {
-  const { authState, getSession } = useAuth();
+  const { authState, getToken } = useAuth();
   const router = useRouter();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [records, setRecords] = useState<Record[]>([]);
@@ -76,9 +76,11 @@ export default function ProfilePage() {
 
   const loadData = async () => {
     try {
-      const session = await getSession();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const token = (session as any).idToken?.jwtToken || session.getIdToken().getJwtToken();
+      const token = await getToken();
+      if (!token) {
+        console.error("No auth token available");
+        return;
+      }
 
       // Fetch each independently to get better error handling
       try {
@@ -132,10 +134,12 @@ export default function ProfilePage() {
         {/* Profile Header */}
         <div className="bg-white shadow rounded-lg p-6 mb-6">
           <h1 className="text-2xl font-bold text-gray-900">Profile</h1>
-          {profile && (
+          {authState.user && (
             <div className="mt-4">
-              <p className="text-gray-600">Username: {profile.username}</p>
-              <p className="text-gray-600">Email: {profile.email}</p>
+              {authState.user.displayName && (
+                <p className="text-gray-600">Name: {authState.user.displayName}</p>
+              )}
+              <p className="text-gray-600">Email: {authState.user.email}</p>
             </div>
           )}
         </div>

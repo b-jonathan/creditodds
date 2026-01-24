@@ -113,18 +113,11 @@ export default function Navbar() {
                     )}
                   </Menu>
                 ) : (
-                  <div>
-                    <Link href="/login">
-                      <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        Log In
-                      </button>
-                    </Link>
-                    <Link href="/register">
-                      <button className="ml-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        Register
-                      </button>
-                    </Link>
-                  </div>
+                  <Link href="/login">
+                    <button className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-500 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      Sign In
+                    </button>
+                  </Link>
                 )}
               </div>
               <div className="-mr-2 flex items-center sm:hidden">
@@ -177,20 +170,12 @@ export default function Navbar() {
                     </button>
                   </>
                 ) : (
-                  <>
-                    <Link
-                      href="/login"
-                      className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-                    >
-                      Log In
-                    </Link>
-                    <Link
-                      href="/register"
-                      className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
-                    >
-                      Register
-                    </Link>
-                  </>
+                  <Link
+                    href="/login"
+                    className="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100"
+                  >
+                    Sign In
+                  </Link>
                 )}
               </div>
             </div>

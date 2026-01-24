@@ -13,9 +13,10 @@ export interface Card {
   rejected_count?: number;
 }
 
-export interface GraphData {
-  [index: number]: [number, number][];
-}
+// GraphData is an array of series data
+// Each chart has multiple series (e.g., approved and rejected)
+// Each series is an array of [x, y] data points
+export type GraphData = [number, number][][];
 
 // Server-side fetch functions with caching
 export async function getAllCards(): Promise<Card[]> {

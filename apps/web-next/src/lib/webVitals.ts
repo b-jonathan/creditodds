@@ -1,7 +1,7 @@
 // Web Vitals reporting utility
 // Captures Core Web Vitals metrics for performance monitoring
 
-type MetricName = 'CLS' | 'FCP' | 'FID' | 'INP' | 'LCP' | 'TTFB';
+type MetricName = 'CLS' | 'FCP' | 'INP' | 'LCP' | 'TTFB';
 
 interface Metric {
   name: MetricName;
@@ -44,10 +44,10 @@ export function reportWebVitals(onPerfEntry?: ReportHandler) {
 
   const handler = onPerfEntry || sendToAnalytics;
 
-  import('web-vitals').then(({ onCLS, onFCP, onFID, onINP, onLCP, onTTFB }) => {
+  // web-vitals v4+ removed onFID (replaced by onINP)
+  import('web-vitals').then(({ onCLS, onFCP, onINP, onLCP, onTTFB }) => {
     onCLS(handler);
     onFCP(handler);
-    onFID(handler);
     onINP(handler);
     onLCP(handler);
     onTTFB(handler);
@@ -60,7 +60,6 @@ export function reportWebVitals(onPerfEntry?: ReportHandler) {
 export const thresholds = {
   CLS: { good: 0.1, poor: 0.25 },
   FCP: { good: 1800, poor: 3000 },
-  FID: { good: 100, poor: 300 },
   INP: { good: 200, poor: 500 },
   LCP: { good: 2500, poor: 4000 },
   TTFB: { good: 800, poor: 1800 },
