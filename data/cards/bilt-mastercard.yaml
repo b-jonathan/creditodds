@@ -1,7 +1,7 @@
 name: "Bilt Mastercard"
-bank: "Bilt"
+bank: "Wells Fargo"
 slug: "bilt-mastercard"
 image: "bilt_mastercard.png"
-accepting_applications: true
+accepting_applications: false
 category: "rewards"
 annual_fee: 0
