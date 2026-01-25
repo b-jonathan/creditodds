@@ -12,7 +12,7 @@ export async function generateStaticParams() {
   try {
     const cards = await getAllCards();
     return cards.map((card) => ({
-      name: encodeURIComponent(card.card_name),
+      name: card.card_name,
     }));
   } catch {
     return [];

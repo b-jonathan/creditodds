@@ -15,7 +15,7 @@ export async function generateStaticParams() {
   try {
     const banks = await getAllBanks();
     return banks.map((bank) => ({
-      name: encodeURIComponent(bank),
+      name: bank,
     }));
   } catch {
     return [];
