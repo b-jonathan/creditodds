@@ -14,10 +14,15 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
-      - cd apps/web-next && npm ci
+      # Debug: list directory structure
+      - ls -la
+      - ls -la apps/
+      # Install dependencies using npm workspaces
+      - npm ci
   build:
     commands:
-      - cd apps/web-next && npm run build
+      # Build the Next.js app using workspace command
+      - npm run build:web-next
   post_build:
     commands:
       - aws s3 sync apps/web-next/out/ s3://creditodds-website/ --delete
