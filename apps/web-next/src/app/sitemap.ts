@@ -1,9 +1,12 @@
 import { MetadataRoute } from 'next';
 import { getAllCards } from '@/lib/api';
 
+// Required for static export
+export const dynamic = 'force-static';
+
 /**
  * Dynamic sitemap generation (#13)
- * Generates sitemap.xml from all cards
+ * Generates sitemap.xml from all cards at build time
  */
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

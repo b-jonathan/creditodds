@@ -81,6 +81,17 @@ export async function createRecord(data: unknown, token: string) {
   return res.json();
 }
 
+export async function deleteRecord(recordId: number, token: string) {
+  const res = await fetch(`${API_BASE}/records?record_id=${recordId}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) throw new Error('Failed to delete record');
+  return res.json();
+}
+
 export async function getReferrals(token: string) {
   const res = await fetch(`${API_BASE}/referrals`, {
     headers: { Authorization: `Bearer ${token}` },

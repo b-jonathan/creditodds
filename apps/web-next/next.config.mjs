@@ -1,6 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Enable static export for S3/CloudFront deployment
+  // Comment out for Amplify deployment (which supports SSR/ISR)
+  output: 'export',
+
   images: {
+    // For static export, use unoptimized images
+    // Remove this line if using Amplify
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
-import { getProfile, getRecords, getReferrals } from "@/lib/api";
+import { getProfile, getRecords, getReferrals, deleteRecord } from "@/lib/api";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
 
 // Lazy load ReferralModal - only loaded when user opens it
@@ -23,6 +23,7 @@ interface Record {
   length_credit: number;
   result: boolean;
   submit_datetime: string;
+  date_applied: string;
 }
 
 interface Referral {
@@ -56,6 +57,7 @@ export default function ProfilePage() {
   const [openReferrals, setOpenReferrals] = useState<OpenReferral[]>([]);
   const [loading, setLoading] = useState(true);
   const [showReferralModal, setShowReferralModal] = useState(false);
+  const [deletingRecordId, setDeletingRecordId] = useState<number | null>(null);
 
   // Only allow referrals for cards where user has submitted a record
   const eligibleReferralCards = useMemo(() => {
@@ -120,6 +122,29 @@ export default function ProfilePage() {
     }
   };
 
+  const handleDeleteRecord = async (recordId: number) => {
+    if (!confirm("Are you sure you want to delete this record?")) {
+      return;
+    }
+
+    setDeletingRecordId(recordId);
+    try {
+      const token = await getToken();
+      if (!token) {
+        console.error("No auth token available");
+        return;
+      }
+      await deleteRecord(recordId, token);
+      // Remove the record from local state
+      setRecords(records.filter(r => r.record_id !== recordId));
+    } catch (error) {
+      console.error("Error deleting record:", error);
+      alert("Failed to delete record. Please try again.");
+    } finally {
+      setDeletingRecordId(null);
+    }
+  };
+
   if (authState.isLoading || loading) {
     return <ProfileSkeleton />;
   }
@@ -180,6 +205,9 @@ export default function ProfilePage() {
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Result
                     </th>
+                    <th className="relative px-6 py-3">
+                      <span className="sr-only">Delete</span>
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
@@ -205,6 +233,11 @@ export default function ProfilePage() {
                             <div className="text-sm text-gray-500">
                               Submitted: {new Date(record.submit_datetime).toLocaleDateString()}
                             </div>
+                            {record.date_applied && (
+                              <div className="text-sm text-gray-500">
+                                Applied: {new Date(record.date_applied).toLocaleDateString()}
+                              </div>
+                            )}
                           </div>
                         </div>
                       </td>
@@ -224,6 +257,15 @@ export default function ProfilePage() {
                         >
                           {record.result ? "Approved" : "Rejected"}
                         </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <button
+                          onClick={() => handleDeleteRecord(record.record_id)}
+                          disabled={deletingRecordId === record.record_id}
+                          className="text-red-600 hover:text-red-900 disabled:opacity-50"
+                        >
+                          {deletingRecordId === record.record_id ? "Deleting..." : "Delete"}
+                        </button>
                       </td>
                     </tr>
                   ))}

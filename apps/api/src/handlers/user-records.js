@@ -49,12 +49,17 @@ exports.UserRecordsHandler = async (event) => {
       break;
     case "GET":
       try {
-        let results = await mysql.query("call creditodds.user_records(?)", [
-          event.requestContext.authorizer.sub,
-        ]);
-        // Run clean up function
+        let results = await mysql.query(
+          `SELECT r.record_id, c.card_name, c.card_image_link, r.credit_score,
+                  r.listed_income, r.length_credit, r.result, r.submit_datetime, r.date_applied
+           FROM records r
+           JOIN cards c ON r.card_id = c.card_id
+           WHERE r.submitter_id = ? AND r.active = 1
+           ORDER BY r.submit_datetime DESC`,
+          [event.requestContext.authorizer.sub]
+        );
         await mysql.end();
-        results = JSON.parse(JSON.stringify(results[0]));
+        results = JSON.parse(JSON.stringify(results));
 
         response = {
           statusCode: 200,
@@ -72,21 +77,6 @@ exports.UserRecordsHandler = async (event) => {
       }
     case "POST":
       try {
-        //Check to see if this user has submitter fewer than 2 times
-        let count = await mysql.query(
-          "call creditodds.count_submit_records(?,?)",
-          [
-            JSON.parse(event.body).card_id,
-            event.requestContext.authorizer.sub,
-          ]
-        );
-        count = JSON.parse(JSON.stringify(count))[0][0]["count"];
-        if (count >= 2) {
-          throw new Error(
-            `User has already submitted 2 or more records for this card.`
-          );
-        }
-
         const apiResponse = await recordSchema
           .validate(event.body)
           .then(async function (value) {
@@ -134,11 +124,47 @@ exports.UserRecordsHandler = async (event) => {
         };
         break;
       }
+    case "DELETE":
+      try {
+        const recordId = event.queryStringParameters?.record_id;
+        if (!recordId) {
+          throw new Error("record_id is required");
+        }
+
+        // Soft delete - set active = 0 only for records owned by this user
+        const result = await mysql.query(
+          `UPDATE records SET active = 0
+           WHERE record_id = ? AND submitter_id = ?`,
+          [recordId, event.requestContext.authorizer.sub]
+        );
+        await mysql.end();
+
+        if (result.affectedRows === 0) {
+          response = {
+            statusCode: 404,
+            headers: responseHeaders,
+            body: JSON.stringify({ error: "Record not found or not owned by user" }),
+          };
+        } else {
+          response = {
+            statusCode: 200,
+            headers: responseHeaders,
+            body: JSON.stringify({ success: true, message: "Record deleted" }),
+          };
+        }
+        break;
+      } catch (error) {
+        response = {
+          statusCode: 500,
+          body: `Error: ${error}`,
+          headers: responseHeaders,
+        };
+        break;
+      }
     default:
-      //Throw an error if the request method is not GET
       response = {
         statusCode: 405,
-        body: `getCardGraphs only accepts GET and POST method, you tried: ${event.httpMethod}`,
+        body: `This endpoint accepts GET, POST, and DELETE methods, you tried: ${event.httpMethod}`,
         headers: responseHeaders,
       };
       break;
