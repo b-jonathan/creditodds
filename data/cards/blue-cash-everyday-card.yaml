@@ -2,4 +2,4 @@ name: "Blue Cash Everyday Card"
 bank: "American Express"
 slug: "blue-cash-everyday-card"
 image: "amex_blue_cash_everyday.png"
-accepting_applications: false
+accepting_applications: true

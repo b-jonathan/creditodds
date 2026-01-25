@@ -1,4 +1,4 @@
 name: "Discover it for Students Card"
 bank: "Discover"
 slug: "discover-it-for-students-card"
-accepting_applications: false
+accepting_applications: true

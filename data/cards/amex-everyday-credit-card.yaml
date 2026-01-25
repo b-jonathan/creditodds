@@ -2,4 +2,4 @@ name: "Amex Everyday Credit Card"
 bank: "American Express"
 slug: "amex-everyday-credit-card"
 image: "amex_everyday.png"
-accepting_applications: false
+accepting_applications: true

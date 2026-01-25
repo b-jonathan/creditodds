@@ -2,4 +2,4 @@ name: "Delta SkyMiles Blue American Express Card"
 bank: "American Express"
 slug: "delta-skymiles-blue-american-express-card"
 image: "amex_delta_blue_skymiles.png"
-accepting_applications: false
+accepting_applications: true

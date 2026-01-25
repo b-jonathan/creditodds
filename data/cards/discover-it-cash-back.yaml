@@ -2,4 +2,4 @@ name: "Discover it Cash Back"
 bank: "Discover"
 slug: "discover-it-cash-back"
 image: "discover_it_cash.png"
-accepting_applications: false
+accepting_applications: true

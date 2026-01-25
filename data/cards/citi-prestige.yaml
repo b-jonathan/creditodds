@@ -1,4 +1,4 @@
 name: "Citi Prestige"
 bank: "Citi"
 slug: "citi-prestige"
-accepting_applications: false
+accepting_applications: true

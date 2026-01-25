@@ -1,4 +1,4 @@
 name: "Discover it Miles"
 bank: "Discover"
 slug: "discover-it-miles"
-accepting_applications: false
+accepting_applications: true

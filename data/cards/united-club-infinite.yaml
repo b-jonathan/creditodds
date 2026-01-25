@@ -2,4 +2,4 @@ name: "United Club Infinite"
 bank: "Chase"
 slug: "united-club-infinite"
 image: "united_club_infinite.png"
-accepting_applications: false
+accepting_applications: true

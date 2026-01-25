@@ -2,4 +2,4 @@ name: "United Explorer"
 bank: "Chase"
 slug: "united-explorer"
 image: "united_explorer.png"
-accepting_applications: false
+accepting_applications: true

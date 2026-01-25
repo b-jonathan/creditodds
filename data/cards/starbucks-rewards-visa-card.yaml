@@ -1,4 +1,4 @@
 name: "Starbucks Rewards Visa Card"
 bank: "Chase"
 slug: "starbucks-rewards-visa-card"
-accepting_applications: false
+accepting_applications: true
