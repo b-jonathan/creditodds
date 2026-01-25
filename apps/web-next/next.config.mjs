@@ -1,13 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Enable static export for S3/CloudFront deployment
-  // Comment out for Amplify deployment (which supports SSR/ISR)
-  output: 'export',
+  // Enable static export for production builds (S3/CloudFront/Amplify static deployment)
+  // Disabled in dev mode to allow on-demand rendering
+  ...(process.env.NODE_ENV === 'production' && { output: 'export' }),
 
   images: {
     // For static export, use unoptimized images
-    // Remove this line if using Amplify
-    unoptimized: true,
+    unoptimized: process.env.NODE_ENV === 'production',
     remotePatterns: [
       {
         protocol: 'https',

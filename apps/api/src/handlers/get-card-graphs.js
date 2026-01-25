@@ -30,16 +30,26 @@ exports.getCardGraphsHandler = async (event) => {
         const card_name = event.queryStringParameters.card_name;
 
         try {
-          let cardInfo = await mysql.query("call creditodds.card_by_name(?)", [
-            card_name,
-          ]);
-
+          // Get card_id from cards table
+          let cardResult = await mysql.query(
+            "SELECT card_id FROM cards WHERE card_name = ?",
+            [card_name]
+          );
           await mysql.end();
 
-          cardInfo = JSON.parse(JSON.stringify(cardInfo))[0][0];
+          if (!cardResult || cardResult.length === 0) {
+            response = {
+              statusCode: 404,
+              body: `Card not found: ${card_name}`,
+              headers: responseHeaders,
+            };
+            break;
+          }
+
+          const card_id = cardResult[0].card_id;
           let resultsData = await mysql.query(
             "SELECT * FROM records WHERE card_id = ? AND admin_review = 1",
-            [cardInfo.card_id]
+            [card_id]
           );
 
           await mysql.end();

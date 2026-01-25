@@ -18,7 +18,6 @@
     "test-get-card-graphs": "sam build && sam local invoke getCardGraphsFunction --event events/event-get-card-graphs.json --env-vars env.json",
     "test-post-record": "sam build && sam local invoke postRecordFunction --event events/event-post-record.json --env-vars env.json",
     "test-post-referral": "sam build && sam local invoke postReferralFunction --event events/event-post-referral.json --env-vars env.json",
-    "test-update-high-level": "sam build && sam local invoke updateHighLevelFunction --env-vars env.json",
     "test-get-user-records": "sam build && sam local invoke getUserRecordsFunction --event events/event-get-user-records.json --env-vars env.json",
     "test-get-user-referrals": "sam build && sam local invoke getUserReferralsFunction --event events/event-get-user-referrals.json --env-vars env.json",
     "test-get-user-profile": "sam build && sam local invoke UserProfileFunction --event events/event-get-user-profile.json --env-vars env.json"

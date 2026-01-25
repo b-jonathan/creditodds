@@ -258,20 +258,6 @@ Resources:
             Auth:
               Authorizer: NONE
 
-  updateHighLevelFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: src/handlers/update-high-level.updateHighLevelHandler
-      Runtime: nodejs18.x
-      MemorySize: 128
-      Timeout: 100
-      Description: A simple example includes a HTTP get method to get all items from a DynamoDB table.
-      Environment:
-        Variables:
-          ENDPOINT: !Ref ENDPOINT
-          DATABASE: !Ref DATABASE
-          USERNAME: !Ref USERNAME
-          PASSWORD: !Ref PASSWORD
   updateCardsGitHub:
     Type: AWS::Serverless::Function
     Properties:
