@@ -14,9 +14,6 @@ phases:
     runtime-versions:
       nodejs: 20
     commands:
-      # Debug: list directory structure
-      - ls -la
-      - ls -la apps/
       # Install dependencies using npm workspaces
       - npm ci
   build:
@@ -26,7 +23,8 @@ phases:
   post_build:
     commands:
       - aws s3 sync apps/web-next/out/ s3://creditodds-website/ --delete
-      - aws cloudfront create-invalidation --distribution-id ECS8QY2GQ641I --paths "/*"
+      # Invalidate CloudFront cache (non-blocking if it fails)
+      - aws cloudfront create-invalidation --distribution-id ECS8QY2GQ641I --paths "/*" || echo "CloudFront invalidation failed - cache may not be cleared"
 artifacts:
   files:
     - '**/*'
