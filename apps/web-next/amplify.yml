@@ -7,6 +7,7 @@ applications:
             - npm ci
         build:
           commands:
+            - env | grep -e NEXT_PUBLIC_ >> .env.production
             - npm run build
       artifacts:
         baseDirectory: .next
@@ -16,12 +17,4 @@ applications:
         paths:
           - node_modules/**/*
           - .next/cache/**/*
-      environment:
-        variables:
-          NEXT_PUBLIC_FIREBASE_API_KEY: AIzaSyD-v_UwJpyY2aVYS7yVt3E8MXLl-H3IYVg
-          NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: creditodds.firebaseapp.com
-          NEXT_PUBLIC_FIREBASE_PROJECT_ID: creditodds
-          NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: creditodds.firebasestorage.app
-          NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: "1064564569219"
-          NEXT_PUBLIC_FIREBASE_APP_ID: 1:1064564569219:web:9f7c5be4b05426aeaafeef
     appRoot: apps/web-next
