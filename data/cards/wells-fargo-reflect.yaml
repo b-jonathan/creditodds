@@ -1,6 +1,7 @@
 name: "Wells Fargo Reflect Card"
 bank: "Wells Fargo"
 slug: "wells-fargo-reflect"
+image: "wells_fargo_reflect.png"
 accepting_applications: true
 category: "other"
 annual_fee: 0
