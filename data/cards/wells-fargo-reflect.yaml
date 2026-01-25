@@ -1,0 +1,6 @@
+name: "Wells Fargo Reflect Card"
+bank: "Wells Fargo"
+slug: "wells-fargo-reflect"
+accepting_applications: true
+category: "other"
+annual_fee: 0
