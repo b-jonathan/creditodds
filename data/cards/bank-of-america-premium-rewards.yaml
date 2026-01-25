@@ -1,6 +1,7 @@
 name: "Bank of America Premium Rewards Credit Card"
 bank: "Bank of America"
 slug: "bank-of-america-premium-rewards"
+image: "bofa_premium_rewards.png"
 accepting_applications: true
 category: "travel"
 annual_fee: 95
