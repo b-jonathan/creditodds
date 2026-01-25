@@ -1,0 +1,6 @@
+name: "Wells Fargo Autograph Card"
+bank: "Wells Fargo"
+slug: "wells-fargo-autograph"
+accepting_applications: true
+category: "rewards"
+annual_fee: 0

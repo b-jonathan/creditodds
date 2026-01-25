@@ -1,0 +1,6 @@
+name: "Wells Fargo Active Cash Card"
+bank: "Wells Fargo"
+slug: "wells-fargo-active-cash"
+accepting_applications: true
+category: "cashback"
+annual_fee: 0
