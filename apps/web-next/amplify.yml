@@ -5,7 +5,8 @@ applications:
         preBuild:
           commands:
             # Install dependencies from repo root (monorepo with workspaces)
-            - cd ../.. && npm ci
+            # Use subshell to preserve working directory
+            - (cd ../.. && npm ci)
         build:
           commands:
             - env | grep -e NEXT_PUBLIC_ >> .env.production || true
