@@ -74,15 +74,6 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 hidden sm:table-cell">
                       Bank
                     </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 hidden md:table-cell">
-                      Median Credit Score
-                    </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 hidden lg:table-cell">
-                      Median Income
-                    </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 hidden lg:table-cell">
-                      Records
-                    </th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                       Status
                     </th>
@@ -113,15 +104,6 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                         <Link href={`/bank/${encodeURIComponent(card.bank)}`} className="text-gray-500 hover:text-indigo-600">
                           {card.bank}
                         </Link>
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hidden md:table-cell">
-                        {card.approved_median_credit_score || '-'}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hidden lg:table-cell">
-                        {card.approved_median_income ? `$${card.approved_median_income.toLocaleString()}` : '-'}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hidden lg:table-cell">
-                        {(card.approved_count || 0) + (card.rejected_count || 0)}
                       </td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm">
                         {card.accepting_applications ? (

@@ -101,7 +101,7 @@ exports.AllCardsHandler = async (event) => {
               approved_count: stats.approved_count || 0,
               rejected_count: stats.rejected_count || 0,
               total_records: stats.total_records || 0,
-              card_image_link: dbCard.card_image_link || null,
+              card_image_link: dbCard.card_image_link || card.image || null,
               accepting_applications: dbCard.accepting_applications !== undefined ? dbCard.accepting_applications : card.accepting_applications,
             };
           });

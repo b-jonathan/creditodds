@@ -73,17 +73,18 @@ async function syncCardsToDatabase(cdnCards) {
             `UPDATE cards SET
               card_name = ?,
               bank = ?,
-              accepting_applications = ?
+              accepting_applications = ?,
+              card_image_link = ?
             WHERE card_id = ?`,
-            [name, bank, acceptingApplications, existingCard.card_id]
+            [name, bank, acceptingApplications, cdnCard.image || null, existingCard.card_id]
           );
           results.updated.push(name);
         } else {
           // Insert new card
           await mysql.query(
-            `INSERT INTO cards (card_name, bank, accepting_applications, active)
-             VALUES (?, ?, ?, 1)`,
-            [name, bank, acceptingApplications]
+            `INSERT INTO cards (card_name, bank, accepting_applications, card_image_link, active)
+             VALUES (?, ?, ?, ?, 1)`,
+            [name, bank, acceptingApplications, cdnCard.image || null]
           );
           results.added.push(name);
         }
