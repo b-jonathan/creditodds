@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getCard, getCardGraphs, getAllCards } from "@/lib/api";
+import { getCard, getCardGraphs, getAllCards, GraphData } from "@/lib/api";
 import CardClient from "./CardClient";
 
 interface CardPageProps {
@@ -50,11 +50,11 @@ export default async function CardPage({ params }: CardPageProps) {
     const card = await getCard(cardName);
 
     // Try to get graph data, but use empty array if it fails (for new cards with no data)
-    let graphData;
+    let graphData: GraphData[] = [];
     try {
       graphData = await getCardGraphs(cardName);
     } catch {
-      graphData = [];
+      // Keep empty array for new cards with no data
     }
 
     return <CardClient card={card} graphData={graphData} />;
