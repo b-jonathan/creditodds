@@ -42,6 +42,10 @@ export default function CardClient({ card, graphData }: CardClientProps) {
   const chartTwo = graphData[1] || [];
   const chartThree = graphData[2] || [];
 
+  // Check if charts have actual data points (not just empty structure)
+  const hasChartOneData = chartOne.some(series => Array.isArray(series) && series.length > 0);
+  const hasChartThreeData = chartThree.some(series => Array.isArray(series) && series.length > 0);
+
   // Refresh page data after successful submission (#8)
   const handleSubmitSuccess = () => {
     router.refresh();
@@ -210,8 +214,8 @@ export default function CardClient({ card, graphData }: CardClientProps) {
         </div>
       </div>
 
-      {/* Charts Section - only show if there's data */}
-      {(chartOne.length > 0 || chartThree.length > 0) && (
+      {/* Charts Section - only show if there's actual data points */}
+      {(hasChartOneData || hasChartThreeData) && (
       <div className="py-12">
         <div className="max-w-full mx-auto sm:px-6 lg:px-8">
           <div className="lg:text-center">
@@ -226,7 +230,7 @@ export default function CardClient({ card, graphData }: CardClientProps) {
             </p>
           </div>
 
-          {chartOne.length > 0 && (
+          {hasChartOneData && (
             <div className="mt-10 mb-10 flex flex-wrap">
               <div className="sm:mx-2 bg-white shadow overflow-hidden sm:rounded-lg sm:min-w-0 sm:w-5/12 min-w-full flex-auto">
                 <div className="px-1 py-5 sm:px-6">
@@ -262,7 +266,7 @@ export default function CardClient({ card, graphData }: CardClientProps) {
           )}
         </div>
 
-        {chartThree.length > 0 && (
+        {hasChartThreeData && (
           <div className="bg-gray-50 overflow-hidden">
             <div className="relative max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
               <div className="relative lg:grid lg:grid-cols-3 lg:gap-x-8">

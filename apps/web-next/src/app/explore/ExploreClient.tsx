@@ -12,10 +12,23 @@ interface ExploreClientProps {
 
 type SortOption = 'name' | 'recent' | 'bank';
 
+// Emoji quick filters
+const emojiFilters = [
+  { emoji: '✈️', label: 'Travel', keywords: ['travel', 'miles', 'airline', 'delta', 'united', 'southwest', 'jetblue', 'aadvantage', 'skymiles'] },
+  { emoji: '💰', label: 'Cash Back', keywords: ['cash', 'cashback', 'cash back', 'cash+', 'cash wise'] },
+  { emoji: '🏨', label: 'Hotels', keywords: ['hotel', 'hilton', 'marriott', 'hyatt', 'ihg', 'wyndham'] },
+  { emoji: '🛒', label: 'Shopping', keywords: ['amazon', 'costco', 'target', 'walmart'] },
+  { emoji: '🎓', label: 'Student', keywords: ['student', 'college'] },
+  { emoji: '🔒', label: 'Secured', keywords: ['secured'] },
+  { emoji: '💎', label: 'Premium', keywords: ['platinum', 'reserve', 'prestige', 'sapphire', 'venture x', 'gold card', 'palladium', 'obsidian'] },
+  { emoji: '💼', label: 'Business', keywords: ['business', 'ink'] },
+];
+
 export default function ExploreClient({ cards, banks }: ExploreClientProps) {
   const [search, setSearch] = useState("");
   const [selectedBank, setSelectedBank] = useState<string>("");
   const [sortBy, setSortBy] = useState<SortOption>('name');
+  const [activeEmoji, setActiveEmoji] = useState<string | null>(null);
 
   // Get recently released cards (cards with release_date, sorted by most recent)
   const recentlyReleased = useMemo(() => {
@@ -31,7 +44,18 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
         card.card_name.toLowerCase().includes(search.toLowerCase()) ||
         card.bank.toLowerCase().includes(search.toLowerCase());
       const matchesBank = selectedBank === "" || card.bank === selectedBank;
-      return matchesSearch && matchesBank;
+
+      // Apply emoji filter if active
+      let matchesEmoji = true;
+      if (activeEmoji) {
+        const filter = emojiFilters.find(f => f.emoji === activeEmoji);
+        if (filter) {
+          const cardText = `${card.card_name} ${card.bank}`.toLowerCase();
+          matchesEmoji = filter.keywords.some(keyword => cardText.includes(keyword.toLowerCase()));
+        }
+      }
+
+      return matchesSearch && matchesBank && matchesEmoji;
     });
 
     // Sort based on selected option
@@ -56,7 +80,7 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
     }
 
     return filtered;
-  }, [cards, search, selectedBank, sortBy]);
+  }, [cards, search, selectedBank, sortBy, activeEmoji]);
 
   return (
     <>
@@ -90,8 +114,36 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
         </div>
       )}
 
+      {/* Emoji Quick Filters */}
+      <div className="mt-8">
+        <div className="flex flex-wrap gap-2">
+          {emojiFilters.map((filter) => (
+            <button
+              key={filter.emoji}
+              onClick={() => setActiveEmoji(activeEmoji === filter.emoji ? null : filter.emoji)}
+              className={`inline-flex items-center px-3 py-2 rounded-full text-sm font-medium transition-all ${
+                activeEmoji === filter.emoji
+                  ? 'bg-indigo-100 text-indigo-700 ring-2 ring-indigo-500'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              <span className="mr-1.5 text-lg">{filter.emoji}</span>
+              {filter.label}
+            </button>
+          ))}
+          {activeEmoji && (
+            <button
+              onClick={() => setActiveEmoji(null)}
+              className="inline-flex items-center px-3 py-2 rounded-full text-sm font-medium bg-red-100 text-red-700 hover:bg-red-200"
+            >
+              ✕ Clear
+            </button>
+          )}
+        </div>
+      </div>
+
       {/* Filters */}
-      <div className="mt-8 flex flex-col sm:flex-row gap-4">
+      <div className="mt-4 flex flex-col sm:flex-row gap-4">
         <div className="flex-1">
           <label htmlFor="search" className="sr-only">Search cards</label>
           <input
