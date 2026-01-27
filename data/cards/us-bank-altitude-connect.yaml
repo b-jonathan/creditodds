@@ -1,6 +1,6 @@
 name: "US Bank Altitude Connect"
 bank: "U.S. Bank"
 slug: "us-bank-altitude-connect"
-image: "altitude_connect.png"
+image: "altitude-connect.png"
 accepting_applications: true
-annual_fee: 95
+annual_fee: 0

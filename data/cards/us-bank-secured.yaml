@@ -1,0 +1,6 @@
+name: "US Bank Secured"
+bank: "U.S. Bank"
+slug: "us-bank-secured"
+image: "us-bank-secured.png"
+accepting_applications: true
+annual_fee: 0

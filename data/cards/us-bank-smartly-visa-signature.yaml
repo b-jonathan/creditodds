@@ -1,6 +1,8 @@
-name: "U.S. Bank Smartly Visa Signature Card"
+name: "Smartly Visa Signature Card"
 bank: "U.S. Bank"
 slug: "us-bank-smartly-visa-signature"
+image: "smartly-signature.png"
 accepting_applications: true
 category: "cashback"
 annual_fee: 0
+

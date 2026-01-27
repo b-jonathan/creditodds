@@ -1,6 +1,7 @@
 name: "U.S. Bank Altitude Reserve Visa Infinite Card"
 bank: "U.S. Bank"
 slug: "us-bank-altitude-reserve-visa-infinite"
-accepting_applications: true
+accepting_applications: false
 category: "travel"
+image: "us-bank-altitude-reserve.png"
 annual_fee: 400
