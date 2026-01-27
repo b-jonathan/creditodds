@@ -3,3 +3,4 @@ bank: "Citi"
 slug: "citi-diamond-preferred"
 image: "citi_diamond_preferred.png"
 accepting_applications: true
+annual_fee: 0

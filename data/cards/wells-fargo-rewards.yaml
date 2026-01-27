@@ -2,4 +2,5 @@ name: "Wells Fargo Rewards"
 bank: "Wells Fargo"
 slug: "wells-fargo-rewards"
 image: "wells_fargo_rewards.png"
-accepting_applications: true
+accepting_applications: false
+annual_fee: 0

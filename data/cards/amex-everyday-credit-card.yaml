@@ -3,3 +3,4 @@ bank: "American Express"
 slug: "amex-everyday-credit-card"
 image: "amex_everyday.png"
 accepting_applications: false
+annual_fee: 0

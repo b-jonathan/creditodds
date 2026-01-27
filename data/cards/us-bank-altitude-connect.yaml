@@ -3,3 +3,4 @@ bank: "U.S. Bank"
 slug: "us-bank-altitude-connect"
 image: "altitude_connect.png"
 accepting_applications: true
+annual_fee: 95

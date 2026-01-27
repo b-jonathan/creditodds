@@ -3,3 +3,7 @@ bank: "Chase"
 slug: "united-gateway"
 image: "united_gateway.png"
 accepting_applications: true
+annual_fee: 0
+tags:
+  - airline
+  - travel

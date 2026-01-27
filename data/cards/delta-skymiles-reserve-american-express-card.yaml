@@ -3,3 +3,8 @@ bank: "American Express"
 slug: "delta-skymiles-reserve-american-express-card"
 image: "amex_delta_skymiles_reserve.png"
 accepting_applications: true
+annual_fee: 650
+tags:
+  - airline
+  - travel
+  - premium

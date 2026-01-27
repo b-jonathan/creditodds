@@ -1,4 +1,5 @@
 name: "Citi Prestige"
 bank: "Citi"
 slug: "citi-prestige"
-accepting_applications: true
+accepting_applications: false
+annual_fee: 495

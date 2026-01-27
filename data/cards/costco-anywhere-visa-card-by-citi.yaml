@@ -2,3 +2,4 @@ name: "Costco Anywhere Visa Card by Citi"
 bank: "Citi"
 slug: "costco-anywhere-visa-card-by-citi"
 accepting_applications: true
+annual_fee: 0

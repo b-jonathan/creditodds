@@ -2,3 +2,4 @@ name: "AT&T Access Card From Citi"
 bank: "Citi"
 slug: "at-t-access-card-from-citi"
 accepting_applications: true
+annual_fee: 0

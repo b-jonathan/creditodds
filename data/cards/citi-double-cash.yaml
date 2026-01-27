@@ -3,6 +3,7 @@ bank: "Citi"
 slug: "citi-double-cash"
 image: "citi_double_cash.png"
 accepting_applications: true
+annual_fee: 0
 tags:
   - cashback
   - rewards

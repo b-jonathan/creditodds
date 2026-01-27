@@ -3,6 +3,7 @@ bank: "Discover"
 slug: "discover-it-cash-back"
 image: "discover_it_cash.png"
 accepting_applications: true
+annual_fee: 0
 tags:
   - cashback
   - rewards

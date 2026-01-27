@@ -3,3 +3,4 @@ bank: "Chase"
 slug: "aer-lingus-visa-signature-card"
 accepting_applications: true
 image: "aer-lingus.png"
+annual_fee: 95

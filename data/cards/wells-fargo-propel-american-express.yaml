@@ -2,4 +2,5 @@ name: "Wells Fargo Propel American Express"
 bank: "Wells Fargo"
 slug: "wells-fargo-propel-american-express"
 image: "propel_card.png"
-accepting_applications: true
+accepting_applications: false
+annual_fee: 0

@@ -2,3 +2,4 @@ name: "Citi Simplicity Card"
 bank: "Citi"
 slug: "citi-simplicity-card"
 accepting_applications: true
+annual_fee: 0

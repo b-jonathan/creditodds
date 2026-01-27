@@ -1,4 +1,5 @@
 name: "Blue from American Express"
 bank: "American Express"
 slug: "blue-from-american-express"
-accepting_applications: true
+accepting_applications: false
+annual_fee: 0

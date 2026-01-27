@@ -3,3 +3,4 @@ bank: "Chase"
 slug: "iberia-visa-signature-card"
 accepting_applications: true
 image: "iberia-plus.png"
+annual_fee: 95

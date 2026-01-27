@@ -3,6 +3,7 @@ bank: "Chase"
 slug: "amazon-prime-rewards-visa-signature-card"
 accepting_applications: true
 image: "amazon-prime-visa.png"
+annual_fee: 0
 tags:
   - shopping
   - cashback

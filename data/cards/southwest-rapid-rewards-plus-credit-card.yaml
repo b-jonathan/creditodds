@@ -2,3 +2,7 @@ name: "Southwest Rapid Rewards Plus Credit Card"
 bank: "Chase"
 slug: "southwest-rapid-rewards-plus-credit-card"
 accepting_applications: true
+annual_fee: 69
+tags:
+  - airline
+  - travel

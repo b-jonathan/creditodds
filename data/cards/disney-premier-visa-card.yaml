@@ -2,3 +2,4 @@ name: "Disney Premier Visa Card"
 bank: "Chase"
 slug: "disney-premier-visa-card"
 accepting_applications: true
+annual_fee: 49

@@ -2,3 +2,4 @@ name: "IHG Rewards Club Premier Credit Card"
 bank: "Chase"
 slug: "ihg-rewards-club-premier-credit-card"
 accepting_applications: true
+annual_fee: 99

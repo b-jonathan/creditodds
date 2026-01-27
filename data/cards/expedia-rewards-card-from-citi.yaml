@@ -1,4 +1,5 @@
 name: "Expedia Rewards Card from Citi"
 bank: "Citi"
 slug: "expedia-rewards-card-from-citi"
-accepting_applications: true
+accepting_applications: false
+annual_fee: 0

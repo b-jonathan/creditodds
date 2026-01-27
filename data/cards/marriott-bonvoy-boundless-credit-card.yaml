@@ -3,6 +3,7 @@ bank: "Chase"
 slug: "marriott-bonvoy-boundless-credit-card"
 image: "marriott_bonvoy_boundless.png"
 accepting_applications: true
+annual_fee: 95
 tags:
   - hotel
   - travel

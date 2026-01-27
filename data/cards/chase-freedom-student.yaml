@@ -3,3 +3,4 @@ bank: "Chase"
 slug: "chase-freedom-student"
 image: "chase_freedom_student.png"
 accepting_applications: true
+annual_fee: 0

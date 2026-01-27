@@ -3,6 +3,7 @@ bank: "American Express"
 slug: "american-express-green-card"
 image: "amex_green_card.png"
 accepting_applications: true
+annual_fee: 150
 tags:
   - travel
   - dining

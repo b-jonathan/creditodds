@@ -1,4 +1,5 @@
 name: "Discover it Gas and Restaurants"
 bank: "Discover"
 slug: "discover-it-gas-and-restaurants"
-accepting_applications: true
+accepting_applications: false
+annual_fee: 0

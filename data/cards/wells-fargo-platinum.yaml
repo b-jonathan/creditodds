@@ -3,3 +3,4 @@ bank: "Wells Fargo"
 slug: "wells-fargo-platinum"
 image: "wells_fargo_platinum.png"
 accepting_applications: true
+annual_fee: 0

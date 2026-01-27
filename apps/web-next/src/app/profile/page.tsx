@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
-import { getProfile, getRecords, getReferrals, deleteRecord, getWallet, removeFromWallet, WalletCard } from "@/lib/api";
+import { getProfile, getRecords, getReferrals, deleteRecord, getWallet, removeFromWallet, getAllCards, WalletCard, Card } from "@/lib/api";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
 import { PlusIcon, WalletIcon, TrashIcon } from "@heroicons/react/24/outline";
 
@@ -63,6 +63,7 @@ export default function ProfilePage() {
   const [referrals, setReferrals] = useState<Referral[]>([]);
   const [openReferrals, setOpenReferrals] = useState<OpenReferral[]>([]);
   const [walletCards, setWalletCards] = useState<WalletCard[]>([]);
+  const [allCards, setAllCards] = useState<Card[]>([]);
   const [loading, setLoading] = useState(true);
   const [showReferralModal, setShowReferralModal] = useState(false);
   const [showWalletModal, setShowWalletModal] = useState(false);
@@ -74,6 +75,15 @@ export default function ProfilePage() {
     const recordCardNames = new Set(records.map(r => r.card_name));
     return openReferrals.filter(card => recordCardNames.has(card.card_name));
   }, [records, openReferrals]);
+
+  // Calculate total annual fees for wallet cards
+  const totalAnnualFees = useMemo(() => {
+    if (walletCards.length === 0 || allCards.length === 0) return 0;
+    return walletCards.reduce((total, walletCard) => {
+      const cardData = allCards.find(c => c.card_name === walletCard.card_name);
+      return total + (cardData?.annual_fee || 0);
+    }, 0);
+  }, [walletCards, allCards]);
 
   useEffect(() => {
     if (!authState.isLoading && !authState.isAuthenticated) {
@@ -132,6 +142,15 @@ export default function ProfilePage() {
       } catch (e) {
         console.error("Wallet error:", e);
         setWalletCards([]);
+      }
+
+      // Fetch all cards for annual fee calculation
+      try {
+        const cardsData = await getAllCards();
+        setAllCards(cardsData || []);
+      } catch (e) {
+        console.error("Cards error:", e);
+        setAllCards([]);
       }
     } catch (error) {
       console.error("Error loading profile data:", error);
@@ -216,11 +235,17 @@ export default function ProfilePage() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 mb-6">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-4 mb-6">
           <div className="bg-white overflow-hidden shadow rounded-lg">
             <div className="px-4 py-5 sm:p-6">
               <dt className="text-sm font-medium text-gray-500 truncate">Cards in Wallet</dt>
               <dd className="mt-1 text-3xl font-semibold text-gray-900">{walletCards.length}</dd>
+            </div>
+          </div>
+          <div className="bg-white overflow-hidden shadow rounded-lg">
+            <div className="px-4 py-5 sm:p-6">
+              <dt className="text-sm font-medium text-gray-500 truncate">Annual Fees</dt>
+              <dd className="mt-1 text-3xl font-semibold text-gray-900">${totalAnnualFees.toLocaleString()}</dd>
             </div>
           </div>
           <div className="bg-white overflow-hidden shadow rounded-lg">

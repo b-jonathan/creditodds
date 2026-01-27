@@ -2,3 +2,4 @@ name: "Serve from American Express"
 bank: "American Express"
 slug: "serve-from-american-express"
 accepting_applications: true
+annual_fee: 0

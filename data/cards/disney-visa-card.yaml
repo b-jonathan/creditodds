@@ -2,3 +2,4 @@ name: "Disney Visa Card"
 bank: "Chase"
 slug: "disney-visa-card"
 accepting_applications: true
+annual_fee: 0

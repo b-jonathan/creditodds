@@ -3,6 +3,7 @@ bank: "Chase"
 slug: "chase-freedom-flex"
 image: "freedom_flex_card.png"
 accepting_applications: true
+annual_fee: 0
 tags:
   - cashback
   - rewards

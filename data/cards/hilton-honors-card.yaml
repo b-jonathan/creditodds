@@ -3,3 +3,7 @@ bank: "American Express"
 slug: "hilton-honors-card"
 image: "amex_hilton_honors.png"
 accepting_applications: true
+annual_fee: 0
+tags:
+  - hotel
+  - travel

@@ -2,3 +2,4 @@ name: "IHG Rewards Club Traveler Credit Card"
 bank: "Chase"
 slug: "ihg-rewards-club-traveler-credit-card"
 accepting_applications: true
+annual_fee: 0

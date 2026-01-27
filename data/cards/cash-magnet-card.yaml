@@ -3,3 +3,4 @@ bank: "American Express"
 slug: "cash-magnet-card"
 image: "amex_cash_magnet.png"
 accepting_applications: true
+annual_fee: 0

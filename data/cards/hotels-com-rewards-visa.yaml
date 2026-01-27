@@ -1,4 +1,5 @@
 name: "Hotels.com Rewards Visa"
 bank: "Wells Fargo"
 slug: "hotels-com-rewards-visa"
-accepting_applications: true
+accepting_applications: false
+annual_fee: 0

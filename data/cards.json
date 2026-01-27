@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-27T14:45:14.750Z",
+  "generated_at": "2026-01-27T20:05:26.051Z",
   "count": 129,
   "cards": [
     {
@@ -7,6 +7,8 @@
       "bank": "Chase",
       "slug": "aer-lingus-visa-signature-card",
       "accepting_applications": true,
+      "image": "aer-lingus.png",
+      "annual_fee": 95,
       "card_id": "aer-lingus-visa-signature-card",
       "card_name": "Aer Lingus Visa Signature card"
     },
@@ -17,6 +19,7 @@
       "accepting_applications": true,
       "category": "business",
       "annual_fee": 0,
+      "image": "amazon-business-prime.png",
       "card_id": "amazon-business-prime-american-express-card",
       "card_name": "Amazon Business Prime American Express Card"
     },
@@ -25,6 +28,8 @@
       "bank": "Chase",
       "slug": "amazon-prime-rewards-visa-signature-card",
       "accepting_applications": true,
+      "image": "amazon-prime-visa.png",
+      "annual_fee": 0,
       "tags": [
         "shopping",
         "cashback",
@@ -38,6 +43,8 @@
       "bank": "Citi",
       "slug": "american-airlines-aadvantage-mileu-mastercard",
       "accepting_applications": true,
+      "image": "american-aadvantage.jpeg",
+      "annual_fee": 0,
       "card_id": "american-airlines-aadvantage-mileu-mastercard",
       "card_name": "American Airlines AAdvantage MileU Mastercard"
     },
@@ -47,6 +54,7 @@
       "slug": "american-express-business-gold-card",
       "accepting_applications": true,
       "category": "business",
+      "image": "american-express-business-gold.png",
       "annual_fee": 375,
       "tags": [
         "business",
@@ -62,6 +70,7 @@
       "slug": "american-express-gold-card",
       "image": "amex_gold_card.png",
       "accepting_applications": true,
+      "annual_fee": 250,
       "tags": [
         "travel",
         "dining",
@@ -77,6 +86,7 @@
       "slug": "american-express-green-card",
       "image": "amex_green_card.png",
       "accepting_applications": true,
+      "annual_fee": 150,
       "tags": [
         "travel",
         "dining",
@@ -90,7 +100,8 @@
       "bank": "American Express",
       "slug": "amex-everyday-credit-card",
       "image": "amex_everyday.png",
-      "accepting_applications": true,
+      "accepting_applications": false,
+      "annual_fee": 0,
       "card_id": "amex-everyday-credit-card",
       "card_name": "Amex Everyday Credit Card"
     },
@@ -98,7 +109,9 @@
       "name": "Amex EveryDay Preferred Credit Card",
       "bank": "American Express",
       "slug": "amex-everyday-preferred-credit-card",
-      "accepting_applications": true,
+      "accepting_applications": false,
+      "image": "amex-everyday-preferred.png",
+      "annual_fee": 95,
       "card_id": "amex-everyday-preferred-credit-card",
       "card_name": "Amex EveryDay Preferred Credit Card"
     },
@@ -108,6 +121,10 @@
       "slug": "apple-card",
       "image": "apple_card.png",
       "accepting_applications": true,
+      "annual_fee": 0,
+      "tags": [
+        "cashback"
+      ],
       "card_id": "apple-card",
       "card_name": "Apple Card"
     },
@@ -116,6 +133,7 @@
       "bank": "Citi",
       "slug": "at-t-access-card-from-citi",
       "accepting_applications": true,
+      "annual_fee": 0,
       "card_id": "at-t-access-card-from-citi",
       "card_name": "AT&T Access Card From Citi"
     },
@@ -295,6 +313,10 @@
       "slug": "blue-cash-everyday-card",
       "image": "amex_blue_cash_everyday.png",
       "accepting_applications": true,
+      "annual_fee": 0,
+      "tags": [
+        "cashback"
+      ],
       "card_id": "blue-cash-everyday-card",
       "card_name": "Blue Cash Everyday Card"
     },
@@ -304,6 +326,7 @@
       "slug": "blue-cash-preferred-card",
       "image": "amex_blue_cash_preferred.png",
       "accepting_applications": true,
+      "annual_fee": 95,
       "tags": [
         "cashback",
         "shopping"
@@ -315,7 +338,8 @@
       "name": "Blue from American Express",
       "bank": "American Express",
       "slug": "blue-from-american-express",
-      "accepting_applications": true,
+      "accepting_applications": false,
+      "annual_fee": 0,
       "card_id": "blue-from-american-express",
       "card_name": "Blue from American Express"
     },
@@ -324,6 +348,8 @@
       "bank": "Chase",
       "slug": "british-airways-visa-signature-card",
       "accepting_applications": true,
+      "image": "british-airways.png",
+      "annual_fee": 95,
       "card_id": "british-airways-visa-signature-card",
       "card_name": "British Airways Visa Signature card"
     },
@@ -476,6 +502,7 @@
       "slug": "cash-magnet-card",
       "image": "amex_cash_magnet.png",
       "accepting_applications": true,
+      "annual_fee": 0,
       "card_id": "cash-magnet-card",
       "card_name": "Cash Magnet Card"
     },
@@ -485,6 +512,7 @@
       "slug": "chase-freedom-flex",
       "image": "freedom_flex_card.png",
       "accepting_applications": true,
+      "annual_fee": 0,
       "tags": [
         "cashback",
         "rewards"
@@ -498,6 +526,7 @@
       "slug": "chase-freedom-student",
       "image": "chase_freedom_student.png",
       "accepting_applications": true,
+      "annual_fee": 0,
       "card_id": "chase-freedom-student",
       "card_name": "Chase Freedom Student"
     },
@@ -507,6 +536,7 @@
       "slug": "chase-freedom-unlimited",
       "image": "freedom_unlimited_card.png",
       "accepting_applications": true,
+      "annual_fee": 0,
       "tags": [
         "cashback",
         "rewards"
@@ -536,6 +566,7 @@
       "slug": "chase-sapphire-reserve",
       "image": "chase_sapphire_reserve.png",
       "accepting_applications": true,
+      "annual_fee": 550,
       "tags": [
         "travel",
         "premium",
@@ -560,6 +591,7 @@
       "bank": "Citi",
       "slug": "citi-aadvantage-executive-world-elite-masterc",
       "accepting_applications": true,
+      "annual_fee": 595,
       "card_id": "citi-aadvantage-executive-world-elite-masterc",
       "card_name": "Citi AAdvantage Executive World Elite Masterc"
     },
@@ -568,6 +600,7 @@
       "bank": "Citi",
       "slug": "citi-aadvantage-platinum-select-world-elite-m",
       "accepting_applications": true,
+      "annual_fee": 99,
       "card_id": "citi-aadvantage-platinum-select-world-elite-m",
       "card_name": "Citi AAdvantage Platinum Select World Elite M"
     },
@@ -577,6 +610,7 @@
       "slug": "citi-custom-cash",
       "image": "citi_custom_cash.png",
       "accepting_applications": true,
+      "annual_fee": 0,
       "tags": [
         "cashback",
         "rewards"
@@ -590,6 +624,7 @@
       "slug": "citi-diamond-preferred",
       "image": "citi_diamond_preferred.png",
       "accepting_applications": true,
+      "annual_fee": 0,
       "card_id": "citi-diamond-preferred",
       "card_name": "Citi Diamond Preferred"
     },
@@ -599,6 +634,7 @@
       "slug": "citi-double-cash",
       "image": "citi_double_cash.png",
       "accepting_applications": true,
+      "annual_fee": 0,
       "tags": [
         "cashback",
         "rewards"
@@ -611,6 +647,11 @@
       "bank": "Citi",
       "slug": "citi-premier",
       "accepting_applications": true,
+      "annual_fee": 95,
+      "tags": [
+        "travel",
+        "rewards"
+      ],
       "card_id": "citi-premier",
       "card_name": "Citi Premier"
     },
@@ -618,7 +659,8 @@
       "name": "Citi Prestige",
       "bank": "Citi",
       "slug": "citi-prestige",
-      "accepting_applications": true,
+      "accepting_applications": false,
+      "annual_fee": 495,
       "card_id": "citi-prestige",
       "card_name": "Citi Prestige"
     },
@@ -627,6 +669,7 @@
       "bank": "Citi",
       "slug": "citi-rewards",
       "accepting_applications": true,
+      "annual_fee": 0,
       "card_id": "citi-rewards",
       "card_name": "Citi Rewards+"
     },
@@ -635,6 +678,7 @@
       "bank": "Citi",
       "slug": "citi-secured-mastercard",
       "accepting_applications": true,
+      "annual_fee": 0,
       "tags": [
         "secured"
       ],
@@ -646,6 +690,7 @@
       "bank": "Citi",
       "slug": "citi-simplicity-card",
       "accepting_applications": true,
+      "annual_fee": 0,
       "card_id": "citi-simplicity-card",
       "card_name": "Citi Simplicity Card"
     },
@@ -685,6 +730,7 @@
       "bank": "Citi",
       "slug": "citibusiness-aadvantage-platinum-select-maste",
       "accepting_applications": true,
+      "annual_fee": 99,
       "card_id": "citibusiness-aadvantage-platinum-select-maste",
       "card_name": "CitiBusiness AAdvantage Platinum Select Maste"
     },
@@ -693,6 +739,7 @@
       "bank": "Citi",
       "slug": "costco-anywhere-visa-business-card-by-citi",
       "accepting_applications": true,
+      "annual_fee": 0,
       "card_id": "costco-anywhere-visa-business-card-by-citi",
       "card_name": "Costco Anywhere Visa Business Card by Citi"
     },
@@ -701,6 +748,7 @@
       "bank": "Citi",
       "slug": "costco-anywhere-visa-card-by-citi",
       "accepting_applications": true,
+      "annual_fee": 0,
       "card_id": "costco-anywhere-visa-card-by-citi",
       "card_name": "Costco Anywhere Visa Card by Citi"
     },
@@ -710,6 +758,11 @@
       "slug": "delta-skymiles-blue-american-express-card",
       "image": "amex_delta_blue_skymiles.png",
       "accepting_applications": true,
+      "annual_fee": 0,
+      "tags": [
+        "airline",
+        "travel"
+      ],
       "card_id": "delta-skymiles-blue-american-express-card",
       "card_name": "Delta SkyMiles Blue American Express Card"
     },
@@ -719,6 +772,7 @@
       "slug": "delta-skymiles-gold-american-express-card",
       "image": "amex_delta_skymiles_gold.png",
       "accepting_applications": true,
+      "annual_fee": 150,
       "tags": [
         "airline",
         "travel",
@@ -733,6 +787,12 @@
       "slug": "delta-skymiles-platinum-american-express-card",
       "image": "amex_delta_skymiles_platinum.png",
       "accepting_applications": true,
+      "annual_fee": 350,
+      "tags": [
+        "airline",
+        "travel",
+        "premium"
+      ],
       "card_id": "delta-skymiles-platinum-american-express-card",
       "card_name": "Delta SkyMiles Platinum American Express Card"
     },
@@ -742,6 +802,12 @@
       "slug": "delta-skymiles-reserve-american-express-card",
       "image": "amex_delta_skymiles_reserve.png",
       "accepting_applications": true,
+      "annual_fee": 650,
+      "tags": [
+        "airline",
+        "travel",
+        "premium"
+      ],
       "card_id": "delta-skymiles-reserve-american-express-card",
       "card_name": "Delta SkyMiles Reserve American Express Card"
     },
@@ -751,6 +817,7 @@
       "slug": "discover-it-cash-back",
       "image": "discover_it_cash.png",
       "accepting_applications": true,
+      "annual_fee": 0,
       "tags": [
         "cashback",
         "rewards"
@@ -763,6 +830,7 @@
       "bank": "Discover",
       "slug": "discover-it-for-students-card",
       "accepting_applications": true,
+      "annual_fee": 0,
       "tags": [
         "student",
         "cashback"
@@ -774,7 +842,8 @@
       "name": "Discover it Gas and Restaurants",
       "bank": "Discover",
       "slug": "discover-it-gas-and-restaurants",
-      "accepting_applications": true,
+      "accepting_applications": false,
+      "annual_fee": 0,
       "card_id": "discover-it-gas-and-restaurants",
       "card_name": "Discover it Gas and Restaurants"
     },
@@ -783,6 +852,11 @@
       "bank": "Discover",
       "slug": "discover-it-miles",
       "accepting_applications": true,
+      "annual_fee": 0,
+      "tags": [
+        "travel",
+        "rewards"
+      ],
       "card_id": "discover-it-miles",
       "card_name": "Discover it Miles"
     },
@@ -791,6 +865,7 @@
       "bank": "Discover",
       "slug": "discover-it-secured-credit-card",
       "accepting_applications": true,
+      "annual_fee": 0,
       "tags": [
         "secured",
         "cashback"
@@ -803,6 +878,7 @@
       "bank": "Discover",
       "slug": "discover-it-student-chrome-card",
       "accepting_applications": true,
+      "annual_fee": 0,
       "card_id": "discover-it-student-chrome-card",
       "card_name": "Discover it Student Chrome Card"
     },
@@ -811,6 +887,7 @@
       "bank": "Chase",
       "slug": "disney-premier-visa-card",
       "accepting_applications": true,
+      "annual_fee": 49,
       "card_id": "disney-premier-visa-card",
       "card_name": "Disney Premier Visa Card"
     },
@@ -819,6 +896,7 @@
       "bank": "Chase",
       "slug": "disney-visa-card",
       "accepting_applications": true,
+      "annual_fee": 0,
       "card_id": "disney-visa-card",
       "card_name": "Disney Visa Card"
     },
@@ -826,7 +904,8 @@
       "name": "Expedia Rewards Card from Citi",
       "bank": "Citi",
       "slug": "expedia-rewards-card-from-citi",
-      "accepting_applications": true,
+      "accepting_applications": false,
+      "annual_fee": 0,
       "card_id": "expedia-rewards-card-from-citi",
       "card_name": "Expedia Rewards Card from Citi"
     },
@@ -834,7 +913,8 @@
       "name": "Expedia Rewards Voyager Card from Citi",
       "bank": "Citi",
       "slug": "expedia-rewards-voyager-card-from-citi",
-      "accepting_applications": true,
+      "accepting_applications": false,
+      "annual_fee": 0,
       "card_id": "expedia-rewards-voyager-card-from-citi",
       "card_name": "Expedia Rewards Voyager Card from Citi"
     },
@@ -854,6 +934,7 @@
       "slug": "hilton-honors-american-express-aspire-card",
       "image": "amex_hilton_honors_aspire.png",
       "accepting_applications": true,
+      "annual_fee": 550,
       "tags": [
         "hotel",
         "travel",
@@ -868,6 +949,11 @@
       "slug": "hilton-honors-american-express-surpass-card",
       "image": "amex_hilton_honors_surpass.png",
       "accepting_applications": true,
+      "annual_fee": 150,
+      "tags": [
+        "hotel",
+        "travel"
+      ],
       "card_id": "hilton-honors-american-express-surpass-card",
       "card_name": "Hilton Honors American Express Surpass Card"
     },
@@ -877,6 +963,11 @@
       "slug": "hilton-honors-card",
       "image": "amex_hilton_honors.png",
       "accepting_applications": true,
+      "annual_fee": 0,
+      "tags": [
+        "hotel",
+        "travel"
+      ],
       "card_id": "hilton-honors-card",
       "card_name": "Hilton Honors Card"
     },
@@ -884,7 +975,8 @@
       "name": "Hotels.com Rewards Visa",
       "bank": "Wells Fargo",
       "slug": "hotels-com-rewards-visa",
-      "accepting_applications": true,
+      "accepting_applications": false,
+      "annual_fee": 0,
       "card_id": "hotels-com-rewards-visa",
       "card_name": "Hotels.com Rewards Visa"
     },
@@ -893,6 +985,8 @@
       "bank": "Chase",
       "slug": "iberia-visa-signature-card",
       "accepting_applications": true,
+      "image": "iberia-plus.png",
+      "annual_fee": 95,
       "card_id": "iberia-visa-signature-card",
       "card_name": "Iberia Visa Signature card"
     },
@@ -901,6 +995,7 @@
       "bank": "Chase",
       "slug": "ihg-rewards-club-premier-credit-card",
       "accepting_applications": true,
+      "annual_fee": 99,
       "card_id": "ihg-rewards-club-premier-credit-card",
       "card_name": "IHG Rewards Club Premier Credit Card"
     },
@@ -909,6 +1004,7 @@
       "bank": "Chase",
       "slug": "ihg-rewards-club-traveler-credit-card",
       "accepting_applications": true,
+      "annual_fee": 0,
       "card_id": "ihg-rewards-club-traveler-credit-card",
       "card_name": "IHG Rewards Club Traveler Credit Card"
     },
@@ -993,6 +1089,11 @@
       "bank": "Chase",
       "slug": "marriott-bonvoy-bold-credit-card",
       "accepting_applications": true,
+      "annual_fee": 0,
+      "tags": [
+        "hotel",
+        "travel"
+      ],
       "card_id": "marriott-bonvoy-bold-credit-card",
       "card_name": "Marriott Bonvoy Bold credit card"
     },
@@ -1002,6 +1103,7 @@
       "slug": "marriott-bonvoy-boundless-credit-card",
       "image": "marriott_bonvoy_boundless.png",
       "accepting_applications": true,
+      "annual_fee": 95,
       "tags": [
         "hotel",
         "travel",
@@ -1016,6 +1118,7 @@
       "slug": "marriott-bonvoy-brilliant-american-express",
       "image": "amex_marriott_bonvoy_brilliant.png",
       "accepting_applications": true,
+      "annual_fee": 650,
       "tags": [
         "hotel",
         "travel",
@@ -1029,6 +1132,7 @@
       "bank": "Discover",
       "slug": "nhl-discover-it",
       "accepting_applications": true,
+      "annual_fee": 0,
       "card_id": "nhl-discover-it",
       "card_name": "NHL Discover it"
     },
@@ -1047,6 +1151,7 @@
       "bank": "American Express",
       "slug": "serve-from-american-express",
       "accepting_applications": true,
+      "annual_fee": 0,
       "card_id": "serve-from-american-express",
       "card_name": "Serve from American Express"
     },
@@ -1055,6 +1160,11 @@
       "bank": "Chase",
       "slug": "southwest-rapid-rewards-plus-credit-card",
       "accepting_applications": true,
+      "annual_fee": 69,
+      "tags": [
+        "airline",
+        "travel"
+      ],
       "card_id": "southwest-rapid-rewards-plus-credit-card",
       "card_name": "Southwest Rapid Rewards Plus Credit Card"
     },
@@ -1063,6 +1173,11 @@
       "bank": "Chase",
       "slug": "southwest-rapid-rewards-premier-credit-card",
       "accepting_applications": true,
+      "annual_fee": 99,
+      "tags": [
+        "airline",
+        "travel"
+      ],
       "card_id": "southwest-rapid-rewards-premier-credit-card",
       "card_name": "Southwest Rapid Rewards Premier Credit Card"
     },
@@ -1072,6 +1187,7 @@
       "slug": "southwest-rapid-rewards-priority-credit-card",
       "image": "southwest_priority.png",
       "accepting_applications": true,
+      "annual_fee": 149,
       "tags": [
         "airline",
         "travel",
@@ -1085,6 +1201,7 @@
       "bank": "Chase",
       "slug": "starbucks-rewards-visa-card",
       "accepting_applications": true,
+      "annual_fee": 49,
       "card_id": "starbucks-rewards-visa-card",
       "card_name": "Starbucks Rewards Visa Card"
     },
@@ -1109,6 +1226,7 @@
       "slug": "the-platinum-card",
       "image": "amex_the_platinum_card.png",
       "accepting_applications": true,
+      "annual_fee": 695,
       "tags": [
         "travel",
         "premium",
@@ -1163,6 +1281,12 @@
       "slug": "united-club-infinite",
       "image": "united_club_infinite.png",
       "accepting_applications": true,
+      "annual_fee": 525,
+      "tags": [
+        "airline",
+        "travel",
+        "premium"
+      ],
       "card_id": "united-club-infinite",
       "card_name": "United Club Infinite"
     },
@@ -1172,6 +1296,7 @@
       "slug": "united-explorer",
       "image": "united_explorer.png",
       "accepting_applications": true,
+      "annual_fee": 95,
       "tags": [
         "airline",
         "travel",
@@ -1186,6 +1311,11 @@
       "slug": "united-gateway",
       "image": "united_gateway.png",
       "accepting_applications": true,
+      "annual_fee": 0,
+      "tags": [
+        "airline",
+        "travel"
+      ],
       "card_id": "united-gateway",
       "card_name": "United Gateway"
     },
@@ -1195,6 +1325,12 @@
       "slug": "united-quest",
       "image": "united_quest.png",
       "accepting_applications": true,
+      "annual_fee": 250,
+      "tags": [
+        "airline",
+        "travel",
+        "premium"
+      ],
       "card_id": "united-quest",
       "card_name": "United Quest"
     },
@@ -1204,6 +1340,7 @@
       "slug": "us-bank-altitude-connect",
       "image": "altitude_connect.png",
       "accepting_applications": true,
+      "annual_fee": 95,
       "card_id": "us-bank-altitude-connect",
       "card_name": "US Bank Altitude Connect"
     },
@@ -1264,6 +1401,7 @@
       "slug": "wells-fargo-cash-back-college",
       "image": "wells_fargo_cash_back_college.png",
       "accepting_applications": true,
+      "annual_fee": 0,
       "card_id": "wells-fargo-cash-back-college",
       "card_name": "Wells Fargo Cash Back College"
     },
@@ -1272,7 +1410,8 @@
       "bank": "Wells Fargo",
       "slug": "wells-fargo-cash-wise-visa",
       "image": "cash_wise.png",
-      "accepting_applications": true,
+      "accepting_applications": false,
+      "annual_fee": 0,
       "card_id": "wells-fargo-cash-wise-visa",
       "card_name": "Wells Fargo Cash Wise Visa"
     },
@@ -1282,6 +1421,7 @@
       "slug": "wells-fargo-platinum",
       "image": "wells_fargo_platinum.png",
       "accepting_applications": true,
+      "annual_fee": 0,
       "card_id": "wells-fargo-platinum",
       "card_name": "Wells Fargo Platinum"
     },
@@ -1290,7 +1430,8 @@
       "bank": "Wells Fargo",
       "slug": "wells-fargo-propel-american-express",
       "image": "propel_card.png",
-      "accepting_applications": true,
+      "accepting_applications": false,
+      "annual_fee": 0,
       "card_id": "wells-fargo-propel-american-express",
       "card_name": "Wells Fargo Propel American Express"
     },
@@ -1310,7 +1451,8 @@
       "bank": "Wells Fargo",
       "slug": "wells-fargo-rewards",
       "image": "wells_fargo_rewards.png",
-      "accepting_applications": true,
+      "accepting_applications": false,
+      "annual_fee": 0,
       "card_id": "wells-fargo-rewards",
       "card_name": "Wells Fargo Rewards"
     },
@@ -1329,7 +1471,8 @@
       "bank": "Wells Fargo",
       "slug": "wells-fargo-visa-signature",
       "image": "wells_fargo_visa_signature.png",
-      "accepting_applications": true,
+      "accepting_applications": false,
+      "annual_fee": 0,
       "card_id": "wells-fargo-visa-signature",
       "card_name": "Wells Fargo Visa Signature"
     },
@@ -1348,6 +1491,7 @@
       "bank": "Chase",
       "slug": "world-of-hyatt-credit-card",
       "accepting_applications": true,
+      "annual_fee": 95,
       "tags": [
         "hotel",
         "travel",
