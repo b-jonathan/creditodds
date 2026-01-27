@@ -2,3 +2,4 @@ name: "Iberia Visa Signature card"
 bank: "Chase"
 slug: "iberia-visa-signature-card"
 accepting_applications: true
+image: "iberia-plus.png"
