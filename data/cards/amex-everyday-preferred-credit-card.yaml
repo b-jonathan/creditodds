@@ -1,4 +1,5 @@
 name: "Amex EveryDay Preferred Credit Card"
 bank: "American Express"
 slug: "amex-everyday-preferred-credit-card"
-accepting_applications: true
+accepting_applications: false
+image: "amex-everyday-preferred.png"
