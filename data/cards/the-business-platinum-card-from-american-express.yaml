@@ -1,8 +1,9 @@
-name: "The Business Platinum Card from American Express"
+name: "The Business Platinum Card"
 bank: "American Express"
 slug: "the-business-platinum-card-from-american-express"
 accepting_applications: true
 category: "business"
+image: "business-platinum.png"
 annual_fee: 895
 tags:
   - business
