@@ -1,7 +1,7 @@
 name: "Bank of America Travel Rewards Credit Card"
 bank: "Bank of America"
 slug: "bank-of-america-travel-rewards"
-image: "bofa_travel_rewards.png"
+image: "travelrewards.png"
 accepting_applications: true
 category: "travel"
 annual_fee: 0
