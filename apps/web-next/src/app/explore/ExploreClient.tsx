@@ -12,16 +12,18 @@ interface ExploreClientProps {
 
 type SortOption = 'name' | 'recent' | 'bank';
 
-// Emoji quick filters
+// Emoji quick filters - maps to card tags
 const emojiFilters = [
-  { emoji: '✈️', label: 'Travel', keywords: ['travel', 'miles', 'airline', 'delta', 'united', 'southwest', 'jetblue', 'aadvantage', 'skymiles'] },
-  { emoji: '💰', label: 'Cash Back', keywords: ['cash', 'cashback', 'cash back', 'cash+', 'cash wise'] },
-  { emoji: '🏨', label: 'Hotels', keywords: ['hotel', 'hilton', 'marriott', 'hyatt', 'ihg', 'wyndham'] },
-  { emoji: '🛒', label: 'Shopping', keywords: ['amazon', 'costco', 'target', 'walmart'] },
-  { emoji: '🎓', label: 'Student', keywords: ['student', 'college'] },
-  { emoji: '🔒', label: 'Secured', keywords: ['secured'] },
-  { emoji: '💎', label: 'Premium', keywords: ['platinum', 'reserve', 'prestige', 'sapphire', 'venture x', 'gold card', 'palladium', 'obsidian'] },
-  { emoji: '💼', label: 'Business', keywords: ['business', 'ink'] },
+  { emoji: '✈️', label: 'Travel', tag: 'travel' },
+  { emoji: '💰', label: 'Cash Back', tag: 'cashback' },
+  { emoji: '🏨', label: 'Hotels', tag: 'hotel' },
+  { emoji: '🛒', label: 'Shopping', tag: 'shopping' },
+  { emoji: '🎓', label: 'Student', tag: 'student' },
+  { emoji: '🔒', label: 'Secured', tag: 'secured' },
+  { emoji: '💎', label: 'Premium', tag: 'premium' },
+  { emoji: '💼', label: 'Business', tag: 'business' },
+  { emoji: '🍽️', label: 'Dining', tag: 'dining' },
+  { emoji: '⭐', label: 'Rewards', tag: 'rewards' },
 ];
 
 export default function ExploreClient({ cards, banks }: ExploreClientProps) {
@@ -45,13 +47,12 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
         card.bank.toLowerCase().includes(search.toLowerCase());
       const matchesBank = selectedBank === "" || card.bank === selectedBank;
 
-      // Apply emoji filter if active
+      // Apply emoji filter if active (filter by tag)
       let matchesEmoji = true;
       if (activeEmoji) {
         const filter = emojiFilters.find(f => f.emoji === activeEmoji);
         if (filter) {
-          const cardText = `${card.card_name} ${card.bank}`.toLowerCase();
-          matchesEmoji = filter.keywords.some(keyword => cardText.includes(keyword.toLowerCase()));
+          matchesEmoji = card.tags?.includes(filter.tag) || false;
         }
       }
 

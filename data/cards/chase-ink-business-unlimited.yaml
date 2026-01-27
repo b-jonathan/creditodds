@@ -5,3 +5,6 @@ image: "chase_ink_business_unlimited.png"
 accepting_applications: true
 category: "business"
 annual_fee: 0
+tags:
+  - business
+  - cashback

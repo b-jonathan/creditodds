@@ -5,3 +5,7 @@ image: "capital_one_venture_x.png"
 accepting_applications: true
 category: "travel"
 annual_fee: 395
+tags:
+  - travel
+  - premium
+  - rewards

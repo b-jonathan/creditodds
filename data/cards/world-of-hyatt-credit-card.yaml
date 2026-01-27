@@ -2,3 +2,7 @@ name: "World of Hyatt Credit Card"
 bank: "Chase"
 slug: "world-of-hyatt-credit-card"
 accepting_applications: true
+tags:
+  - hotel
+  - travel
+  - rewards

@@ -3,3 +3,7 @@ bank: "Chase"
 slug: "marriott-bonvoy-boundless-credit-card"
 image: "marriott_bonvoy_boundless.png"
 accepting_applications: true
+tags:
+  - hotel
+  - travel
+  - rewards

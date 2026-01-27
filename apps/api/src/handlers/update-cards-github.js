@@ -62,6 +62,9 @@ async function syncCardsToDatabase(cdnCards) {
         // Check if card exists by name
         const existingCard = existingByName[name];
 
+        // Convert tags array to JSON string for database storage
+        const tagsJson = cdnCard.tags ? JSON.stringify(cdnCard.tags) : null;
+
         if (existingCard) {
           // Update existing card
           await mysql.query(
@@ -70,9 +73,10 @@ async function syncCardsToDatabase(cdnCards) {
               bank = ?,
               accepting_applications = ?,
               card_image_link = ?,
-              release_date = ?
+              release_date = ?,
+              tags = ?
             WHERE card_id = ?`,
-            [name, bank, acceptingApplications, cdnCard.image || null, cdnCard.release_date || null, existingCard.card_id]
+            [name, bank, acceptingApplications, cdnCard.image || null, cdnCard.release_date || null, tagsJson, existingCard.card_id]
           );
           results.updated.push(name);
         } else {
@@ -80,9 +84,9 @@ async function syncCardsToDatabase(cdnCards) {
           const maxIdResult = await mysql.query("SELECT MAX(card_id) as max_id FROM cards");
           const nextId = (maxIdResult[0]?.max_id || 0) + 1;
           await mysql.query(
-            `INSERT INTO cards (card_id, card_name, bank, accepting_applications, card_image_link, release_date, active)
-             VALUES (?, ?, ?, ?, ?, ?, 1)`,
-            [nextId, name, bank, acceptingApplications, cdnCard.image || null, cdnCard.release_date || null]
+            `INSERT INTO cards (card_id, card_name, bank, accepting_applications, card_image_link, release_date, tags, active)
+             VALUES (?, ?, ?, ?, ?, ?, ?, 1)`,
+            [nextId, name, bank, acceptingApplications, cdnCard.image || null, cdnCard.release_date || null, tagsJson]
           );
           results.added.push(name);
         }

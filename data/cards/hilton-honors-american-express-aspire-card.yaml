@@ -3,3 +3,7 @@ bank: "American Express"
 slug: "hilton-honors-american-express-aspire-card"
 image: "amex_hilton_honors_aspire.png"
 accepting_applications: true
+tags:
+  - hotel
+  - travel
+  - premium

@@ -5,3 +5,7 @@ image: "chase-sapphire-preferred.png"
 accepting_applications: true
 category: "travel"
 annual_fee: 95
+tags:
+  - travel
+  - dining
+  - rewards

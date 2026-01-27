@@ -5,3 +5,7 @@ image: "wells_fargo_autograph.png"
 accepting_applications: true
 category: "rewards"
 annual_fee: 0
+tags:
+  - travel
+  - dining
+  - rewards

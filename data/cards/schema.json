@@ -38,6 +38,14 @@
       "type": "string",
       "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
       "description": "Card release date in YYYY-MM-DD format (optional)"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["travel", "cashback", "hotel", "shopping", "student", "secured", "premium", "business", "rewards", "airline", "dining"]
+      },
+      "description": "Card tags for categorization and filtering (optional)"
     }
   },
   "additionalProperties": false

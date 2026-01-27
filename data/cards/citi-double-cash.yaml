@@ -3,3 +3,6 @@ bank: "Citi"
 slug: "citi-double-cash"
 image: "citi_double_cash.png"
 accepting_applications: true
+tags:
+  - cashback
+  - rewards

@@ -3,3 +3,8 @@ bank: "American Express"
 slug: "american-express-gold-card"
 image: "amex_gold_card.png"
 accepting_applications: true
+tags:
+  - travel
+  - dining
+  - rewards
+  - premium

@@ -3,3 +3,7 @@ bank: "Chase"
 slug: "united-explorer"
 image: "united_explorer.png"
 accepting_applications: true
+tags:
+  - airline
+  - travel
+  - rewards

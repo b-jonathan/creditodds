@@ -5,3 +5,7 @@ image: "chase_ink_business_preferred.png"
 accepting_applications: true
 category: "business"
 annual_fee: 95
+tags:
+  - business
+  - travel
+  - rewards

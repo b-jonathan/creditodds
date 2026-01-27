@@ -50,7 +50,7 @@ async function fetchCardStatsAndMetadata() {
         GROUP BY card_id
       `),
       mysql.query(`
-        SELECT card_name, card_image_link, accepting_applications
+        SELECT card_name, card_image_link, accepting_applications, tags
         FROM cards
       `)
     ]);
@@ -65,9 +65,19 @@ async function fetchCardStatsAndMetadata() {
     // Convert card metadata to lookup map (by card_name)
     const cardMap = {};
     for (const row of cardResults) {
+      // Parse tags JSON if it's a string
+      let tags = row.tags;
+      if (typeof tags === 'string') {
+        try {
+          tags = JSON.parse(tags);
+        } catch (e) {
+          tags = null;
+        }
+      }
       cardMap[row.card_name] = {
         card_image_link: row.card_image_link,
-        accepting_applications: row.accepting_applications === 1
+        accepting_applications: row.accepting_applications === 1,
+        tags: tags || []
       };
     }
 
@@ -103,6 +113,7 @@ exports.AllCardsHandler = async (event) => {
               total_records: stats.total_records || 0,
               card_image_link: dbCard.card_image_link || card.image || null,
               accepting_applications: dbCard.accepting_applications !== undefined ? dbCard.accepting_applications : card.accepting_applications,
+              tags: dbCard.tags || card.tags || [],
             };
           });
 

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-01-26T02:31:38.507Z",
+  "generated_at": "2026-01-27T14:45:14.750Z",
   "count": 129,
   "cards": [
     {
@@ -25,6 +25,11 @@
       "bank": "Chase",
       "slug": "amazon-prime-rewards-visa-signature-card",
       "accepting_applications": true,
+      "tags": [
+        "shopping",
+        "cashback",
+        "rewards"
+      ],
       "card_id": "amazon-prime-rewards-visa-signature-card",
       "card_name": "Amazon Prime Rewards Visa Signature Card"
     },
@@ -43,6 +48,11 @@
       "accepting_applications": true,
       "category": "business",
       "annual_fee": 375,
+      "tags": [
+        "business",
+        "rewards",
+        "premium"
+      ],
       "card_id": "american-express-business-gold-card",
       "card_name": "American Express Business Gold Card"
     },
@@ -52,6 +62,12 @@
       "slug": "american-express-gold-card",
       "image": "amex_gold_card.png",
       "accepting_applications": true,
+      "tags": [
+        "travel",
+        "dining",
+        "rewards",
+        "premium"
+      ],
       "card_id": "american-express-gold-card",
       "card_name": "American Express Gold Card"
     },
@@ -61,6 +77,11 @@
       "slug": "american-express-green-card",
       "image": "amex_green_card.png",
       "accepting_applications": true,
+      "tags": [
+        "travel",
+        "dining",
+        "rewards"
+      ],
       "card_id": "american-express-green-card",
       "card_name": "American Express Green Card"
     },
@@ -188,6 +209,10 @@
       "accepting_applications": true,
       "annual_fee": 0,
       "release_date": "2025-01-15",
+      "tags": [
+        "rewards",
+        "travel"
+      ],
       "card_id": "bilt-blue",
       "card_name": "Bilt Blue"
     },
@@ -211,6 +236,11 @@
       "accepting_applications": true,
       "annual_fee": 95,
       "release_date": "2025-01-15",
+      "tags": [
+        "rewards",
+        "travel",
+        "premium"
+      ],
       "card_id": "bilt-obsidian",
       "card_name": "Bilt Obsidian"
     },
@@ -222,6 +252,12 @@
       "accepting_applications": true,
       "annual_fee": 495,
       "release_date": "2025-01-15",
+      "tags": [
+        "rewards",
+        "travel",
+        "premium",
+        "dining"
+      ],
       "card_id": "bilt-palladium",
       "card_name": "Bilt Palladium"
     },
@@ -232,6 +268,10 @@
       "accepting_applications": true,
       "category": "business",
       "annual_fee": 0,
+      "tags": [
+        "business",
+        "cashback"
+      ],
       "card_id": "blue-business-cash-card-from-american-express",
       "card_name": "Blue Business Cash Card from American Express"
     },
@@ -242,6 +282,10 @@
       "accepting_applications": true,
       "category": "business",
       "annual_fee": 0,
+      "tags": [
+        "business",
+        "rewards"
+      ],
       "card_id": "blue-business-plus-credit-card-from-american-express",
       "card_name": "Blue Business Plus Credit Card from American Express"
     },
@@ -260,6 +304,10 @@
       "slug": "blue-cash-preferred-card",
       "image": "amex_blue_cash_preferred.png",
       "accepting_applications": true,
+      "tags": [
+        "cashback",
+        "shopping"
+      ],
       "card_id": "blue-cash-preferred-card",
       "card_name": "Blue Cash Preferred Card"
     },
@@ -308,6 +356,10 @@
       "accepting_applications": true,
       "category": "cashback",
       "annual_fee": 0,
+      "tags": [
+        "cashback",
+        "rewards"
+      ],
       "card_id": "capital-one-quicksilver",
       "card_name": "Capital One Quicksilver Cash Rewards Credit Card"
     },
@@ -318,6 +370,10 @@
       "accepting_applications": true,
       "category": "secured",
       "annual_fee": 0,
+      "tags": [
+        "secured",
+        "cashback"
+      ],
       "card_id": "capital-one-quicksilver-secured",
       "card_name": "Capital One Quicksilver Secured Cash Rewards Credit Card"
     },
@@ -339,6 +395,11 @@
       "accepting_applications": true,
       "category": "cashback",
       "annual_fee": 95,
+      "tags": [
+        "cashback",
+        "dining",
+        "rewards"
+      ],
       "card_id": "capital-one-savor",
       "card_name": "Capital One Savor Cash Rewards Credit Card"
     },
@@ -350,6 +411,11 @@
       "accepting_applications": true,
       "category": "cashback",
       "annual_fee": 0,
+      "tags": [
+        "cashback",
+        "dining",
+        "rewards"
+      ],
       "card_id": "capital-one-savorone",
       "card_name": "Capital One SavorOne Cash Rewards Credit Card"
     },
@@ -370,6 +436,10 @@
       "accepting_applications": true,
       "category": "travel",
       "annual_fee": 95,
+      "tags": [
+        "travel",
+        "rewards"
+      ],
       "card_id": "capital-one-venture-rewards",
       "card_name": "Capital One Venture Rewards Credit Card"
     },
@@ -381,6 +451,11 @@
       "accepting_applications": true,
       "category": "travel",
       "annual_fee": 395,
+      "tags": [
+        "travel",
+        "premium",
+        "rewards"
+      ],
       "card_id": "capital-one-venture-x",
       "card_name": "Capital One Venture X Rewards Credit Card"
     },
@@ -410,6 +485,10 @@
       "slug": "chase-freedom-flex",
       "image": "freedom_flex_card.png",
       "accepting_applications": true,
+      "tags": [
+        "cashback",
+        "rewards"
+      ],
       "card_id": "chase-freedom-flex",
       "card_name": "Chase Freedom Flex"
     },
@@ -428,6 +507,10 @@
       "slug": "chase-freedom-unlimited",
       "image": "freedom_unlimited_card.png",
       "accepting_applications": true,
+      "tags": [
+        "cashback",
+        "rewards"
+      ],
       "card_id": "chase-freedom-unlimited",
       "card_name": "Chase Freedom Unlimited"
     },
@@ -439,6 +522,11 @@
       "accepting_applications": true,
       "category": "travel",
       "annual_fee": 95,
+      "tags": [
+        "travel",
+        "dining",
+        "rewards"
+      ],
       "card_id": "chase-sapphire-preferred",
       "card_name": "Chase Sapphire Preferred Card"
     },
@@ -448,6 +536,11 @@
       "slug": "chase-sapphire-reserve",
       "image": "chase_sapphire_reserve.png",
       "accepting_applications": true,
+      "tags": [
+        "travel",
+        "premium",
+        "dining"
+      ],
       "card_id": "chase-sapphire-reserve",
       "card_name": "Chase Sapphire Reserve"
     },
@@ -484,6 +577,10 @@
       "slug": "citi-custom-cash",
       "image": "citi_custom_cash.png",
       "accepting_applications": true,
+      "tags": [
+        "cashback",
+        "rewards"
+      ],
       "card_id": "citi-custom-cash",
       "card_name": "Citi Custom Cash"
     },
@@ -502,6 +599,10 @@
       "slug": "citi-double-cash",
       "image": "citi_double_cash.png",
       "accepting_applications": true,
+      "tags": [
+        "cashback",
+        "rewards"
+      ],
       "card_id": "citi-double-cash",
       "card_name": "Citi Double Cash"
     },
@@ -534,6 +635,9 @@
       "bank": "Citi",
       "slug": "citi-secured-mastercard",
       "accepting_applications": true,
+      "tags": [
+        "secured"
+      ],
       "card_id": "citi-secured-mastercard",
       "card_name": "Citi Secured Mastercard"
     },
@@ -615,6 +719,11 @@
       "slug": "delta-skymiles-gold-american-express-card",
       "image": "amex_delta_skymiles_gold.png",
       "accepting_applications": true,
+      "tags": [
+        "airline",
+        "travel",
+        "rewards"
+      ],
       "card_id": "delta-skymiles-gold-american-express-card",
       "card_name": "Delta SkyMiles Gold American Express Card"
     },
@@ -642,6 +751,10 @@
       "slug": "discover-it-cash-back",
       "image": "discover_it_cash.png",
       "accepting_applications": true,
+      "tags": [
+        "cashback",
+        "rewards"
+      ],
       "card_id": "discover-it-cash-back",
       "card_name": "Discover it Cash Back"
     },
@@ -650,6 +763,10 @@
       "bank": "Discover",
       "slug": "discover-it-for-students-card",
       "accepting_applications": true,
+      "tags": [
+        "student",
+        "cashback"
+      ],
       "card_id": "discover-it-for-students-card",
       "card_name": "Discover it for Students Card"
     },
@@ -674,6 +791,10 @@
       "bank": "Discover",
       "slug": "discover-it-secured-credit-card",
       "accepting_applications": true,
+      "tags": [
+        "secured",
+        "cashback"
+      ],
       "card_id": "discover-it-secured-credit-card",
       "card_name": "Discover it Secured Credit Card"
     },
@@ -733,6 +854,11 @@
       "slug": "hilton-honors-american-express-aspire-card",
       "image": "amex_hilton_honors_aspire.png",
       "accepting_applications": true,
+      "tags": [
+        "hotel",
+        "travel",
+        "premium"
+      ],
       "card_id": "hilton-honors-american-express-aspire-card",
       "card_name": "Hilton Honors American Express Aspire Card"
     },
@@ -794,6 +920,10 @@
       "accepting_applications": true,
       "category": "business",
       "annual_fee": 0,
+      "tags": [
+        "business",
+        "cashback"
+      ],
       "card_id": "chase-ink-business-cash",
       "card_name": "Ink Business Cash Credit Card"
     },
@@ -805,6 +935,11 @@
       "accepting_applications": true,
       "category": "business",
       "annual_fee": 95,
+      "tags": [
+        "business",
+        "travel",
+        "rewards"
+      ],
       "card_id": "chase-ink-business-preferred",
       "card_name": "Ink Business Preferred Credit Card"
     },
@@ -816,6 +951,10 @@
       "accepting_applications": true,
       "category": "business",
       "annual_fee": 0,
+      "tags": [
+        "business",
+        "cashback"
+      ],
       "card_id": "chase-ink-business-unlimited",
       "card_name": "Ink Business Unlimited Credit Card"
     },
@@ -863,6 +1002,11 @@
       "slug": "marriott-bonvoy-boundless-credit-card",
       "image": "marriott_bonvoy_boundless.png",
       "accepting_applications": true,
+      "tags": [
+        "hotel",
+        "travel",
+        "rewards"
+      ],
       "card_id": "marriott-bonvoy-boundless-credit-card",
       "card_name": "Marriott Bonvoy Boundless credit card"
     },
@@ -872,6 +1016,11 @@
       "slug": "marriott-bonvoy-brilliant-american-express",
       "image": "amex_marriott_bonvoy_brilliant.png",
       "accepting_applications": true,
+      "tags": [
+        "hotel",
+        "travel",
+        "premium"
+      ],
       "card_id": "marriott-bonvoy-brilliant-american-express",
       "card_name": "Marriott Bonvoy Brilliant American Express"
     },
@@ -923,6 +1072,11 @@
       "slug": "southwest-rapid-rewards-priority-credit-card",
       "image": "southwest_priority.png",
       "accepting_applications": true,
+      "tags": [
+        "airline",
+        "travel",
+        "rewards"
+      ],
       "card_id": "southwest-rapid-rewards-priority-credit-card",
       "card_name": "Southwest Rapid Rewards Priority Credit Card"
     },
@@ -941,6 +1095,11 @@
       "accepting_applications": true,
       "category": "business",
       "annual_fee": 895,
+      "tags": [
+        "business",
+        "travel",
+        "premium"
+      ],
       "card_id": "the-business-platinum-card-from-american-express",
       "card_name": "The Business Platinum Card from American Express"
     },
@@ -950,6 +1109,11 @@
       "slug": "the-platinum-card",
       "image": "amex_the_platinum_card.png",
       "accepting_applications": true,
+      "tags": [
+        "travel",
+        "premium",
+        "rewards"
+      ],
       "card_id": "the-platinum-card",
       "card_name": "The Platinum Card"
     },
@@ -1008,6 +1172,11 @@
       "slug": "united-explorer",
       "image": "united_explorer.png",
       "accepting_applications": true,
+      "tags": [
+        "airline",
+        "travel",
+        "rewards"
+      ],
       "card_id": "united-explorer",
       "card_name": "United Explorer"
     },
@@ -1046,6 +1215,10 @@
       "accepting_applications": true,
       "category": "cashback",
       "annual_fee": 0,
+      "tags": [
+        "cashback",
+        "rewards"
+      ],
       "card_id": "wells-fargo-active-cash",
       "card_name": "Wells Fargo Active Cash Card"
     },
@@ -1067,6 +1240,11 @@
       "accepting_applications": true,
       "category": "rewards",
       "annual_fee": 0,
+      "tags": [
+        "travel",
+        "dining",
+        "rewards"
+      ],
       "card_id": "wells-fargo-autograph",
       "card_name": "Wells Fargo Autograph Card"
     },
@@ -1170,6 +1348,11 @@
       "bank": "Chase",
       "slug": "world-of-hyatt-credit-card",
       "accepting_applications": true,
+      "tags": [
+        "hotel",
+        "travel",
+        "rewards"
+      ],
       "card_id": "world-of-hyatt-credit-card",
       "card_name": "World of Hyatt Credit Card"
     },

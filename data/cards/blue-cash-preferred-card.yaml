@@ -3,3 +3,6 @@ bank: "American Express"
 slug: "blue-cash-preferred-card"
 image: "amex_blue_cash_preferred.png"
 accepting_applications: true
+tags:
+  - cashback
+  - shopping

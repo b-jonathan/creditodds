@@ -12,6 +12,7 @@ export interface Card {
   approved_count?: number;
   rejected_count?: number;
   release_date?: string;
+  tags?: string[];
 }
 
 // GraphData is an array of series data
