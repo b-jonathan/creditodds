@@ -296,6 +296,15 @@ export default function ProfilePage() {
                         className="object-contain"
                         sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
                       />
+                      {(() => {
+                        const cardData = allCards.find(c => c.card_name === card.card_name);
+                        const annualFee = cardData?.annual_fee || 0;
+                        return annualFee > 0 ? (
+                          <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-white px-1.5 py-0.5 rounded-full text-xs font-medium text-red-600 shadow-sm">
+                            ${annualFee}
+                          </span>
+                        ) : null;
+                      })()}
                     </div>
                     <p className="text-xs font-medium text-gray-900 truncate">{card.card_name}</p>
                     <p className="text-xs text-gray-500">{card.bank}</p>
