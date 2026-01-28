@@ -61,7 +61,9 @@ jobs:
           fi
 
       - name: Wait for CloudFront invalidation
-        run: sleep 10
+        run: |
+          echo "Waiting 60 seconds for CloudFront cache invalidation to propagate..."
+          sleep 60
 
       - name: Sync cards to database
         run: |
