@@ -97,12 +97,12 @@ exports.UserRecordsHandler = async (event) => {
               submitter_id: event.requestContext.authorizer.sub,
               submitter_ip_address: event.requestContext.identity.sourceIp,
               submit_datetime: new Date(),
-              starting_credit_limit: value.starting_credit_limit,
               bank_customer: value.bank_customer,
               reason_denied: value.reason_denied,
               inquiries_3: value.inquiries_3,
               inquiries_12: value.inquiries_12,
               inquiries_24: value.inquiries_24,
+              admin_review: 1,
             });
             await mysql.end();
             return results;
