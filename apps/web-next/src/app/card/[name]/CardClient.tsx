@@ -230,7 +230,7 @@ export default function CardClient({ card, graphData }: CardClientProps) {
                     </dl>
                     <p className="mt-2 text-center text-xs text-gray-400 pt-6">
                       Median based on {(card.rejected_count || 0) + (card.approved_count || 0)} records
-                      with {card.approved_count} approved and {card.rejected_count} rejected
+                      with <span className="text-green-600">{card.approved_count} approved</span> and <span className="text-red-600">{card.rejected_count} rejected</span>
                     </p>
                   </>
                 ) : (
