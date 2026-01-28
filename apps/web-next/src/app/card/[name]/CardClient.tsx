@@ -349,7 +349,7 @@ export default function CardClient({ card, graphData }: CardClientProps) {
                         yAxis="Starting Credit Limit (USD)"
                         xAxis="Income (USD)"
                         series={[
-                          { name: "Accepted", color: "rgba(76, 74, 220, .5)", data: chartThree[0] || [] },
+                          { name: "Accepted", color: "rgba(76, 74, 220, .5)", data: chartThree || [] },
                         ]}
                       />
                     </ErrorBoundary>
