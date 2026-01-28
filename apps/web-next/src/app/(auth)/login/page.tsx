@@ -17,7 +17,7 @@ export default function LoginPage() {
   // Redirect if already authenticated
   useEffect(() => {
     if (authState.isAuthenticated) {
-      router.push("/");
+      router.push("/profile");
     }
   }, [authState.isAuthenticated, router]);
 
@@ -26,7 +26,7 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await signInWithGoogle();
-      router.push("/");
+      router.push("/profile");
     } catch (err: unknown) {
       const error = err as Error;
       setErrorMessage(error.message || "Failed to sign in with Google");
