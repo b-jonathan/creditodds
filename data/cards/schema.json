@@ -46,6 +46,16 @@
         "enum": ["travel", "cashback", "hotel", "shopping", "student", "secured", "premium", "business", "rewards", "airline", "dining"]
       },
       "description": "Card tags for categorization and filtering (optional)"
+    },
+    "apply_link": {
+      "type": "string",
+      "format": "uri",
+      "description": "Direct application URL for the card (optional)"
+    },
+    "card_referral_link": {
+      "type": "string",
+      "format": "uri",
+      "description": "Base URL for referral links - user codes are appended to this (optional)"
     }
   },
   "additionalProperties": false

@@ -58,6 +58,7 @@ image: "your-card-name.png"
 accepting_applications: true
 category: "travel"
 annual_fee: 95
+apply_link: "https://example.com/apply"
 card_referral_link: "https://example.com/refer/"
 ```
 
@@ -77,6 +78,7 @@ card_referral_link: "https://example.com/refer/"
 | `image` | string | Image filename | `"chase-sapphire-preferred.png"` |
 | `category` | string | Card category | `"travel"` |
 | `annual_fee` | number | Annual fee in USD | `95` |
+| `apply_link` | string | Direct application URL for the card | `"https://www.chase.com/apply"` |
 | `card_referral_link` | string | Base URL for referral links (user codes are appended) | `"https://refer.chase.com/s/"` |
 
 #### Valid Categories
@@ -187,6 +189,7 @@ image: "capital-one-venture-x.png"
 accepting_applications: true
 category: "travel"
 annual_fee: 395
+apply_link: "https://www.capitalone.com/credit-cards/venture-x/"
 card_referral_link: "https://capital.one/refer/"
 ```
 
