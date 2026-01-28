@@ -13,6 +13,7 @@ interface OpenReferral {
   card_id: string;
   card_name: string;
   card_image_link?: string;
+  card_referral_link?: string;
 }
 
 interface ReferralModalProps {
@@ -206,16 +207,35 @@ export default function ReferralModal({ show, handleClose, openReferrals, onSucc
                 Referral Link
               </label>
               <div className="mt-1">
-                <input
-                  type="text"
-                  name="referral_link"
-                  id="referral_link"
-                  className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                  placeholder="Paste your full referral link"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.referral_link}
-                />
+                {selected.card_referral_link ? (
+                  <div className="flex rounded-md shadow-sm">
+                    <span className="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm max-w-[200px] truncate" title={selected.card_referral_link}>
+                      {selected.card_referral_link}
+                    </span>
+                    <input
+                      type="text"
+                      name="referral_link"
+                      id="referral_link"
+                      className="block w-full min-w-0 flex-1 rounded-none rounded-r-md border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      placeholder="Your unique code"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.referral_link}
+                    />
+                  </div>
+                ) : (
+                  <input
+                    type="text"
+                    name="referral_link"
+                    id="referral_link"
+                    className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                    placeholder={selected.card_id ? "Paste your referral code" : "Select a card first"}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.referral_link}
+                    disabled={!selected.card_id}
+                  />
+                )}
               </div>
               {formik.touched.referral_link && formik.errors.referral_link && (
                 <p className="mt-2 text-sm text-red-600">{formik.errors.referral_link}</p>

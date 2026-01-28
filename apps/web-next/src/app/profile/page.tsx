@@ -49,6 +49,7 @@ interface OpenReferral {
   card_id: string;
   card_name: string;
   card_image_link?: string;
+  card_referral_link?: string;
 }
 
 interface Profile {
