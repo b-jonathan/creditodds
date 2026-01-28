@@ -34,8 +34,8 @@ export default async function ExplorePage() {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      {/* Recent Records Ticker - Desktop Only */}
-      <RecordsTicker records={recentRecords} />
+      {/* Recent Records Ticker - Desktop Only (temporarily hidden) */}
+      {/* <RecordsTicker records={recentRecords} /> */}
       {/* JSON-LD Structured Data */}
       <BreadcrumbSchema items={[
         { name: 'Home', url: 'https://creditodds.com' },
