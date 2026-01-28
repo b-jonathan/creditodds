@@ -162,11 +162,3 @@ The Next.js app is deployed automatically via AWS Amplify when changes are merge
           (API calls)   │ (User Records)  │
                         └─────────────────┘
 ```
-
-## License
-
-Proprietary - All rights reserved.
-
-## Contact
-
-For questions or support, visit [creditodds.com/contact](https://creditodds.com/contact).
