@@ -112,18 +112,26 @@ export default function ProfilePage() {
         return;
       }
 
-      // Fetch each independently to get better error handling
-      try {
-        const recordsData = await getRecords(token);
-        setRecords(recordsData || []);
-      } catch (e) {
-        console.error("Records error:", e);
+      // Fetch all data in parallel for faster loading
+      const [recordsResult, referralsResult, profileResult, walletResult, cardsResult] = await Promise.allSettled([
+        getRecords(token),
+        getReferrals(token),
+        getProfile(token),
+        getWallet(token),
+        getAllCards(),
+      ]);
+
+      // Process records
+      if (recordsResult.status === 'fulfilled') {
+        setRecords(recordsResult.value || []);
+      } else {
+        console.error("Records error:", recordsResult.reason);
         setRecords([]);
       }
 
-      try {
-        const referralsData = await getReferrals(token);
-        // API returns [submitted, open] - two arrays
+      // Process referrals - API returns [submitted, open] - two arrays
+      if (referralsResult.status === 'fulfilled') {
+        const referralsData = referralsResult.value;
         if (Array.isArray(referralsData) && referralsData.length >= 2) {
           setReferrals(referralsData[0] || []);
           setOpenReferrals(referralsData[1] || []);
@@ -131,33 +139,32 @@ export default function ProfilePage() {
           setReferrals([]);
           setOpenReferrals([]);
         }
-      } catch (e) {
-        console.error("Referrals error:", e);
+      } else {
+        console.error("Referrals error:", referralsResult.reason);
         setReferrals([]);
         setOpenReferrals([]);
       }
 
-      try {
-        const profileData = await getProfile(token);
-        setProfile(profileData);
-      } catch (e) {
-        console.error("Profile error:", e);
+      // Process profile
+      if (profileResult.status === 'fulfilled') {
+        setProfile(profileResult.value);
+      } else {
+        console.error("Profile error:", profileResult.reason);
       }
 
-      try {
-        const walletData = await getWallet(token);
-        setWalletCards(walletData || []);
-      } catch (e) {
-        console.error("Wallet error:", e);
+      // Process wallet
+      if (walletResult.status === 'fulfilled') {
+        setWalletCards(walletResult.value || []);
+      } else {
+        console.error("Wallet error:", walletResult.reason);
         setWalletCards([]);
       }
 
-      // Fetch all cards for annual fee calculation
-      try {
-        const cardsData = await getAllCards();
-        setAllCards(cardsData || []);
-      } catch (e) {
-        console.error("Cards error:", e);
+      // Process all cards for annual fee calculation
+      if (cardsResult.status === 'fulfilled') {
+        setAllCards(cardsResult.value || []);
+      } else {
+        console.error("Cards error:", cardsResult.reason);
         setAllCards([]);
       }
     } catch (error) {

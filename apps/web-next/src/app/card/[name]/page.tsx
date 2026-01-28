@@ -50,15 +50,11 @@ export default async function CardPage({ params }: CardPageProps) {
   const cardName = decodeURIComponent(name);
 
   try {
-    const card = await getCard(cardName);
-
-    // Try to get graph data, but use empty array if it fails (for new cards with no data)
-    let graphData: GraphData[] = [];
-    try {
-      graphData = await getCardGraphs(cardName);
-    } catch {
-      // Keep empty array for new cards with no data
-    }
+    // Fetch card and graph data in parallel for faster loading
+    const [card, graphData] = await Promise.all([
+      getCard(cardName),
+      getCardGraphs(cardName).catch(() => [] as GraphData[]), // Empty array for new cards with no data
+    ]);
 
     return <CardClient card={card} graphData={graphData} />;
   } catch {
