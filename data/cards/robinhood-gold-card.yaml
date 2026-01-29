@@ -3,6 +3,7 @@ bank: "Robinhood"
 slug: "robinhood-gold-card"
 accepting_applications: true
 image: "robinhood-gold.png"
+release_date: "2024-03-26"
 annual_fee: 0
 tags:
   - cashback
