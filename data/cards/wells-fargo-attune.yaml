@@ -3,4 +3,5 @@ bank: "Wells Fargo"
 slug: "wells-fargo-attune"
 accepting_applications: true
 category: "cashback"
+image: "wells-fargo-attune.png"
 annual_fee: 0
