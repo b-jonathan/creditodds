@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { NewspaperIcon, BuildingLibraryIcon, CreditCardIcon } from "@heroicons/react/24/outline";
-import { newsItems, tagLabels, tagColors, NewsTag } from "@/data/news";
+import { getNews, tagLabels, tagColors, NewsTag } from "@/lib/news";
 
 export const metadata: Metadata = {
   title: "Card News - Credit Card Updates",
@@ -15,6 +15,9 @@ export const metadata: Metadata = {
     canonical: "https://creditodds.com/news",
   },
 };
+
+// Revalidate every 5 minutes
+export const revalidate = 300;
 
 function formatDate(dateString: string): string {
   const date = new Date(dateString);
@@ -33,10 +36,12 @@ function TagBadge({ tag }: { tag: NewsTag }) {
   );
 }
 
-export default function NewsPage() {
-  // Get unique banks and tags for filtering (future enhancement)
+export default async function NewsPage() {
+  const newsItems = await getNews();
+
+  // Get unique banks and tags for stats
   const banks = [...new Set(newsItems.filter(item => item.bank).map(item => item.bank))];
-  const allTags = [...new Set(newsItems.flatMap(item => item.tags))];
+  const allTags = [...new Set(newsItems.flatMap(item => item.tags))] as NewsTag[];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -51,108 +56,118 @@ export default function NewsPage() {
         </div>
 
         {/* Tag Legend */}
-        <div className="mb-8 flex flex-wrap gap-2 justify-center">
-          {allTags.map((tag) => (
-            <TagBadge key={tag} tag={tag} />
-          ))}
-        </div>
+        {allTags.length > 0 && (
+          <div className="mb-8 flex flex-wrap gap-2 justify-center">
+            {allTags.map((tag) => (
+              <TagBadge key={tag} tag={tag} />
+            ))}
+          </div>
+        )}
 
         {/* News Table */}
         <div className="bg-white shadow rounded-lg overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Date
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Update
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
-                    Bank / Card
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
-                    Tags
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {newsItems.slice(0, 20).map((item) => (
-                  <tr key={item.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {formatDate(item.date)}
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="text-sm font-medium text-gray-900">
-                        {item.title}
-                      </div>
-                      <div className="text-sm text-gray-500 mt-1 line-clamp-2">
-                        {item.summary}
-                      </div>
-                      {/* Mobile tags */}
-                      <div className="flex flex-wrap gap-1 mt-2 md:hidden">
-                        {item.tags.map((tag) => (
-                          <TagBadge key={tag} tag={tag} />
-                        ))}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
-                      <div className="flex flex-col gap-1">
-                        {item.bank && (
-                          <div className="flex items-center text-sm text-gray-600">
-                            <BuildingLibraryIcon className="h-4 w-4 mr-1 text-gray-400" />
-                            {item.bank}
-                          </div>
-                        )}
-                        {item.cardSlug && item.cardName && (
-                          <Link
-                            href={`/card/${item.cardSlug}`}
-                            className="flex items-center text-sm text-indigo-600 hover:text-indigo-900"
-                          >
-                            <CreditCardIcon className="h-4 w-4 mr-1" />
-                            {item.cardName}
-                          </Link>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 hidden md:table-cell">
-                      <div className="flex flex-wrap gap-1">
-                        {item.tags.map((tag) => (
-                          <TagBadge key={tag} tag={tag} />
-                        ))}
-                      </div>
-                    </td>
+          {newsItems.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Date
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Update
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
+                      Bank / Card
+                    </th>
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
+                      Tags
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {newsItems.slice(0, 20).map((item) => (
+                    <tr key={item.id} className="hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {formatDate(item.date)}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm font-medium text-gray-900">
+                          {item.title}
+                        </div>
+                        <div className="text-sm text-gray-500 mt-1 line-clamp-2">
+                          {item.summary}
+                        </div>
+                        {/* Mobile tags */}
+                        <div className="flex flex-wrap gap-1 mt-2 md:hidden">
+                          {item.tags.map((tag) => (
+                            <TagBadge key={tag} tag={tag} />
+                          ))}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
+                        <div className="flex flex-col gap-1">
+                          {item.bank && (
+                            <div className="flex items-center text-sm text-gray-600">
+                              <BuildingLibraryIcon className="h-4 w-4 mr-1 text-gray-400" />
+                              {item.bank}
+                            </div>
+                          )}
+                          {item.card_slug && item.card_name && (
+                            <Link
+                              href={`/card/${item.card_slug}`}
+                              className="flex items-center text-sm text-indigo-600 hover:text-indigo-900"
+                            >
+                              <CreditCardIcon className="h-4 w-4 mr-1" />
+                              {item.card_name}
+                            </Link>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 hidden md:table-cell">
+                        <div className="flex flex-wrap gap-1">
+                          {item.tags.map((tag) => (
+                            <TagBadge key={tag} tag={tag} />
+                          ))}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="px-6 py-12 text-center text-gray-500">
+              No news updates available yet. Check back soon!
+            </div>
+          )}
         </div>
 
         {/* Stats */}
-        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-white rounded-lg shadow p-4 text-center">
-            <p className="text-2xl font-bold text-gray-900">{newsItems.length}</p>
-            <p className="text-sm text-gray-500">Total Updates</p>
+        {newsItems.length > 0 && (
+          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="bg-white rounded-lg shadow p-4 text-center">
+              <p className="text-2xl font-bold text-gray-900">{newsItems.length}</p>
+              <p className="text-sm text-gray-500">Total Updates</p>
+            </div>
+            <div className="bg-white rounded-lg shadow p-4 text-center">
+              <p className="text-2xl font-bold text-green-600">
+                {newsItems.filter(i => i.tags.includes('new-card')).length}
+              </p>
+              <p className="text-sm text-gray-500">New Cards</p>
+            </div>
+            <div className="bg-white rounded-lg shadow p-4 text-center">
+              <p className="text-2xl font-bold text-blue-600">
+                {newsItems.filter(i => i.tags.includes('bonus-change')).length}
+              </p>
+              <p className="text-sm text-gray-500">Bonus Changes</p>
+            </div>
+            <div className="bg-white rounded-lg shadow p-4 text-center">
+              <p className="text-2xl font-bold text-indigo-600">{banks.length}</p>
+              <p className="text-sm text-gray-500">Banks Covered</p>
+            </div>
           </div>
-          <div className="bg-white rounded-lg shadow p-4 text-center">
-            <p className="text-2xl font-bold text-green-600">
-              {newsItems.filter(i => i.tags.includes('new-card')).length}
-            </p>
-            <p className="text-sm text-gray-500">New Cards</p>
-          </div>
-          <div className="bg-white rounded-lg shadow p-4 text-center">
-            <p className="text-2xl font-bold text-blue-600">
-              {newsItems.filter(i => i.tags.includes('bonus-change')).length}
-            </p>
-            <p className="text-sm text-gray-500">Bonus Changes</p>
-          </div>
-          <div className="bg-white rounded-lg shadow p-4 text-center">
-            <p className="text-2xl font-bold text-indigo-600">{banks.length}</p>
-            <p className="text-sm text-gray-500">Banks Covered</p>
-          </div>
-        </div>
+        )}
 
         {/* CTA */}
         <div className="mt-12 text-center">
