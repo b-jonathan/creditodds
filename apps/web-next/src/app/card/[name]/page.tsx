@@ -29,15 +29,27 @@ export async function generateMetadata({ params }: CardPageProps): Promise<Metad
     const cardName = decodeURIComponent(name);
     const card = await getCard(cardName);
 
+    const description = card.approved_median_credit_score
+      ? `Credit card approval odds for ${card.card_name}. Median approved credit score: ${card.approved_median_credit_score}, income: $${card.approved_median_income?.toLocaleString()}`
+      : `See approval odds and data points for the ${card.card_name} from ${card.bank}.`;
+
     return {
       title: card.card_name,
-      description: `Credit card approval odds for ${card.card_name}. Median approved credit score: ${card.approved_median_credit_score}, income: $${card.approved_median_income?.toLocaleString()}`,
+      description,
       openGraph: {
         title: `${card.card_name} | CreditOdds`,
-        description: `See approval odds for ${card.card_name}. Average approved credit score: ${card.approved_median_credit_score}`,
-        images: card.card_image_link
-          ? [`${process.env.NEXT_PUBLIC_CDN_URL}/card_images/${card.card_image_link}`]
-          : [],
+        description: `See approval odds for ${card.card_name}${card.approved_median_credit_score ? `. Average approved credit score: ${card.approved_median_credit_score}` : ''}`,
+        siteName: 'CreditOdds',
+        type: 'website',
+        url: `https://creditodds.com/card/${encodeURIComponent(card.card_name)}`,
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${card.card_name} | CreditOdds`,
+        description: `See approval odds for ${card.card_name}`,
+      },
+      alternates: {
+        canonical: `https://creditodds.com/card/${encodeURIComponent(card.card_name)}`,
       },
     };
   } catch {
