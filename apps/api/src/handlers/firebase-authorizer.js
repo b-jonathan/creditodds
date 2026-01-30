@@ -87,6 +87,8 @@ exports.firebaseAuthorizerHandler = async (event) => {
       // For compatibility with existing code expecting cognito:username
       'cognito:username': decodedToken.uid,
       preferred_username: decodedToken.name || decodedToken.email?.split('@')[0] || '',
+      // Custom claims for admin access
+      admin: String(decodedToken.admin || false),
     };
 
     console.log('Returning Allow policy for:', decodedToken.uid);

@@ -1,5 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Rewrite /_admin to /admin (underscore folders are private in App Router)
+  async rewrites() {
+    return [
+      {
+        source: '/_admin',
+        destination: '/admin',
+      },
+    ];
+  },
+
   images: {
     remotePatterns: [
       {

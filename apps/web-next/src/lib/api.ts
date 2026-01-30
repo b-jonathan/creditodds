@@ -259,3 +259,196 @@ export async function trackReferralEvent(
   });
   // Fire and forget - don't throw on error
 }
+
+// ============ ADMIN API FUNCTIONS ============
+
+// Admin Stats
+export interface AdminStats {
+  total_records: number;
+  total_referrals: number;
+  total_users: number;
+  pending_referrals: number;
+  records_today: number;
+  records_this_week: number;
+  top_cards: { card_name: string; count: number }[];
+}
+
+export async function getAdminStats(token: string): Promise<AdminStats> {
+  const res = await fetch(`${API_BASE}/admin/stats`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to fetch admin stats: ${res.status} ${errorText}`);
+  }
+  return res.json();
+}
+
+// Admin Records
+export interface AdminRecord {
+  record_id: number;
+  card_id: number;
+  card_name: string;
+  card_image_link?: string;
+  bank: string;
+  credit_score: number;
+  listed_income: number;
+  length_credit: number;
+  result: boolean;
+  submit_datetime: string;
+  date_applied?: string;
+  submitter_id: string;
+  submitter_email?: string;
+  submitter_ip_address?: string;
+}
+
+export interface AdminRecordsResponse {
+  records: AdminRecord[];
+  total: number;
+  limit: number;
+  offset: number;
+}
+
+export async function getAdminRecords(
+  token: string,
+  limit = 100,
+  offset = 0
+): Promise<AdminRecordsResponse> {
+  const res = await fetch(`${API_BASE}/admin/records?limit=${limit}&offset=${offset}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to fetch admin records: ${res.status} ${errorText}`);
+  }
+  return res.json();
+}
+
+export async function deleteAdminRecord(
+  recordId: number,
+  token: string
+): Promise<{ message: string }> {
+  const res = await fetch(`${API_BASE}/admin/records?record_id=${recordId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to delete record: ${errorText}`);
+  }
+  return res.json();
+}
+
+// Admin Referrals
+export interface AdminReferral {
+  referral_id: number;
+  card_id: number;
+  card_name: string;
+  card_image_link?: string;
+  bank: string;
+  referral_link: string;
+  card_referral_link?: string;
+  submitter_id: string;
+  submitter_email?: string;
+  submit_datetime: string;
+  admin_approved: number;
+  impressions: number;
+  clicks: number;
+}
+
+export interface AdminReferralsResponse {
+  referrals: AdminReferral[];
+  total: number;
+  limit: number;
+  offset: number;
+}
+
+export async function getAdminReferrals(
+  token: string,
+  limit = 100,
+  offset = 0,
+  pendingOnly = false
+): Promise<AdminReferralsResponse> {
+  const url = `${API_BASE}/admin/referrals?limit=${limit}&offset=${offset}${pendingOnly ? '&pending=true' : ''}`;
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to fetch admin referrals: ${res.status} ${errorText}`);
+  }
+  return res.json();
+}
+
+export async function updateReferralApproval(
+  referralId: number,
+  approved: boolean,
+  token: string
+): Promise<{ message: string }> {
+  const res = await fetch(`${API_BASE}/admin/referrals`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ referral_id: referralId, approved }),
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to update referral: ${errorText}`);
+  }
+  return res.json();
+}
+
+export async function deleteAdminReferral(
+  referralId: number,
+  token: string
+): Promise<{ message: string }> {
+  const res = await fetch(`${API_BASE}/admin/referrals?referral_id=${referralId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to delete referral: ${errorText}`);
+  }
+  return res.json();
+}
+
+// Admin Audit Log
+export interface AuditLogEntry {
+  id: number;
+  admin_id: string;
+  admin_email?: string;
+  action: string;
+  entity_type: string;
+  entity_id?: number;
+  details?: string;
+  created_at: string;
+}
+
+export interface AdminAuditResponse {
+  logs: AuditLogEntry[];
+  total: number;
+  limit: number;
+  offset: number;
+}
+
+export async function getAdminAuditLog(
+  token: string,
+  limit = 100,
+  offset = 0
+): Promise<AdminAuditResponse> {
+  const res = await fetch(`${API_BASE}/admin/audit?limit=${limit}&offset=${offset}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
+  if (!res.ok) {
+    const errorText = await res.text().catch(() => 'Unknown error');
+    throw new Error(`Failed to fetch audit log: ${res.status} ${errorText}`);
+  }
+  return res.json();
+}

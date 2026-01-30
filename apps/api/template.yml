@@ -395,6 +395,152 @@ Resources:
             Method: GET
             RestApiId:
               Ref: CreditCardOddsAPI
+
+  AdminStatsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/admin.AdminStatsHandler
+      Runtime: nodejs18.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Admin stats overview endpoint
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        GetStats:
+          Type: Api
+          Properties:
+            Path: /admin/stats
             Method: GET
             RestApiId:
               Ref: CreditCardOddsAPI
+        StatsOptions:
+          Type: Api
+          Properties:
+            Path: /admin/stats
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+
+  AdminRecordsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/admin.AdminRecordsHandler
+      Runtime: nodejs18.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Admin records management endpoint
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        GetRecords:
+          Type: Api
+          Properties:
+            Path: /admin/records
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        DeleteRecord:
+          Type: Api
+          Properties:
+            Path: /admin/records
+            Method: DELETE
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        RecordsOptions:
+          Type: Api
+          Properties:
+            Path: /admin/records
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+
+  AdminReferralsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/admin.AdminReferralsHandler
+      Runtime: nodejs18.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Admin referrals management endpoint
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        GetReferrals:
+          Type: Api
+          Properties:
+            Path: /admin/referrals
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        UpdateReferral:
+          Type: Api
+          Properties:
+            Path: /admin/referrals
+            Method: PUT
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        DeleteReferral:
+          Type: Api
+          Properties:
+            Path: /admin/referrals
+            Method: DELETE
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        ReferralsOptions:
+          Type: Api
+          Properties:
+            Path: /admin/referrals
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
+
+  AdminAuditFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/admin.AdminAuditHandler
+      Runtime: nodejs18.x
+      MemorySize: 128
+      Timeout: 100
+      Description: Admin audit log endpoint
+      Environment:
+        Variables:
+          ENDPOINT: !Ref ENDPOINT
+          DATABASE: !Ref DATABASE
+          USERNAME: !Ref USERNAME
+          PASSWORD: !Ref PASSWORD
+      Events:
+        GetAuditLog:
+          Type: Api
+          Properties:
+            Path: /admin/audit
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
+        AuditOptions:
+          Type: Api
+          Properties:
+            Path: /admin/audit
+            Method: OPTIONS
+            RestApiId:
+              Ref: CreditCardOddsAPI
+            Auth:
+              Authorizer: NONE
