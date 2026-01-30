@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { NewspaperIcon, BuildingLibraryIcon, CreditCardIcon } from "@heroicons/react/24/outline";
+import { NewspaperIcon, BuildingLibraryIcon, CreditCardIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { getNews, tagLabels, tagColors, NewsTag } from "@/lib/news";
 
 export const metadata: Metadata = {
@@ -39,33 +39,56 @@ function TagBadge({ tag }: { tag: NewsTag }) {
 export default async function NewsPage() {
   const newsItems = await getNews();
 
-  // Get unique banks and tags for stats
-  const banks = [...new Set(newsItems.filter(item => item.bank).map(item => item.bank))];
-  const allTags = [...new Set(newsItems.flatMap(item => item.tags))] as NewsTag[];
-
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-5xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+      {/* Breadcrumbs */}
+      <nav className="bg-white border-b border-gray-200" aria-label="Breadcrumb">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ol className="flex items-center space-x-4 py-4">
+            <li>
+              <Link href="/" className="text-gray-400 hover:text-gray-500">
+                Home
+              </Link>
+            </li>
+            <li>
+              <div className="flex items-center">
+                <svg className="flex-shrink-0 h-5 w-5 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M5.555 17.776l8-16 .894.448-8 16-.894-.448z" />
+                </svg>
+                <span className="ml-4 text-sm font-medium text-gray-500">Card News</span>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </nav>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         {/* Header */}
-        <div className="text-center mb-12">
-          <NewspaperIcon className="mx-auto h-16 w-16 text-indigo-600" />
-          <h1 className="mt-4 text-4xl font-bold text-gray-900">Card News</h1>
-          <p className="mt-2 text-lg text-gray-600">
-            Stay up to date with the latest credit card updates and changes
-          </p>
+        <div className="flex items-center justify-center gap-3">
+          <NewspaperIcon className="h-8 w-8 text-indigo-600" aria-hidden="true" />
+          <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+            Card News
+          </h1>
+        </div>
+        <p className="mt-2 text-center text-lg text-gray-500">
+          Stay up to date with the latest credit card updates and changes
+        </p>
+
+        {/* Add News Link */}
+        <div className="mt-4 text-center">
+          <a
+            href="https://github.com/CreditOdds/creditodds/blob/main/data/news/README.md"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm text-indigo-600 hover:text-indigo-800"
+          >
+            <PlusCircleIcon className="h-4 w-4" />
+            Add News
+          </a>
         </div>
 
-        {/* Tag Legend */}
-        {allTags.length > 0 && (
-          <div className="mb-8 flex flex-wrap gap-2 justify-center">
-            {allTags.map((tag) => (
-              <TagBadge key={tag} tag={tag} />
-            ))}
-          </div>
-        )}
-
         {/* News Table */}
-        <div className="bg-white shadow rounded-lg overflow-hidden">
+        <div className="mt-8 bg-white shadow rounded-lg overflow-hidden">
           {newsItems.length > 0 ? (
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
@@ -142,32 +165,6 @@ export default async function NewsPage() {
             </div>
           )}
         </div>
-
-        {/* Stats */}
-        {newsItems.length > 0 && (
-          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-white rounded-lg shadow p-4 text-center">
-              <p className="text-2xl font-bold text-gray-900">{newsItems.length}</p>
-              <p className="text-sm text-gray-500">Total Updates</p>
-            </div>
-            <div className="bg-white rounded-lg shadow p-4 text-center">
-              <p className="text-2xl font-bold text-green-600">
-                {newsItems.filter(i => i.tags.includes('new-card')).length}
-              </p>
-              <p className="text-sm text-gray-500">New Cards</p>
-            </div>
-            <div className="bg-white rounded-lg shadow p-4 text-center">
-              <p className="text-2xl font-bold text-blue-600">
-                {newsItems.filter(i => i.tags.includes('bonus-change')).length}
-              </p>
-              <p className="text-sm text-gray-500">Bonus Changes</p>
-            </div>
-            <div className="bg-white rounded-lg shadow p-4 text-center">
-              <p className="text-2xl font-bold text-indigo-600">{banks.length}</p>
-              <p className="text-sm text-gray-500">Banks Covered</p>
-            </div>
-          </div>
-        )}
 
         {/* CTA */}
         <div className="mt-12 text-center">
