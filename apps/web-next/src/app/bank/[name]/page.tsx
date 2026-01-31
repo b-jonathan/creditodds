@@ -4,7 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { getCardsByBank, getAllBanks } from "@/lib/api";
 import { BuildingLibraryIcon } from "@heroicons/react/24/solid";
+import { NewspaperIcon } from "@heroicons/react/24/outline";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
+import { getNews, tagLabels, tagColors } from "@/lib/news";
 
 interface BankPageProps {
   params: Promise<{ name: string }>;
@@ -41,11 +43,17 @@ export default async function BankPage({ params }: BankPageProps) {
   const { name } = await params;
   const bankName = decodeURIComponent(name);
 
-  const cards = await getCardsByBank(bankName);
+  const [cards, allNews] = await Promise.all([
+    getCardsByBank(bankName),
+    getNews(),
+  ]);
 
   if (cards.length === 0) {
     notFound();
   }
+
+  // Filter news for this bank
+  const bankNews = allNews.filter(news => news.bank === bankName);
 
   // Sort cards: accepting applications first, then by name
   const sortedCards = [...cards].sort((a, b) => {
@@ -98,76 +106,112 @@ export default async function BankPage({ params }: BankPageProps) {
           </p>
         </div>
 
-        {/* Cards Table */}
-        <div className="mt-8 flex flex-col">
-          <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-300">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                        Card
-                      </th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 hidden sm:table-cell">
-                        Median Credit Score
-                      </th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 hidden md:table-cell">
-                        Median Income
-                      </th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 hidden lg:table-cell">
-                        Records
-                      </th>
-                      <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                        Status
-                      </th>
+        {/* Main Content Grid */}
+        <div className="mt-8 grid grid-cols-3 gap-4 sm:gap-6">
+          {/* Left Column - Cards Table (2/3) */}
+          <div className="col-span-2">
+            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
+              <table className="min-w-full divide-y divide-gray-300">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                      Card
+                    </th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                      Status
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 bg-white">
+                  {sortedCards.map((card) => (
+                    <tr key={card.card_id} className="hover:bg-gray-50">
+                      <td className="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
+                        <Link href={`/card/${card.slug}`} className="flex items-center group">
+                          <div className="h-10 w-16 flex-shrink-0 mr-4 hidden sm:block">
+                            <Image
+                              src={card.card_image_link
+                                ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
+                                : '/assets/generic-card.svg'}
+                              alt={card.card_name}
+                              width={64}
+                              height={40}
+                              className="h-10 w-16 object-contain"
+                            />
+                          </div>
+                          <div className="text-sm font-medium text-indigo-600 group-hover:text-indigo-900">
+                            {card.card_name}
+                          </div>
+                        </Link>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm">
+                        {card.accepting_applications ? (
+                          <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
+                            Active
+                          </span>
+                        ) : (
+                          <span className="inline-flex rounded-full bg-gray-100 px-2 text-xs font-semibold leading-5 text-gray-800">
+                            Archived
+                          </span>
+                        )}
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 bg-white">
-                    {sortedCards.map((card) => (
-                      <tr key={card.card_id} className="hover:bg-gray-50">
-                        <td className="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
-                          <Link href={`/card/${card.slug}`} className="flex items-center group">
-                            <div className="h-10 w-16 flex-shrink-0 mr-4 hidden sm:block">
-                              <Image
-                                src={card.card_image_link
-                                  ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                                  : '/assets/generic-card.svg'}
-                                alt={card.card_name}
-                                width={64}
-                                height={40}
-                                className="h-10 w-16 object-contain"
-                              />
-                            </div>
-                            <div className="text-sm font-medium text-indigo-600 group-hover:text-indigo-900">
-                              {card.card_name}
-                            </div>
-                          </Link>
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hidden sm:table-cell">
-                          {card.approved_median_credit_score || '-'}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hidden md:table-cell">
-                          {card.approved_median_income ? `$${card.approved_median_income.toLocaleString()}` : '-'}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 hidden lg:table-cell">
-                          {(card.approved_count || 0) + (card.rejected_count || 0)}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm">
-                          {card.accepting_applications ? (
-                            <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                              Active
-                            </span>
-                          ) : (
-                            <span className="inline-flex rounded-full bg-gray-100 px-2 text-xs font-semibold leading-5 text-gray-800">
-                              Archived
-                            </span>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Right Column - News Sidebar (1/3) */}
+          <div className="col-span-1">
+            <div className="bg-white shadow ring-1 ring-black ring-opacity-5 rounded-lg overflow-hidden sticky top-4">
+              <div className="px-4 py-4 border-b border-gray-200">
+                <div className="flex items-center gap-2">
+                  <NewspaperIcon className="h-5 w-5 text-indigo-600" />
+                  <h2 className="text-base font-semibold text-gray-900">{bankName} News</h2>
+                </div>
+              </div>
+              {bankNews.length > 0 ? (
+                <ul className="divide-y divide-gray-200 max-h-[600px] overflow-y-auto">
+                  {bankNews.slice(0, 10).map((news) => (
+                    <li key={news.id} className="px-4 py-3 hover:bg-gray-50">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs text-gray-400">
+                          {new Date(news.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        </span>
+                        {news.tags.slice(0, 1).map((tag) => (
+                          <span
+                            key={tag}
+                            className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${tagColors[tag]}`}
+                          >
+                            {tagLabels[tag]}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="text-sm font-medium text-gray-900 line-clamp-2">{news.title}</p>
+                      {news.card_slug && news.card_name && (
+                        <Link
+                          href={`/card/${news.card_slug}`}
+                          className="mt-1 text-xs text-indigo-600 hover:text-indigo-900"
+                        >
+                          {news.card_name}
+                        </Link>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="px-4 py-8 text-center">
+                  <NewspaperIcon className="mx-auto h-8 w-8 text-gray-300" />
+                  <p className="mt-2 text-sm text-gray-500">No {bankName} news yet</p>
+                </div>
+              )}
+              <div className="px-4 py-3 bg-gray-50 border-t border-gray-200">
+                <Link
+                  href="/news"
+                  className="text-sm text-indigo-600 hover:text-indigo-900"
+                >
+                  View all card news →
+                </Link>
               </div>
             </div>
           </div>
