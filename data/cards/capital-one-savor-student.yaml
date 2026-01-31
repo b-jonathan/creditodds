@@ -1,6 +1,7 @@
-name: "Capital One SavorOne Student Cash Rewards Credit Card"
+name: "Capital One Savor Student Cash Rewards Credit Card"
 bank: "Capital One"
 slug: "capital-one-savor-student"
 accepting_applications: true
+image: "capital-one-savor-student.png"
 category: "student"
 annual_fee: 0
