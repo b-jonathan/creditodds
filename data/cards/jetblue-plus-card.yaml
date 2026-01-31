@@ -3,4 +3,5 @@ bank: "Barclays"
 slug: "jetblue-plus-card"
 accepting_applications: true
 category: "travel"
+image: "barclays-jetblue-plus.png"
 annual_fee: 99

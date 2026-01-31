@@ -3,4 +3,5 @@ bank: "Barclays"
 slug: "hawaiian-airlines-world-elite-mastercard"
 accepting_applications: true
 category: "travel"
+image: "barclays-hawaiian.png"
 annual_fee: 99
