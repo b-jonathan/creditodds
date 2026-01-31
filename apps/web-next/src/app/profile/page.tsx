@@ -129,17 +129,29 @@ export default function ProfilePage() {
   // Filter news to cards in user's wallet
   const relevantNews = useMemo(() => {
     if (walletCards.length === 0 || newsItems.length === 0) return [];
-    const walletCardSlugs = new Set(
-      walletCards.map(w => {
-        const cardData = allCards.find(c => c.card_name === w.card_name);
-        return cardData?.slug;
-      }).filter(Boolean)
-    );
-    const walletBanks = new Set(walletCards.map(w => w.bank));
+
+    // Build set of slugs from wallet cards (lookup by card_id first, then card_name)
+    const walletCardSlugs = new Set<string>();
+    walletCards.forEach(w => {
+      // Try to find by card_id first (more reliable)
+      let cardData = allCards.find(c =>
+        Number(c.card_id) === w.card_id || c.db_card_id === w.card_id
+      );
+      // Fallback to card_name matching
+      if (!cardData) {
+        cardData = allCards.find(c => c.card_name === w.card_name);
+      }
+      if (cardData?.slug) {
+        walletCardSlugs.add(cardData.slug);
+      }
+    });
+
+    // Build set of bank names (normalize to handle case differences)
+    const walletBanks = new Set(walletCards.map(w => w.bank?.toLowerCase()).filter(Boolean));
 
     return newsItems.filter(news =>
       (news.card_slug && walletCardSlugs.has(news.card_slug)) ||
-      (news.bank && walletBanks.has(news.bank))
+      (news.bank && walletBanks.has(news.bank.toLowerCase()))
     );
   }, [walletCards, newsItems, allCards]);
 

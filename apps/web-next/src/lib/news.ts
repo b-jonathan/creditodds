@@ -53,14 +53,19 @@ export const tagColors: Record<NewsTag, string> = {
 
 const NEWS_CDN_URL = 'https://d2hxvzw7msbtvt.cloudfront.net/news.json';
 
+// Check if running in the browser
+const isBrowser = typeof window !== 'undefined';
+
 export async function getNews(): Promise<NewsItem[]> {
   try {
-    const res = await fetch(NEWS_CDN_URL, {
-      next: { revalidate: 300 }, // Revalidate every 5 minutes
+    // Use local API route on client to avoid CORS, direct CDN on server
+    const url = isBrowser ? '/api/news' : NEWS_CDN_URL;
+    const res = await fetch(url, isBrowser ? {} : {
+      next: { revalidate: 300 }, // Revalidate every 5 minutes (server only)
     });
 
     if (!res.ok) {
-      console.error('Failed to fetch news from CDN:', res.status);
+      console.error('Failed to fetch news:', res.status);
       return [];
     }
 
