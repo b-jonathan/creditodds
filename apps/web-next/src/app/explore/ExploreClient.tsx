@@ -105,16 +105,16 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
     <>
       {/* Recently Released Section */}
       {recentlyReleased.length > 0 && !search && !selectedBank && (
-        <div className="mt-6">
+        <div className="mt-4">
           <h2 className="text-sm font-semibold text-gray-900 mb-2">Recently Released</h2>
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 sm:gap-3">
+          <div className="flex gap-2 overflow-x-auto pb-2">
             {recentlyReleased.map((card) => (
               <Link
                 key={card.card_id}
                 href={`/card/${card.slug}`}
-                className="bg-white rounded-lg shadow p-2 hover:shadow-md transition-shadow"
+                className="flex-shrink-0 bg-white rounded-lg shadow p-2 hover:shadow-md transition-shadow flex items-center gap-2 w-[200px] sm:w-[220px]"
               >
-                <div className="aspect-[1.586/1] relative mb-1">
+                <div className="h-10 w-16 relative flex-shrink-0">
                   <Image
                     src={card.card_image_link
                       ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
@@ -122,11 +122,13 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                     alt={card.card_name}
                     fill
                     className="object-contain"
-                    sizes="(max-width: 640px) 33vw, (max-width: 768px) 25vw, 20vw"
+                    sizes="64px"
                   />
                 </div>
-                <p className="text-xs font-medium text-gray-900 truncate">{card.card_name}</p>
-                <p className="text-[10px] text-gray-500 truncate">{card.bank}</p>
+                <div className="min-w-0">
+                  <p className="text-xs font-medium text-gray-900 truncate">{card.card_name}</p>
+                  <p className="text-[10px] text-gray-500 truncate">{card.bank}</p>
+                </div>
               </Link>
             ))}
           </div>
