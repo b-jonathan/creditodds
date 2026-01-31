@@ -32,62 +32,51 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer>
-      <div className="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
-        <nav
-          className="-mx-5 -my-2 flex flex-wrap justify-center"
-          aria-label="Footer"
-        >
-          <div className="px-5 py-2">
-            <Link
-              href="/about"
-              className="text-base text-gray-500 hover:text-gray-900"
-            >
-              About
+    <footer className="bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-800">
+      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+          {/* Left side - Navigation */}
+          <div className="flex flex-col items-center sm:items-start gap-2">
+            <Link href="/" className="text-white font-bold text-lg">
+              CreditOdds
             </Link>
+            <nav className="flex flex-wrap justify-center sm:justify-start gap-x-6 gap-y-2" aria-label="Footer">
+              <Link href="/about" className="text-sm text-indigo-200 hover:text-white transition-colors">
+                About
+              </Link>
+              <Link href="/how" className="text-sm text-indigo-200 hover:text-white transition-colors">
+                How
+              </Link>
+              <Link href="/terms" className="text-sm text-indigo-200 hover:text-white transition-colors">
+                Terms
+              </Link>
+              <Link href="/privacy" className="text-sm text-indigo-200 hover:text-white transition-colors">
+                Privacy
+              </Link>
+            </nav>
           </div>
-          <div className="px-5 py-2">
-            <Link
-              href="/how"
-              className="text-base text-gray-500 hover:text-gray-900"
-            >
-              How
-            </Link>
+
+          {/* Right side - Social links */}
+          <div className="flex flex-col items-center sm:items-end gap-3">
+            <div className="flex space-x-4">
+              {socialLinks.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-indigo-300 hover:text-white transition-colors"
+                >
+                  <span className="sr-only">{item.name}</span>
+                  <item.icon className="h-5 w-5" aria-hidden="true" />
+                </a>
+              ))}
+            </div>
+            <p className="text-sm text-indigo-300">
+              &copy; {new Date().getFullYear()} CreditOdds
+            </p>
           </div>
-          <div className="px-5 py-2">
-            <Link
-              href="/terms"
-              className="text-base text-gray-500 hover:text-gray-900"
-            >
-              Terms
-            </Link>
-          </div>
-          <div className="px-5 py-2">
-            <Link
-              href="/privacy"
-              className="text-base text-gray-500 hover:text-gray-900"
-            >
-              Privacy
-            </Link>
-          </div>
-        </nav>
-        <div className="mt-8 flex justify-center space-x-6">
-          {socialLinks.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-400 hover:text-gray-500"
-            >
-              <span className="sr-only">{item.name}</span>
-              <item.icon className="h-6 w-6" aria-hidden="true" />
-            </a>
-          ))}
         </div>
-        <p className="mt-8 text-center text-base text-gray-400">
-          &copy; {new Date().getFullYear()} CreditOdds. All rights reserved.
-        </p>
       </div>
     </footer>
   );

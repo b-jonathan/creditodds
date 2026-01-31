@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-01-31T19:30:58.385Z",
-  "count": 134,
+  "generated_at": "2026-01-31T22:56:27.766Z",
+  "count": 135,
   "cards": [
     {
       "name": "Aer Lingus Visa Signature card",
@@ -237,6 +237,7 @@
       "slug": "bilt-mastercard",
       "image": "bilt_mastercard.png",
       "accepting_applications": false,
+      "active": false,
       "category": "rewards",
       "annual_fee": 0,
       "release_date": "2022-06-01",
@@ -1404,6 +1405,21 @@
       ],
       "card_id": "united-gateway",
       "card_name": "United Gateway"
+    },
+    {
+      "name": "United Presidential Plus",
+      "bank": "Chase",
+      "slug": "chase-united-presidential-plus",
+      "image": "chase-united-presidential-plus.png",
+      "accepting_applications": false,
+      "active": true,
+      "annual_fee": 495,
+      "tags": [
+        "airline",
+        "travel"
+      ],
+      "card_id": "chase-united-presidential-plus",
+      "card_name": "United Presidential Plus"
     },
     {
       "name": "United Quest",

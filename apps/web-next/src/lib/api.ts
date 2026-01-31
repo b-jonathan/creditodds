@@ -13,6 +13,7 @@ export interface Card {
   bank: string;
   card_image_link?: string;
   accepting_applications: boolean;
+  active?: boolean;
   approved_median_credit_score?: number;
   approved_median_income?: number;
   approved_median_length_credit?: string | number;
