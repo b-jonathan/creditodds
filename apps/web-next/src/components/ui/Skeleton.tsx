@@ -63,51 +63,83 @@ export function TableRowSkeleton() {
 export function ProfileSkeleton() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        {/* Profile Header Skeleton */}
-        <div className="bg-white shadow rounded-lg p-6 mb-6 animate-pulse">
-          <Skeleton className="h-8 w-32 mb-4" />
-          <div className="space-y-2">
-            <Skeleton className="h-4 w-48" />
-            <Skeleton className="h-4 w-56" />
-          </div>
-        </div>
-
-        {/* Stats Skeleton */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 mb-6">
-          <div className="bg-white overflow-hidden shadow rounded-lg animate-pulse">
-            <div className="px-4 py-5 sm:p-6">
-              <Skeleton className="h-4 w-24 mb-2" />
-              <Skeleton className="h-10 w-16" />
+      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        {/* Profile Header - Compact */}
+        <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 mb-6 animate-pulse">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div>
+                <Skeleton className="h-7 w-40 mb-2" />
+                <Skeleton className="h-4 w-48" />
+              </div>
+              <Skeleton className="h-8 w-8 rounded-full" />
             </div>
-          </div>
-          <div className="bg-white overflow-hidden shadow rounded-lg animate-pulse">
-            <div className="px-4 py-5 sm:p-6">
-              <Skeleton className="h-4 w-24 mb-2" />
-              <Skeleton className="h-10 w-16" />
+            {/* Stats pills */}
+            <div className="flex items-center gap-2 sm:gap-3">
+              <Skeleton className="h-14 w-20 rounded-lg" />
+              <Skeleton className="h-14 w-20 rounded-lg" />
+              <Skeleton className="h-14 w-20 rounded-lg" />
+              <Skeleton className="h-14 w-20 rounded-lg" />
             </div>
           </div>
         </div>
 
-        {/* Records Table Skeleton */}
-        <div className="bg-white shadow rounded-lg p-6 mb-6">
-          <Skeleton className="h-6 w-32 mb-4" />
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3"><Skeleton className="h-3 w-12" /></th>
-                  <th className="px-6 py-3"><Skeleton className="h-3 w-20" /></th>
-                  <th className="px-6 py-3"><Skeleton className="h-3 w-16" /></th>
-                  <th className="px-6 py-3"><Skeleton className="h-3 w-14" /></th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                <TableRowSkeleton />
-                <TableRowSkeleton />
-                <TableRowSkeleton />
-              </tbody>
-            </table>
+        {/* Tabs */}
+        <div className="border-b border-gray-200 mb-6">
+          <nav className="-mb-px flex space-x-8">
+            <Skeleton className="h-10 w-24" />
+            <Skeleton className="h-10 w-24" />
+            <Skeleton className="h-10 w-24" />
+          </nav>
+        </div>
+
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-3 gap-4 sm:gap-6">
+          {/* Left Column - Tab Content (2/3) */}
+          <div className="col-span-2">
+            <div className="bg-white shadow rounded-lg p-6 animate-pulse">
+              <div className="flex items-center justify-between mb-4">
+                <Skeleton className="h-6 w-24" />
+                <Skeleton className="h-9 w-24 rounded-md" />
+              </div>
+              {/* Wallet cards grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="rounded-lg p-3 bg-gray-50">
+                    <Skeleton className="aspect-[1.586/1] w-full mb-2 rounded" />
+                    <Skeleton className="h-3 w-3/4 mb-1" />
+                    <Skeleton className="h-3 w-1/2" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column - News Sidebar (1/3) */}
+          <div className="col-span-1">
+            <div className="bg-white shadow rounded-lg overflow-hidden animate-pulse">
+              <div className="px-4 py-4 border-b border-gray-200">
+                <div className="flex items-center gap-2">
+                  <Skeleton className="h-5 w-5 rounded" />
+                  <Skeleton className="h-5 w-32" />
+                </div>
+              </div>
+              <div className="divide-y divide-gray-200">
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} className="px-4 py-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Skeleton className="h-3 w-12" />
+                      <Skeleton className="h-4 w-16 rounded" />
+                    </div>
+                    <Skeleton className="h-4 w-full mb-1" />
+                    <Skeleton className="h-4 w-3/4" />
+                  </div>
+                ))}
+              </div>
+              <div className="px-4 py-3 bg-gray-50 border-t border-gray-200">
+                <Skeleton className="h-4 w-32" />
+              </div>
+            </div>
           </div>
         </div>
       </div>

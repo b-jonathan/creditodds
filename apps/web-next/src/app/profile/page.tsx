@@ -126,7 +126,13 @@ export default function ProfilePage() {
     return cardData?.accepting_applications === false;
   };
 
-  // Filter news to cards in user's wallet
+  // Track which cards have records or referrals
+  const cardsWithRecords = useMemo(() =>
+    new Set(records.map(r => r.card_name)), [records]);
+  const cardsWithReferrals = useMemo(() =>
+    new Set(referrals.map(r => r.card_name)), [referrals]);
+
+  // Filter news to cards in user's wallet (only match by card slug, not bank)
   const relevantNews = useMemo(() => {
     if (walletCards.length === 0 || newsItems.length === 0) return [];
 
@@ -146,12 +152,9 @@ export default function ProfilePage() {
       }
     });
 
-    // Build set of bank names (normalize to handle case differences)
-    const walletBanks = new Set(walletCards.map(w => w.bank?.toLowerCase()).filter(Boolean));
-
+    // Only show news for specific cards the user owns
     return newsItems.filter(news =>
-      (news.card_slug && walletCardSlugs.has(news.card_slug)) ||
-      (news.bank && walletBanks.has(news.bank.toLowerCase()))
+      news.card_slug && walletCardSlugs.has(news.card_slug)
     );
   }, [walletCards, newsItems, allCards]);
 
@@ -556,6 +559,19 @@ export default function ProfilePage() {
                             Inactive
                           </span>
                         )}
+                        {/* Record and Referral indicators */}
+                        <div className="absolute top-0 left-0 flex gap-0.5">
+                          {cardsWithRecords.has(card.card_name) && (
+                            <span className="bg-green-500 p-0.5 rounded-full shadow-sm" title="Record submitted">
+                              <DocumentTextIcon className="h-3 w-3 text-white" />
+                            </span>
+                          )}
+                          {cardsWithReferrals.has(card.card_name) && (
+                            <span className="bg-green-500 p-0.5 rounded-full shadow-sm" title="Referral submitted">
+                              <LinkIcon className="h-3 w-3 text-white" />
+                            </span>
+                          )}
+                        </div>
                         {(() => {
                           const cardData = allCards.find(c => c.card_name === card.card_name);
                           const annualFee = cardData?.annual_fee || 0;
@@ -861,11 +877,14 @@ export default function ProfilePage() {
                           </span>
                         ))}
                       </div>
-                      <p className="text-sm font-medium text-gray-900 line-clamp-2">{news.title}</p>
+                      <p className="text-sm font-medium text-gray-900">{news.title}</p>
+                      {news.summary && (
+                        <p className="mt-1 text-xs text-gray-500 line-clamp-3">{news.summary}</p>
+                      )}
                       {news.card_slug && news.card_name && (
                         <Link
                           href={`/card/${news.card_slug}`}
-                          className="mt-1 text-xs text-indigo-600 hover:text-indigo-900"
+                          className="mt-1 inline-block text-xs text-indigo-600 hover:text-indigo-900"
                         >
                           {news.card_name}
                         </Link>
