@@ -7,8 +7,9 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
 import { getProfile, getRecords, getReferrals, deleteRecord, deleteReferral, getWallet, removeFromWallet, getAllCards, deleteAccount, WalletCard, Card } from "@/lib/api";
+import { getNews, NewsItem, tagLabels, tagColors, NewsTag } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
-import { PlusIcon, WalletIcon, TrashIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
 
 // Lazy load modals - only loaded when user opens them
 const ReferralModal = dynamic(() => import("@/components/forms/ReferralModal"), {
@@ -68,6 +69,7 @@ export default function ProfilePage() {
   const [openReferrals, setOpenReferrals] = useState<OpenReferral[]>([]);
   const [walletCards, setWalletCards] = useState<WalletCard[]>([]);
   const [allCards, setAllCards] = useState<Card[]>([]);
+  const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [showReferralModal, setShowReferralModal] = useState(false);
   const [showWalletModal, setShowWalletModal] = useState(false);
@@ -76,6 +78,8 @@ export default function ProfilePage() {
   const [removingCardId, setRemovingCardId] = useState<number | null>(null);
   const [deletingAccount, setDeletingAccount] = useState(false);
   const [showInactiveCards, setShowInactiveCards] = useState(false);
+  const [activeTab, setActiveTab] = useState<'wallet' | 'records' | 'referrals'>('wallet');
+  const [showSettingsMenu, setShowSettingsMenu] = useState(false);
 
   // Allow referrals for cards where user has submitted a record OR has in wallet
   const eligibleReferralCards = useMemo(() => {
@@ -122,6 +126,23 @@ export default function ProfilePage() {
     return cardData?.accepting_applications === false;
   };
 
+  // Filter news to cards in user's wallet
+  const relevantNews = useMemo(() => {
+    if (walletCards.length === 0 || newsItems.length === 0) return [];
+    const walletCardSlugs = new Set(
+      walletCards.map(w => {
+        const cardData = allCards.find(c => c.card_name === w.card_name);
+        return cardData?.slug;
+      }).filter(Boolean)
+    );
+    const walletBanks = new Set(walletCards.map(w => w.bank));
+
+    return newsItems.filter(news =>
+      (news.card_slug && walletCardSlugs.has(news.card_slug)) ||
+      (news.bank && walletBanks.has(news.bank))
+    );
+  }, [walletCards, newsItems, allCards]);
+
   useEffect(() => {
     if (!authState.isLoading && !authState.isAuthenticated) {
       router.replace("/login");
@@ -142,12 +163,13 @@ export default function ProfilePage() {
       }
 
       // Fetch all data in parallel for faster loading
-      const [recordsResult, referralsResult, profileResult, walletResult, cardsResult] = await Promise.allSettled([
+      const [recordsResult, referralsResult, profileResult, walletResult, cardsResult, newsResult] = await Promise.allSettled([
         getRecords(token),
         getReferrals(token),
         getProfile(token),
         getWallet(token),
         getAllCards(),
+        getNews(),
       ]);
 
       // Process records
@@ -195,6 +217,14 @@ export default function ProfilePage() {
       } else {
         console.error("Cards error:", cardsResult.reason);
         setAllCards([]);
+      }
+
+      // Process news
+      if (newsResult.status === 'fulfilled') {
+        setNewsItems(newsResult.value || []);
+      } else {
+        console.error("News error:", newsResult.reason);
+        setNewsItems([]);
       }
     } catch (error) {
       console.error("Error loading profile data:", error);
@@ -320,63 +350,156 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        {/* Profile Header */}
-        <div className="bg-white shadow rounded-lg p-6 mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Profile</h1>
-          {authState.user && (
-            <div className="mt-4">
-              {authState.user.displayName && (
-                <p className="text-gray-600">Name: {authState.user.displayName}</p>
-              )}
-              <p className="text-gray-600">Email: {authState.user.email}</p>
+      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        {/* Profile Header - Compact */}
+        <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6 mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div>
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
+                  {authState.user?.displayName || 'My Profile'}
+                </h1>
+                {authState.user?.email && (
+                  <p className="text-sm text-gray-500">{authState.user.email}</p>
+                )}
+              </div>
+              {/* Settings Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowSettingsMenu(!showSettingsMenu)}
+                  className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
+                  title="Account settings"
+                >
+                  <Cog6ToothIcon className="h-5 w-5" />
+                </button>
+                {showSettingsMenu && (
+                  <>
+                    <div
+                      className="fixed inset-0 z-10"
+                      onClick={() => setShowSettingsMenu(false)}
+                    />
+                    <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-20">
+                      <div className="py-1">
+                        <button
+                          onClick={() => {
+                            setShowSettingsMenu(false);
+                            handleDeleteAccount();
+                          }}
+                          className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+                        >
+                          <TrashIcon className="h-4 w-4" />
+                          Delete Account
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
-          )}
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex items-center gap-2 bg-indigo-50 rounded-lg px-3 py-2">
+                <WalletIcon className="h-5 w-5 text-indigo-600" />
+                <div>
+                  <p className="text-lg sm:text-xl font-bold text-indigo-600">{walletCards.length}</p>
+                  <p className="text-xs text-indigo-600/70">Cards</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 bg-red-50 rounded-lg px-3 py-2">
+                <span className="text-red-500 font-medium text-sm">$</span>
+                <div>
+                  <p className="text-lg sm:text-xl font-bold text-red-600">{totalAnnualFees.toLocaleString()}</p>
+                  <p className="text-xs text-red-600/70">Fees/yr</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 bg-green-50 rounded-lg px-3 py-2">
+                <DocumentTextIcon className="h-5 w-5 text-green-600" />
+                <div>
+                  <p className="text-lg sm:text-xl font-bold text-green-600">{records.length}</p>
+                  <p className="text-xs text-green-600/70">Records</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 bg-amber-50 rounded-lg px-3 py-2">
+                <LinkIcon className="h-5 w-5 text-amber-600" />
+                <div>
+                  <p className="text-lg sm:text-xl font-bold text-amber-600">{referrals.length}</p>
+                  <p className="text-xs text-amber-600/70">Referrals</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-4 mb-6">
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <dt className="text-sm font-medium text-gray-500 truncate">Cards in Wallet</dt>
-              <dd className="mt-1 text-3xl font-semibold text-gray-900">{walletCards.length}</dd>
-            </div>
-          </div>
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <dt className="text-sm font-medium text-gray-500 truncate">Annual Fees</dt>
-              <dd className="mt-1 text-3xl font-semibold text-gray-900">${totalAnnualFees.toLocaleString()}</dd>
-            </div>
-          </div>
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <dt className="text-sm font-medium text-gray-500 truncate">Total Records</dt>
-              <dd className="mt-1 text-3xl font-semibold text-gray-900">{records.length}</dd>
-            </div>
-          </div>
-          <div className="bg-white overflow-hidden shadow rounded-lg">
-            <div className="px-4 py-5 sm:p-6">
-              <dt className="text-sm font-medium text-gray-500 truncate">Total Referrals</dt>
-              <dd className="mt-1 text-3xl font-semibold text-gray-900">{referrals.length}</dd>
-            </div>
-          </div>
-        </div>
-
-        {/* Wallet Section */}
-        <div className="bg-white shadow rounded-lg p-6 mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <WalletIcon className="h-6 w-6 text-indigo-600" />
-              <h2 className="text-xl font-bold text-gray-900">My Wallet</h2>
-            </div>
+        {/* Tabs */}
+        <div className="border-b border-gray-200 mb-6">
+          <nav className="-mb-px flex space-x-8">
             <button
-              onClick={() => setShowWalletModal(true)}
-              className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              onClick={() => setActiveTab('wallet')}
+              className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'wallet'
+                  ? 'border-indigo-500 text-indigo-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
             >
-              <PlusIcon className="h-4 w-4 mr-1" />
-              Add Card
+              <WalletIcon className="h-5 w-5" />
+              Wallet
+              <span className={`ml-1 py-0.5 px-2 rounded-full text-xs ${
+                activeTab === 'wallet' ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-100 text-gray-600'
+              }`}>
+                {walletCards.length}
+              </span>
             </button>
-          </div>
+            <button
+              onClick={() => setActiveTab('records')}
+              className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'records'
+                  ? 'border-indigo-500 text-indigo-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <DocumentTextIcon className="h-5 w-5" />
+              Records
+              <span className={`ml-1 py-0.5 px-2 rounded-full text-xs ${
+                activeTab === 'records' ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-100 text-gray-600'
+              }`}>
+                {records.length}
+              </span>
+            </button>
+            <button
+              onClick={() => setActiveTab('referrals')}
+              className={`flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'referrals'
+                  ? 'border-indigo-500 text-indigo-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <LinkIcon className="h-5 w-5" />
+              Referrals
+              <span className={`ml-1 py-0.5 px-2 rounded-full text-xs ${
+                activeTab === 'referrals' ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-100 text-gray-600'
+              }`}>
+                {referrals.length}
+              </span>
+            </button>
+          </nav>
+        </div>
+
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-3 gap-4 sm:gap-6">
+          {/* Left Column - Tabs Content (2/3) */}
+          <div className="col-span-2">
+        {/* Tab Content */}
+        {activeTab === 'wallet' && (
+          <div className="bg-white shadow rounded-lg p-6">
+          <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold text-gray-900">My Cards</h2>
+              <button
+                onClick={() => setShowWalletModal(true)}
+                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              >
+                <PlusIcon className="h-4 w-4 mr-1" />
+                Add Card
+              </button>
+            </div>
 
           {/* Show inactive cards toggle */}
           {inactiveCount > 0 && (
@@ -464,14 +587,16 @@ export default function ProfilePage() {
               <p className="text-sm text-gray-400">Add the credit cards you own to track your collection.</p>
             </div>
           )}
-        </div>
-
-        {/* Records Table */}
-        <div className="bg-white shadow rounded-lg overflow-hidden mb-6">
-          <div className="px-4 py-5 sm:px-6">
-            <h2 className="text-lg leading-6 font-medium text-gray-900">Your Records</h2>
-            <p className="mt-1 max-w-2xl text-sm text-gray-500">Your submitted application data points</p>
           </div>
+        )}
+
+        {/* Records Tab */}
+        {activeTab === 'records' && (
+          <div className="bg-white shadow rounded-lg overflow-hidden">
+            <div className="px-4 py-5 sm:px-6">
+              <h2 className="text-lg font-semibold text-gray-900">Your Records</h2>
+              <p className="mt-1 text-sm text-gray-500">Your submitted application data points</p>
+            </div>
           {records.length > 0 ? (
             <div className="border-t border-gray-200">
               <div className="overflow-x-auto">
@@ -563,12 +688,14 @@ export default function ProfilePage() {
               <p className="text-gray-500">No records submitted yet.</p>
             </div>
           )}
-        </div>
+          </div>
+        )}
 
-        {/* Referrals Table */}
-        <div className="bg-white shadow rounded-lg overflow-hidden">
-          <div className="px-4 py-5 sm:px-6">
-            <h2 className="text-lg leading-6 font-medium text-gray-900">Your Referrals</h2>
+        {/* Referrals Tab */}
+        {activeTab === 'referrals' && (
+          <div className="bg-white shadow rounded-lg overflow-hidden">
+            <div className="px-4 py-5 sm:px-6">
+              <h2 className="text-lg font-semibold text-gray-900">Your Referrals</h2>
             <p className="mt-1 max-w-2xl text-sm text-gray-500">
               Don&apos;t see your card as an option?{' '}
               <a href="https://github.com/CreditOdds/creditodds/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-500">
@@ -691,6 +818,72 @@ export default function ProfilePage() {
                 Add a card to your wallet or submit a data point to add your referral link
               </div>
             )}
+            </div>
+          </div>
+        )}
+          </div>
+
+          {/* Right Column - News Sidebar (1/3) */}
+          <div className="col-span-1">
+            <div className="bg-white shadow rounded-lg overflow-hidden sticky top-4">
+              <div className="px-4 py-4 border-b border-gray-200">
+                <div className="flex items-center gap-2">
+                  <NewspaperIcon className="h-5 w-5 text-indigo-600" />
+                  <h2 className="text-base font-semibold text-gray-900">Your Card News</h2>
+                </div>
+              </div>
+              {relevantNews.length > 0 ? (
+                <ul className="divide-y divide-gray-200 max-h-[600px] overflow-y-auto">
+                  {relevantNews.slice(0, 10).map((news) => (
+                    <li key={news.id} className="px-4 py-3 hover:bg-gray-50">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs text-gray-400">
+                          {new Date(news.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        </span>
+                        {news.tags.slice(0, 1).map((tag) => (
+                          <span
+                            key={tag}
+                            className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${tagColors[tag]}`}
+                          >
+                            {tagLabels[tag]}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="text-sm font-medium text-gray-900 line-clamp-2">{news.title}</p>
+                      {news.card_slug && news.card_name && (
+                        <Link
+                          href={`/card/${news.card_slug}`}
+                          className="mt-1 text-xs text-indigo-600 hover:text-indigo-900"
+                        >
+                          {news.card_name}
+                        </Link>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="px-4 py-8 text-center">
+                  <NewspaperIcon className="mx-auto h-8 w-8 text-gray-300" />
+                  <p className="mt-2 text-sm text-gray-500">No news for your cards</p>
+                  <Link
+                    href="/news"
+                    className="mt-2 inline-block text-xs text-indigo-600 hover:text-indigo-900"
+                  >
+                    View all news →
+                  </Link>
+                </div>
+              )}
+              {relevantNews.length > 0 && (
+                <div className="px-4 py-3 bg-gray-50 border-t border-gray-200">
+                  <Link
+                    href="/news"
+                    className="text-sm text-indigo-600 hover:text-indigo-900"
+                  >
+                    View all card news →
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -710,32 +903,6 @@ export default function ProfilePage() {
           existingCardIds={walletCards.map(c => c.card_id)}
         />
 
-        {/* Delete Account Section */}
-        <div className="bg-white shadow rounded-lg overflow-hidden mt-6">
-          <div className="px-4 py-5 sm:px-6 border-b border-gray-200">
-            <h2 className="text-lg leading-6 font-medium text-gray-900">Danger Zone</h2>
-          </div>
-          <div className="px-4 py-5 sm:px-6">
-            <div className="flex items-start gap-4">
-              <div className="flex-shrink-0">
-                <ExclamationTriangleIcon className="h-6 w-6 text-red-500" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-sm font-medium text-gray-900">Delete Account</h3>
-                <p className="mt-1 text-sm text-gray-500">
-                  Permanently delete your account, all your referrals, and your wallet. Your submitted data points will be kept anonymously to help other users.
-                </p>
-                <button
-                  onClick={handleDeleteAccount}
-                  disabled={deletingAccount}
-                  className="mt-4 inline-flex items-center px-4 py-2 border border-red-300 text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {deletingAccount ? "Deleting..." : "Delete Account"}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
