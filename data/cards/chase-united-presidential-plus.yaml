@@ -3,7 +3,7 @@ bank: "Chase"
 slug: "chase-united-presidential-plus"
 image: "chase-united-presidential-plus.png"
 accepting_applications: false
-category: "airline"
+category: "travel"
 annual_fee: 495
 tags:
   - airline
