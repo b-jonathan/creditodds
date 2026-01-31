@@ -75,13 +75,21 @@ export default function CardSelect({ allCards }: CardSelectProps) {
         selectedItem,
         getRootProps,
       }) => {
-        // Filter cards based on input
-        const filteredCards = allCards.filter(
-          (item) =>
-            !inputValue ||
-            item.card_name.toLowerCase().includes(inputValue.toLowerCase()) ||
-            item.bank.toLowerCase().includes(inputValue.toLowerCase())
-        );
+        // Filter cards based on input, then sort with archived cards at the bottom
+        const filteredCards = allCards
+          .filter(
+            (item) =>
+              !inputValue ||
+              item.card_name.toLowerCase().includes(inputValue.toLowerCase()) ||
+              item.bank.toLowerCase().includes(inputValue.toLowerCase())
+          )
+          .sort((a, b) => {
+            // Active cards first, archived cards last
+            if (a.accepting_applications !== b.accepting_applications) {
+              return a.accepting_applications ? -1 : 1;
+            }
+            return 0; // Preserve original order within each group
+          });
 
         // Show recent searches when input is empty, otherwise show filtered results
         const showRecent = isOpen && !inputValue && recentSearches.length > 0;
@@ -131,48 +139,56 @@ export default function CardSelect({ allCards }: CardSelectProps) {
                   </li>
                 )}
 
-                {displayCards.map((item, index) => (
-                  <li
-                    key={item.card_name}
-                    className={`cursor-pointer select-none relative py-3 pl-3 pr-9 ${
-                      highlightedIndex === index
-                        ? 'bg-indigo-50 text-indigo-900'
-                        : 'text-gray-900'
-                    }`}
-                    {...getItemProps({
-                      index,
-                      item,
-                    })}
-                  >
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 h-8 w-12 relative">
-                        <Image
-                          src={item.card_image_link
-                            ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${item.card_image_link}`
-                            : '/assets/generic-card.svg'
-                          }
-                          alt=""
-                          fill
-                          className="object-contain"
-                          sizes="48px"
-                        />
+                {displayCards.map((item, index) => {
+                  const isArchived = !item.accepting_applications;
+                  return (
+                    <li
+                      key={item.card_name}
+                      className={`cursor-pointer select-none relative py-3 pl-3 pr-9 ${
+                        highlightedIndex === index
+                          ? 'bg-indigo-50 text-indigo-900'
+                          : isArchived
+                          ? 'text-gray-400 bg-gray-50'
+                          : 'text-gray-900'
+                      }`}
+                      {...getItemProps({
+                        index,
+                        item,
+                      })}
+                    >
+                      <div className={`flex items-center ${isArchived ? 'opacity-60' : ''}`}>
+                        <div className={`flex-shrink-0 h-8 w-12 relative ${isArchived ? 'grayscale' : ''}`}>
+                          <Image
+                            src={item.card_image_link
+                              ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${item.card_image_link}`
+                              : '/assets/generic-card.svg'
+                            }
+                            alt=""
+                            fill
+                            className="object-contain"
+                            sizes="48px"
+                          />
+                        </div>
+                        <div className="ml-3 flex-1 min-w-0">
+                          <p className={`text-sm truncate ${
+                            selectedItem === item ? 'font-semibold' : 'font-normal'
+                          }`}>
+                            {item.card_name}
+                          </p>
+                          <p className={`text-xs truncate ${isArchived ? 'text-gray-400' : 'text-gray-500'}`}>
+                            {item.bank}
+                            {isArchived && <span className="ml-1">(Archived)</span>}
+                          </p>
+                        </div>
+                        {item.approved_count !== undefined && item.approved_count > 0 && (
+                          <span className="ml-2 text-xs text-gray-400">
+                            {item.approved_count + (item.rejected_count || 0)} records
+                          </span>
+                        )}
                       </div>
-                      <div className="ml-3 flex-1 min-w-0">
-                        <p className={`text-sm truncate ${
-                          selectedItem === item ? 'font-semibold' : 'font-normal'
-                        }`}>
-                          {item.card_name}
-                        </p>
-                        <p className="text-xs text-gray-500 truncate">{item.bank}</p>
-                      </div>
-                      {item.approved_count !== undefined && item.approved_count > 0 && (
-                        <span className="ml-2 text-xs text-gray-400">
-                          {item.approved_count + (item.rejected_count || 0)} records
-                        </span>
-                      )}
-                    </div>
-                  </li>
-                ))}
+                    </li>
+                  );
+                })}
 
                 {/* No results message */}
                 {isOpen && inputValue && filteredCards.length === 0 && (
