@@ -1,12 +1,12 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import { getCardsByBank, getAllBanks } from "@/lib/api";
 import { BuildingLibraryIcon } from "@heroicons/react/24/solid";
 import { NewspaperIcon } from "@heroicons/react/24/outline";
 import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import { getNews, tagLabels, tagColors } from "@/lib/news";
+import BankCardsTable from "./BankCardsTable";
 
 interface BankPageProps {
   params: Promise<{ name: string }>;
@@ -55,13 +55,8 @@ export default async function BankPage({ params }: BankPageProps) {
   // Filter news for this bank
   const bankNews = allNews.filter(news => news.bank === bankName);
 
-  // Sort cards: accepting applications first, then by name
-  const sortedCards = [...cards].sort((a, b) => {
-    if (a.accepting_applications !== b.accepting_applications) {
-      return a.accepting_applications ? -1 : 1;
-    }
-    return a.card_name.localeCompare(b.card_name);
-  });
+  // Count active cards for the header
+  const activeCardCount = cards.filter(c => c.accepting_applications).length;
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -102,7 +97,7 @@ export default async function BankPage({ params }: BankPageProps) {
             {bankName}
           </h1>
           <p className="mt-4 text-xl text-gray-500">
-            {sortedCards.length} credit card{sortedCards.length !== 1 ? 's' : ''} available
+            {activeCardCount} credit card{activeCardCount !== 1 ? 's' : ''} available
           </p>
         </div>
 
@@ -110,55 +105,7 @@ export default async function BankPage({ params }: BankPageProps) {
         <div className="mt-8 grid grid-cols-3 gap-4 sm:gap-6">
           {/* Left Column - Cards Table (2/3) */}
           <div className="col-span-2">
-            <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                      Card
-                    </th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                      Status
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
-                  {sortedCards.map((card) => (
-                    <tr key={card.card_id} className="hover:bg-gray-50">
-                      <td className="whitespace-nowrap py-4 pl-4 pr-3 sm:pl-6">
-                        <Link href={`/card/${card.slug}`} className="flex items-center group">
-                          <div className="h-10 w-16 flex-shrink-0 mr-4 hidden sm:block">
-                            <Image
-                              src={card.card_image_link
-                                ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                                : '/assets/generic-card.svg'}
-                              alt={card.card_name}
-                              width={64}
-                              height={40}
-                              className="h-10 w-16 object-contain"
-                            />
-                          </div>
-                          <div className="text-sm font-medium text-indigo-600 group-hover:text-indigo-900">
-                            {card.card_name}
-                          </div>
-                        </Link>
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm">
-                        {card.accepting_applications ? (
-                          <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                            Active
-                          </span>
-                        ) : (
-                          <span className="inline-flex rounded-full bg-gray-100 px-2 text-xs font-semibold leading-5 text-gray-800">
-                            Archived
-                          </span>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <BankCardsTable cards={cards} />
           </div>
 
           {/* Right Column - News Sidebar (1/3) */}
