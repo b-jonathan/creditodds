@@ -2,5 +2,8 @@ name: "Capital One Platinum Secured Credit Card"
 bank: "Capital One"
 slug: "capital-one-platinum-secured"
 accepting_applications: true
+image: "capital-one-platinum-secured.png"
 category: "secured"
 annual_fee: 0
+tags:
+  - secured
