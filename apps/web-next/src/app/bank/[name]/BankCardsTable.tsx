@@ -3,14 +3,7 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-
-interface Card {
-  card_id: string;
-  card_name: string;
-  slug: string;
-  card_image_link?: string;
-  accepting_applications: boolean;
-}
+import { Card } from '@/lib/api';
 
 interface BankCardsTableProps {
   cards: Card[];

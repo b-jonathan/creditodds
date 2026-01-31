@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useAuth } from "@/auth/AuthProvider";
-import { getProfile, getRecords, getReferrals, deleteRecord, deleteReferral, getWallet, removeFromWallet, getAllCards, deleteAccount, WalletCard, Card } from "@/lib/api";
+import { getProfile, getRecords, getReferrals, deleteRecord, deleteReferral, getWallet, getAllCards, deleteAccount, WalletCard, Card } from "@/lib/api";
 import { getNews, NewsItem, tagLabels, tagColors, NewsTag } from "@/lib/news";
 import { ProfileSkeleton } from "@/components/ui/Skeleton";
 import { PlusIcon, WalletIcon, TrashIcon, DocumentTextIcon, LinkIcon, NewspaperIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
@@ -18,6 +18,11 @@ const ReferralModal = dynamic(() => import("@/components/forms/ReferralModal"), 
 });
 
 const AddToWalletModal = dynamic(() => import("@/components/wallet/AddToWalletModal"), {
+  ssr: false,
+  loading: () => null,
+});
+
+const EditWalletCardModal = dynamic(() => import("@/components/wallet/EditWalletCardModal"), {
   ssr: false,
   loading: () => null,
 });
@@ -75,11 +80,11 @@ export default function ProfilePage() {
   const [showWalletModal, setShowWalletModal] = useState(false);
   const [deletingRecordId, setDeletingRecordId] = useState<number | null>(null);
   const [deletingReferralId, setDeletingReferralId] = useState<number | null>(null);
-  const [removingCardId, setRemovingCardId] = useState<number | null>(null);
   const [deletingAccount, setDeletingAccount] = useState(false);
   const [showInactiveCards, setShowInactiveCards] = useState(false);
   const [activeTab, setActiveTab] = useState<'wallet' | 'records' | 'referrals'>('wallet');
   const [showSettingsMenu, setShowSettingsMenu] = useState(false);
+  const [editingCard, setEditingCard] = useState<WalletCard | null>(null);
 
   // Allow referrals for cards where user has submitted a record OR has in wallet
   const eligibleReferralCards = useMemo(() => {
@@ -245,26 +250,6 @@ export default function ProfilePage() {
       console.error("Error loading profile data:", error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleRemoveFromWallet = async (cardId: number) => {
-    if (!confirm("Remove this card from your wallet?")) return;
-
-    setRemovingCardId(cardId);
-    try {
-      const token = await getToken();
-      if (!token) {
-        console.error("No auth token available");
-        return;
-      }
-      await removeFromWallet(cardId, token);
-      setWalletCards(walletCards.filter(c => c.card_id !== cardId));
-    } catch (error) {
-      console.error("Error removing card from wallet:", error);
-      alert("Failed to remove card. Please try again.");
-    } finally {
-      setRemovingCardId(null);
     }
   };
 
@@ -539,66 +524,57 @@ export default function ProfilePage() {
               {activeWalletCards.map((card) => {
                 const inactive = isCardInactive(card.card_name);
                 return (
-                  <div
+                  <button
                     key={card.id}
-                    className={`relative group rounded-lg p-3 transition-colors ${inactive ? 'bg-gray-100 opacity-60' : 'bg-gray-50 hover:bg-gray-100'}`}
+                    onClick={() => setEditingCard(card)}
+                    className={`relative text-left rounded-lg p-3 transition-colors cursor-pointer ${inactive ? 'bg-gray-100 opacity-60' : 'bg-gray-50 hover:bg-gray-100'}`}
                   >
-                    <Link href={`/card/${allCards.find(c => c.card_name === card.card_name)?.slug || card.card_name}`}>
-                      <div className="aspect-[1.586/1] relative mb-2">
-                        <Image
-                          src={card.card_image_link
-                            ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
-                            : '/assets/generic-card.svg'}
-                          alt={card.card_name}
-                          fill
-                          className={`object-contain ${inactive ? 'grayscale' : ''}`}
-                          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
-                        />
-                        {inactive && (
-                          <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-500 px-1.5 py-0.5 rounded-full text-xs font-medium text-white shadow-sm">
-                            Inactive
+                    <div className="aspect-[1.586/1] relative mb-2">
+                      <Image
+                        src={card.card_image_link
+                          ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
+                          : '/assets/generic-card.svg'}
+                        alt={card.card_name}
+                        fill
+                        className={`object-contain ${inactive ? 'grayscale' : ''}`}
+                        sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
+                      />
+                      {inactive && (
+                        <span className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-500 px-1.5 py-0.5 rounded-full text-xs font-medium text-white shadow-sm">
+                          Inactive
+                        </span>
+                      )}
+                      {/* Record and Referral indicators */}
+                      <div className="absolute top-0 left-0 flex gap-0.5">
+                        {cardsWithRecords.has(card.card_name) && (
+                          <span className="bg-green-500 p-0.5 rounded-full shadow-sm" title="Record submitted">
+                            <DocumentTextIcon className="h-3 w-3 text-white" />
                           </span>
                         )}
-                        {/* Record and Referral indicators */}
-                        <div className="absolute top-0 left-0 flex gap-0.5">
-                          {cardsWithRecords.has(card.card_name) && (
-                            <span className="bg-green-500 p-0.5 rounded-full shadow-sm" title="Record submitted">
-                              <DocumentTextIcon className="h-3 w-3 text-white" />
-                            </span>
-                          )}
-                          {cardsWithReferrals.has(card.card_name) && (
-                            <span className="bg-green-500 p-0.5 rounded-full shadow-sm" title="Referral submitted">
-                              <LinkIcon className="h-3 w-3 text-white" />
-                            </span>
-                          )}
-                        </div>
-                        {(() => {
-                          const cardData = allCards.find(c => c.card_name === card.card_name);
-                          const annualFee = cardData?.annual_fee || 0;
-                          return annualFee > 0 ? (
-                            <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-white px-1.5 py-0.5 rounded-full text-xs font-medium text-red-600 shadow-sm">
-                              ${annualFee}
-                            </span>
-                          ) : null;
-                        })()}
+                        {cardsWithReferrals.has(card.card_name) && (
+                          <span className="bg-green-500 p-0.5 rounded-full shadow-sm" title="Referral submitted">
+                            <LinkIcon className="h-3 w-3 text-white" />
+                          </span>
+                        )}
                       </div>
-                      <p className="text-xs font-medium text-gray-900 truncate">{card.card_name}</p>
-                      <p className="text-xs text-gray-500">{card.bank}</p>
-                      {formatAcquiredDate(card.acquired_month, card.acquired_year) && (
-                        <p className="text-xs text-gray-400 mt-1">
-                          Since {formatAcquiredDate(card.acquired_month, card.acquired_year)}
-                        </p>
-                      )}
-                    </Link>
-                    <button
-                      onClick={() => handleRemoveFromWallet(card.card_id)}
-                      disabled={removingCardId === card.card_id}
-                      className="absolute top-2 right-2 p-1 bg-white rounded-full shadow opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-50"
-                      title="Remove from wallet"
-                    >
-                      <TrashIcon className={`h-4 w-4 ${removingCardId === card.card_id ? 'text-gray-400' : 'text-red-500'}`} />
-                    </button>
-                  </div>
+                      {(() => {
+                        const cardData = allCards.find(c => c.card_name === card.card_name);
+                        const annualFee = cardData?.annual_fee || 0;
+                        return annualFee > 0 ? (
+                          <span className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-white px-1.5 py-0.5 rounded-full text-xs font-medium text-red-600 shadow-sm">
+                            ${annualFee}
+                          </span>
+                        ) : null;
+                      })()}
+                    </div>
+                    <p className="text-xs font-medium text-gray-900 truncate">{card.card_name}</p>
+                    <p className="text-xs text-gray-500">{card.bank}</p>
+                    {formatAcquiredDate(card.acquired_month, card.acquired_year) && (
+                      <p className="text-xs text-gray-400 mt-1">
+                        Since {formatAcquiredDate(card.acquired_month, card.acquired_year)}
+                      </p>
+                    )}
+                  </button>
                 );
               })}
             </div>
@@ -932,6 +908,15 @@ export default function ProfilePage() {
           onClose={() => setShowWalletModal(false)}
           onSuccess={loadData}
           existingCardIds={walletCards.map(c => c.card_id)}
+        />
+
+        {/* Edit Wallet Card Modal */}
+        <EditWalletCardModal
+          show={!!editingCard}
+          card={editingCard}
+          cardSlug={editingCard ? allCards.find(c => c.card_name === editingCard.card_name)?.slug : undefined}
+          onClose={() => setEditingCard(null)}
+          onSuccess={loadData}
         />
 
       </div>
