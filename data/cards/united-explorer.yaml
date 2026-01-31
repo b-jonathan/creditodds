@@ -3,7 +3,7 @@ bank: "Chase"
 slug: "united-explorer"
 image: "united_explorer.png"
 accepting_applications: true
-annual_fee: 95
+annual_fee: 150
 tags:
   - airline
   - travel

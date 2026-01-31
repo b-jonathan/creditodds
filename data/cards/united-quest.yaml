@@ -3,7 +3,7 @@ bank: "Chase"
 slug: "united-quest"
 image: "united_quest.png"
 accepting_applications: true
-annual_fee: 250
+annual_fee: 350
 tags:
   - airline
   - travel
