@@ -1,4 +1,6 @@
 // Create MySQL client and set shared const values outside of the handler.
+const https = require('https');
+
 const mysql = require("serverless-mysql")({
   config: {
     host: process.env.ENDPOINT,
@@ -8,17 +10,39 @@ const mysql = require("serverless-mysql")({
   },
 });
 
+const CARDS_URL = process.env.CARDS_JSON_URL || 'https://d2hxvzw7msbtvt.cloudfront.net/cards.json';
+
 const responseHeaders = {
   "Access-Control-Allow-Origin": "*",
 };
+
+// Fetch cards.json from CloudFront
+async function fetchCardsFromCDN() {
+  return new Promise((resolve, reject) => {
+    https.get(CARDS_URL, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          resolve(json.cards);
+        } catch (err) {
+          reject(new Error('Failed to parse cards.json'));
+        }
+      });
+    }).on('error', reject);
+  });
+}
 
 exports.getCardGraphsHandler = async (event) => {
   // All log statements are written to CloudWatch
   console.info("received:", event);
 
+  let response;
+
   switch (event.httpMethod) {
     case "GET":
-      if (!event.queryStringParameters.card_name) {
+      if (!event.queryStringParameters || !event.queryStringParameters.card_name) {
         response = {
           statusCode: 400,
           body: `You must provide a card name in the proper format.`,
@@ -27,13 +51,28 @@ exports.getCardGraphsHandler = async (event) => {
         break;
       } else {
         // Get id from queryStringParameters from APIGateway
-        const card_name = event.queryStringParameters.card_name;
+        const cardNameParam = event.queryStringParameters.card_name;
 
         try {
-          // Get card_id from cards table
+          // Fetch cards from CDN to support slug lookup
+          const cards = await fetchCardsFromCDN();
+
+          // Find card by name or slug
+          const cdnCard = cards.find(c =>
+            c.card_name === cardNameParam ||
+            c.name === cardNameParam ||
+            c.slug === cardNameParam
+          );
+
+          // Use the actual card_name from CDN, or fall back to the parameter
+          const card_name = cdnCard ? (cdnCard.card_name || cdnCard.name) : cardNameParam;
+
+          // Get card_id from cards table (with fuzzy matching for card suffix)
           let cardResult = await mysql.query(
-            "SELECT card_id FROM cards WHERE card_name = ?",
-            [card_name]
+            `SELECT card_id FROM cards
+             WHERE card_name = ? OR card_name = ? OR ? LIKE CONCAT(card_name, '%')
+             LIMIT 1`,
+            [card_name, card_name.replace(/ Card$/, ''), card_name]
           );
           await mysql.end();
 
