@@ -105,16 +105,16 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
     <>
       {/* Recently Released Section */}
       {recentlyReleased.length > 0 && !search && !selectedBank && (
-        <div className="mt-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Recently Released</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+        <div className="mt-6">
+          <h2 className="text-sm font-semibold text-gray-900 mb-2">Recently Released</h2>
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 sm:gap-3">
             {recentlyReleased.map((card) => (
               <Link
                 key={card.card_id}
                 href={`/card/${card.slug}`}
-                className="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow"
+                className="bg-white rounded-lg shadow p-2 hover:shadow-md transition-shadow"
               >
-                <div className="aspect-[1.586/1] relative mb-2">
+                <div className="aspect-[1.586/1] relative mb-1">
                   <Image
                     src={card.card_image_link
                       ? `https://d3ay3etzd1512y.cloudfront.net/card_images/${card.card_image_link}`
@@ -122,11 +122,11 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
                     alt={card.card_name}
                     fill
                     className="object-contain"
-                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 20vw"
+                    sizes="(max-width: 640px) 33vw, (max-width: 768px) 25vw, 20vw"
                   />
                 </div>
                 <p className="text-xs font-medium text-gray-900 truncate">{card.card_name}</p>
-                <p className="text-xs text-gray-500">{card.bank}</p>
+                <p className="text-[10px] text-gray-500 truncate">{card.bank}</p>
               </Link>
             ))}
           </div>
