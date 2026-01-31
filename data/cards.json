@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-01-28T00:32:53.168Z",
-  "count": 133,
+  "generated_at": "2026-01-31T14:39:32.034Z",
+  "count": 134,
   "cards": [
     {
       "name": "Aer Lingus Visa Signature card",
@@ -70,7 +70,8 @@
       "slug": "american-express-gold-card",
       "image": "amex_gold_card.png",
       "accepting_applications": true,
-      "annual_fee": 250,
+      "card_referral_link": "https://www.americanexpress.com/en-us/referral/personal/gold-card?ref=",
+      "annual_fee": 325,
       "tags": [
         "travel",
         "dining",
@@ -132,20 +133,11 @@
       "name": "AT&T Access Card From Citi",
       "bank": "Citi",
       "slug": "at-t-access-card-from-citi",
-      "accepting_applications": true,
+      "accepting_applications": false,
+      "image": "citi-att-access.png",
       "annual_fee": 0,
       "card_id": "at-t-access-card-from-citi",
       "card_name": "AT&T Access Card From Citi"
-    },
-    {
-      "name": "Bank of America Cash Rewards Credit Card",
-      "bank": "Bank of America",
-      "slug": "bank-of-america-cash-rewards",
-      "accepting_applications": true,
-      "category": "cashback",
-      "annual_fee": 0,
-      "card_id": "bank-of-america-cash-rewards",
-      "card_name": "Bank of America Cash Rewards Credit Card"
     },
     {
       "name": "Bank of America Cash Rewards Secured Credit Card",
@@ -153,6 +145,7 @@
       "slug": "bank-of-america-cash-rewards-secured",
       "accepting_applications": true,
       "category": "secured",
+      "image": "bank-of-america-customized-cash-secured.png",
       "annual_fee": 0,
       "card_id": "bank-of-america-cash-rewards-secured",
       "card_name": "Bank of America Cash Rewards Secured Credit Card"
@@ -593,13 +586,24 @@
       "card_name": "Chase Slate Edge"
     },
     {
-      "name": "Citi AAdvantage Executive World Elite Masterc",
+      "name": "Citi AAdvantage Executive World Elite Mastercard",
       "bank": "Citi",
       "slug": "citi-aadvantage-executive-world-elite-masterc",
       "accepting_applications": true,
       "annual_fee": 595,
+      "image": "citi-aadvantage-executive-world-elite.png",
       "card_id": "citi-aadvantage-executive-world-elite-masterc",
-      "card_name": "Citi AAdvantage Executive World Elite Masterc"
+      "card_name": "Citi AAdvantage Executive World Elite Mastercard"
+    },
+    {
+      "name": "Citi AAdvantage Globe",
+      "bank": "Citi",
+      "slug": "citi-aadvantage-globe",
+      "accepting_applications": true,
+      "annual_fee": 350,
+      "image": "citi-aadvantage-globe.png",
+      "card_id": "citi-aadvantage-globe",
+      "card_name": "Citi AAdvantage Globe"
     },
     {
       "name": "Citi AAdvantage Platinum Select World Elite M",
@@ -607,6 +611,7 @@
       "slug": "citi-aadvantage-platinum-select-world-elite-m",
       "accepting_applications": true,
       "annual_fee": 99,
+      "image": "citi-aadvantage-platinum-select-world-elite.png",
       "card_id": "citi-aadvantage-platinum-select-world-elite-m",
       "card_name": "Citi AAdvantage Platinum Select World Elite M"
     },
@@ -692,13 +697,14 @@
       "card_name": "Citi Secured Mastercard"
     },
     {
-      "name": "Citi Simplicity Card",
+      "name": "Citi Simplicity",
       "bank": "Citi",
       "slug": "citi-simplicity-card",
       "accepting_applications": true,
+      "image": "citi-simplicity.png",
       "annual_fee": 0,
       "card_id": "citi-simplicity-card",
-      "card_name": "Citi Simplicity Card"
+      "card_name": "Citi Simplicity"
     },
     {
       "name": "Citi Strata Card",
@@ -706,6 +712,7 @@
       "slug": "citi-strata",
       "accepting_applications": true,
       "category": "travel",
+      "image": "citi-strata.png",
       "annual_fee": 0,
       "card_id": "citi-strata",
       "card_name": "Citi Strata Card"
@@ -716,6 +723,7 @@
       "slug": "citi-strata-elite",
       "accepting_applications": true,
       "category": "travel",
+      "image": "citi-strata-elite.png",
       "annual_fee": 595,
       "card_id": "citi-strata-elite",
       "card_name": "Citi Strata Elite Card"
@@ -745,6 +753,7 @@
       "bank": "Citi",
       "slug": "costco-anywhere-visa-business-card-by-citi",
       "accepting_applications": true,
+      "image": "citi-costco-anywhere-business.png",
       "annual_fee": 0,
       "card_id": "costco-anywhere-visa-business-card-by-citi",
       "card_name": "Costco Anywhere Visa Business Card by Citi"
@@ -837,6 +846,7 @@
       "bank": "Discover",
       "slug": "discover-it-for-students-card",
       "accepting_applications": true,
+      "image": "discover-it-student-cash-back.png",
       "annual_fee": 0,
       "tags": [
         "student",
@@ -850,6 +860,7 @@
       "bank": "Discover",
       "slug": "discover-it-gas-and-restaurants",
       "accepting_applications": false,
+      "image": "discover-it-gas-restaurants.png",
       "annual_fee": 0,
       "card_id": "discover-it-gas-and-restaurants",
       "card_name": "Discover it Gas and Restaurants"
@@ -859,6 +870,7 @@
       "bank": "Discover",
       "slug": "discover-it-miles",
       "accepting_applications": true,
+      "image": "discover-it-miles.png",
       "annual_fee": 0,
       "tags": [
         "travel",
@@ -872,6 +884,7 @@
       "bank": "Discover",
       "slug": "discover-it-secured-credit-card",
       "accepting_applications": true,
+      "image": "discover-it-secured.png",
       "annual_fee": 0,
       "tags": [
         "secured",
@@ -885,6 +898,7 @@
       "bank": "Discover",
       "slug": "discover-it-student-chrome-card",
       "accepting_applications": true,
+      "image": "discover-it-student-chrome.png",
       "annual_fee": 0,
       "card_id": "discover-it-student-chrome-card",
       "card_name": "Discover it Student Chrome Card"
@@ -894,6 +908,7 @@
       "bank": "Chase",
       "slug": "disney-premier-visa-card",
       "accepting_applications": true,
+      "image": "chase-disney-premier.png",
       "annual_fee": 49,
       "card_id": "disney-premier-visa-card",
       "card_name": "Disney Premier Visa Card"
@@ -903,6 +918,7 @@
       "bank": "Chase",
       "slug": "disney-visa-card",
       "accepting_applications": true,
+      "image": "chase-disney.png",
       "annual_fee": 0,
       "card_id": "disney-visa-card",
       "card_name": "Disney Visa Card"
@@ -926,11 +942,27 @@
       "card_name": "Expedia Rewards Voyager Card from Citi"
     },
     {
+      "name": "Gold Card",
+      "bank": "Robinhood",
+      "slug": "robinhood-gold-card",
+      "accepting_applications": true,
+      "image": "robinhood-gold.png",
+      "release_date": "2024-03-26",
+      "annual_fee": 0,
+      "tags": [
+        "cashback",
+        "rewards"
+      ],
+      "card_id": "robinhood-gold-card",
+      "card_name": "Gold Card"
+    },
+    {
       "name": "Hawaiian Airlines World Elite Mastercard",
       "bank": "Barclays",
       "slug": "hawaiian-airlines-world-elite-mastercard",
       "accepting_applications": true,
       "category": "travel",
+      "image": "barclays-hawaiian.png",
       "annual_fee": 99,
       "card_id": "hawaiian-airlines-world-elite-mastercard",
       "card_name": "Hawaiian Airlines World Elite Mastercard"
@@ -983,6 +1015,7 @@
       "bank": "Wells Fargo",
       "slug": "hotels-com-rewards-visa",
       "accepting_applications": false,
+      "image": "wells-fargo-hotels-com.png",
       "annual_fee": 0,
       "card_id": "hotels-com-rewards-visa",
       "card_name": "Hotels.com Rewards Visa"
@@ -1067,6 +1100,7 @@
       "slug": "jetblue-business-card",
       "accepting_applications": true,
       "category": "business",
+      "image": "barclays-jetblue-business.png",
       "annual_fee": 99,
       "card_id": "jetblue-business-card",
       "card_name": "JetBlue Business Card"
@@ -1077,6 +1111,7 @@
       "slug": "jetblue-card",
       "accepting_applications": true,
       "category": "travel",
+      "image": "barclays-jetblue.png",
       "annual_fee": 0,
       "card_id": "jetblue-card",
       "card_name": "JetBlue Card"
@@ -1087,6 +1122,7 @@
       "slug": "jetblue-plus-card",
       "accepting_applications": true,
       "category": "travel",
+      "image": "barclays-jetblue-plus.png",
       "annual_fee": 99,
       "card_id": "jetblue-plus-card",
       "card_name": "JetBlue Plus Card"
@@ -1139,6 +1175,7 @@
       "bank": "Discover",
       "slug": "nhl-discover-it",
       "accepting_applications": true,
+      "image": "discover-it-nhl.png",
       "annual_fee": 0,
       "card_id": "nhl-discover-it",
       "card_name": "NHL Discover it"
@@ -1149,6 +1186,7 @@
       "slug": "princess-cruises-rewards-visa-card",
       "accepting_applications": true,
       "category": "travel",
+      "image": "barclays-princess.png",
       "annual_fee": 0,
       "card_id": "princess-cruises-rewards-visa-card",
       "card_name": "Princess Cruises Rewards Visa Card"
@@ -1218,7 +1256,8 @@
       "name": "Starbucks Rewards Visa Card",
       "bank": "Chase",
       "slug": "starbucks-rewards-visa-card",
-      "accepting_applications": true,
+      "image": "chase-starbucks-rewards.png",
+      "accepting_applications": false,
       "annual_fee": 49,
       "card_id": "starbucks-rewards-visa-card",
       "card_name": "Starbucks Rewards Visa Card"
@@ -1246,7 +1285,7 @@
       "image": "amex_the_platinum_card.png",
       "accepting_applications": true,
       "card_referral_link": "https://americanexpress.com/en-us/referral/platinum-card?ref=",
-      "annual_fee": 695,
+      "annual_fee": 895,
       "tags": [
         "travel",
         "premium",
@@ -1294,7 +1333,7 @@
       "slug": "united-club-infinite",
       "image": "united_club_infinite.png",
       "accepting_applications": true,
-      "annual_fee": 525,
+      "annual_fee": 695,
       "tags": [
         "airline",
         "travel",
@@ -1309,7 +1348,7 @@
       "slug": "united-explorer",
       "image": "united_explorer.png",
       "accepting_applications": true,
-      "annual_fee": 95,
+      "annual_fee": 150,
       "tags": [
         "airline",
         "travel",
@@ -1338,7 +1377,7 @@
       "slug": "united-quest",
       "image": "united_quest.png",
       "accepting_applications": true,
-      "annual_fee": 250,
+      "annual_fee": 350,
       "tags": [
         "airline",
         "travel",
@@ -1418,6 +1457,7 @@
       "slug": "wells-fargo-attune",
       "accepting_applications": true,
       "category": "cashback",
+      "image": "wells-fargo-attune.png",
       "annual_fee": 0,
       "card_id": "wells-fargo-attune",
       "card_name": "Wells Fargo Attune Card"
@@ -1443,6 +1483,7 @@
       "bank": "Wells Fargo",
       "slug": "wells-fargo-autograph-journey",
       "accepting_applications": true,
+      "image": "wells-fargo-autograph-journey.png",
       "category": "travel",
       "annual_fee": 95,
       "card_id": "wells-fargo-autograph-journey",
@@ -1514,6 +1555,7 @@
       "bank": "Wells Fargo",
       "slug": "wells-fargo-signify-business-cash",
       "accepting_applications": true,
+      "image": "wells-fargo-signify-business-cash.png",
       "category": "business",
       "annual_fee": 0,
       "card_id": "wells-fargo-signify-business-cash",
@@ -1559,6 +1601,7 @@
       "slug": "wyndham-rewards-earner-business-card",
       "accepting_applications": true,
       "category": "business",
+      "image": "barclays-wyndham-earner-business.png",
       "annual_fee": 95,
       "card_id": "wyndham-rewards-earner-business-card",
       "card_name": "Wyndham Rewards Earner Business Card"
@@ -1567,8 +1610,9 @@
       "name": "Wyndham Rewards Earner Card",
       "bank": "Barclays",
       "slug": "wyndham-rewards-earner-card",
-      "accepting_applications": true,
+      "accepting_applications": false,
       "category": "travel",
+      "image": "barclays-wyndham-earner.png",
       "annual_fee": 0,
       "card_id": "wyndham-rewards-earner-card",
       "card_name": "Wyndham Rewards Earner Card"
@@ -1577,8 +1621,9 @@
       "name": "Wyndham Rewards Earner Plus Card",
       "bank": "Barclays",
       "slug": "wyndham-rewards-earner-plus-card",
-      "accepting_applications": true,
+      "accepting_applications": false,
       "category": "travel",
+      "image": "barclays-wyndham-earner-plus.png",
       "annual_fee": 75,
       "card_id": "wyndham-rewards-earner-plus-card",
       "card_name": "Wyndham Rewards Earner Plus Card"
