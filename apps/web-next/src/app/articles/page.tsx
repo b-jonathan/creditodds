@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { DocumentTextIcon } from "@heroicons/react/24/outline";
 import { getArticles } from "@/lib/articles";
-import { ArticleCard } from "@/components/articles/ArticleCard";
+import { ArticlesListClient } from "@/components/articles/ArticlesListClient";
 
 export const metadata: Metadata = {
   title: "Credit Card Articles - Guides & Strategies",
@@ -60,13 +60,9 @@ export default async function ArticlesPage() {
           </p>
         </div>
 
-        {/* Articles Grid */}
+        {/* Articles List with Filters and Pagination */}
         {articles.length > 0 ? (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {articles.map((article) => (
-              <ArticleCard key={article.id} article={article} />
-            ))}
-          </div>
+          <ArticlesListClient articles={articles} />
         ) : (
           <div className="text-center py-12">
             <DocumentTextIcon className="mx-auto h-12 w-12 text-gray-400" />
