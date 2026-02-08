@@ -86,7 +86,13 @@ export default function CardSelect({ allCards }: CardSelectProps) {
             if (a.accepting_applications !== b.accepting_applications) {
               return a.accepting_applications ? -1 : 1;
             }
-            return 0; // Preserve original order within each group
+            // Business cards lower in results
+            const aIsBusiness = /business/i.test(a.card_name);
+            const bIsBusiness = /business/i.test(b.card_name);
+            if (aIsBusiness !== bIsBusiness) {
+              return aIsBusiness ? 1 : -1;
+            }
+            return 0;
           });
 
         // Show recent searches when input is empty, otherwise show filtered results
