@@ -11,7 +11,7 @@ interface ExploreClientProps {
   banks: string[];
 }
 
-type SortOption = 'name' | 'recent' | 'bank';
+type SortOption = 'popular' | 'name' | 'recent' | 'bank';
 
 // Emoji quick filters - maps to card tags
 const emojiFilters = [
@@ -30,7 +30,7 @@ const emojiFilters = [
 export default function ExploreClient({ cards, banks }: ExploreClientProps) {
   const [search, setSearch] = useState("");
   const [selectedBank, setSelectedBank] = useState<string>("");
-  const [sortBy, setSortBy] = useState<SortOption>('name');
+  const [sortBy, setSortBy] = useState<SortOption>('popular');
   const [activeEmoji, setActiveEmoji] = useState<string | null>(null);
   const [showArchived, setShowArchived] = useState(false);
   const [showBusiness, setShowBusiness] = useState(false);
@@ -69,6 +69,14 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
 
     // Sort based on selected option
     switch (sortBy) {
+      case 'popular':
+        filtered = [...filtered].sort((a, b) => {
+          const aRecords = (a.approved_count || 0) + (a.rejected_count || 0);
+          const bRecords = (b.approved_count || 0) + (b.rejected_count || 0);
+          if (aRecords !== bRecords) return bRecords - aRecords;
+          return a.card_name.localeCompare(b.card_name);
+        });
+        break;
       case 'recent':
         filtered = [...filtered].sort((a, b) => {
           // Cards with release_date come first, sorted by most recent
@@ -201,6 +209,7 @@ export default function ExploreClient({ cards, banks }: ExploreClientProps) {
             onChange={(e) => setSortBy(e.target.value as SortOption)}
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
           >
+            <option value="popular">Sort by Most Popular</option>
             <option value="name">Sort by Name</option>
             <option value="recent">Sort by Release Date</option>
             <option value="bank">Sort by Bank</option>

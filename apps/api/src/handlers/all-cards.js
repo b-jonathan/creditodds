@@ -105,8 +105,8 @@ exports.AllCardsHandler = async (event) => {
 
         // Merge card data with stats and metadata from database
         const enrichedCards = cards.map(card => {
-            const stats = statsMap[card.card_id] || {};
             const dbCard = cardMap[card.card_name] || cardMap[card.name] || {};
+            const stats = statsMap[dbCard.db_card_id] || {};
             return {
               ...card,
               db_card_id: dbCard.db_card_id || null,

@@ -24,11 +24,12 @@ export default async function ExplorePage() {
     getRecentRecords(),
   ]);
 
-  // Sort cards: by bank, then by name
+  // Sort cards: by total records (most first), then by bank, then by name
   const sortedCards = [...cards].sort((a, b) => {
-    if (a.bank !== b.bank) {
-      return a.bank.localeCompare(b.bank);
-    }
+    const aRecords = (a.approved_count || 0) + (a.rejected_count || 0);
+    const bRecords = (b.approved_count || 0) + (b.rejected_count || 0);
+    if (aRecords !== bRecords) return bRecords - aRecords;
+    if (a.bank !== b.bank) return a.bank.localeCompare(b.bank);
     return a.card_name.localeCompare(b.card_name);
   });
 
