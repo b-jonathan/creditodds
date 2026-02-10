@@ -56,8 +56,26 @@ bank: "Issuing Bank"
 slug: "your-card-name"
 image: "your-card-name.png"
 accepting_applications: true
-category: "travel"
-annual_fee: 95
+category: "cashback"
+annual_fee: 0
+tags:
+  - cashback
+reward_type: "cashback"
+rewards:
+  - category: dining
+    value: 3
+    unit: percent
+  - category: groceries
+    value: 3
+    unit: percent
+  - category: everything_else
+    value: 1
+    unit: percent
+signup_bonus:
+  value: 200
+  type: cash
+  spend_requirement: 500
+  timeframe_months: 3
 ```
 
 **Naming Convention:** Card names should NOT include "Card" or "Credit Card" as a suffix. For example, use "Chase Sapphire Preferred" instead of "Chase Sapphire Preferred Card".
