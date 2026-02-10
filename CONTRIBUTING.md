@@ -22,8 +22,6 @@ The easiest way to contribute is by adding new credit cards to our database.
    accepting_applications: true
    category: "travel"  # optional
    annual_fee: 95  # optional
-   apply_link: "https://example.com/apply"  # optional, direct application URL
-   card_referral_link: "https://example.com/refer/"  # optional, base URL for referrals
    ```
 3. (Optional) Add card image to `data/cards/images/your-card-name.png`
 4. Run `npm run build:cards` to validate
@@ -64,12 +62,12 @@ npm run build:cards
 creditodds/
 ├── apps/
 │   ├── api/          # Lambda API
-│   └── web/          # React frontend
+│   ├── shared/       # Shared code
+│   └── web-next/     # Next.js frontend
 ├── data/
 │   └── cards/        # Card YAML files
 │       └── images/   # Card images
-└── packages/
-    └── shared/       # Shared code
+└── docs/             # Documentation
 ```
 
 ## Questions?
