@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: CardPageProps): Promise<Metad
       description,
       openGraph: {
         title: `${seoName} | CreditOdds`,
-        description: `See approval odds for ${seoName}${card.approved_median_credit_score ? `. Average approved credit score: ${card.approved_median_credit_score}` : ''}`,
+        description: `See approval odds for ${seoName}${card.approved_median_credit_score ? `. Median approved credit score: ${card.approved_median_credit_score}` : ''}`,
         siteName: 'CreditOdds',
         type: 'website',
         url: `https://creditodds.com/card/${card.slug}`,

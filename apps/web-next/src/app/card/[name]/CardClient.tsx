@@ -322,7 +322,7 @@ export default function CardClient({ card, graphData, news }: CardClientProps) {
                 {(card.approved_count || 0) > 0 ? (
                   <>
                     <h3 className="text-lg leading-6 font-medium text-gray-900 text-center sm:text-left mb-4">
-                      On average people who got <b>accepted</b> for the card had...
+                      The median applicant who got <b>accepted</b> for the card had...
                     </h3>
 
                     <div className="bg-white shadow rounded-lg overflow-hidden">
