@@ -65,12 +65,33 @@ async function fetchCardFromDB(cardName) {
           COUNT(*) as total_records,
           SUM(CASE WHEN result = 1 THEN 1 ELSE 0 END) as approved_count,
           SUM(CASE WHEN result = 0 THEN 1 ELSE 0 END) as rejected_count,
-          (SELECT ROUND(AVG(credit_score)) FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1) as approved_median_credit_score,
-          (SELECT ROUND(AVG(listed_income)) FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1) as approved_median_income,
-          (SELECT ROUND(AVG(length_credit)) FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1) as approved_median_length_credit
+          (SELECT ROUND(AVG(val)) FROM (
+            SELECT credit_score AS val
+            FROM records
+            WHERE card_id = ? AND result = 1 AND admin_review = 1
+            ORDER BY credit_score
+            LIMIT 2 - (SELECT COUNT(*) FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1) % 2
+            OFFSET (SELECT (COUNT(*) - 1) / 2 FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1)
+          ) AS median_cs) as approved_median_credit_score,
+          (SELECT ROUND(AVG(val)) FROM (
+            SELECT listed_income AS val
+            FROM records
+            WHERE card_id = ? AND result = 1 AND admin_review = 1
+            ORDER BY listed_income
+            LIMIT 2 - (SELECT COUNT(*) FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1) % 2
+            OFFSET (SELECT (COUNT(*) - 1) / 2 FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1)
+          ) AS median_inc) as approved_median_income,
+          (SELECT ROUND(AVG(val)) FROM (
+            SELECT length_credit AS val
+            FROM records
+            WHERE card_id = ? AND result = 1 AND admin_review = 1
+            ORDER BY length_credit
+            LIMIT 2 - (SELECT COUNT(*) FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1) % 2
+            OFFSET (SELECT (COUNT(*) - 1) / 2 FROM records WHERE card_id = ? AND result = 1 AND admin_review = 1)
+          ) AS median_lc) as approved_median_length_credit
         FROM records
         WHERE card_id = ? AND admin_review = 1
-      `, [dbCard.card_id, dbCard.card_id, dbCard.card_id, dbCard.card_id]),
+      `, Array(10).fill(dbCard.card_id)),
       mysql.query(`
         SELECT referral_id, referral_link
         FROM referrals
