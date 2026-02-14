@@ -70,7 +70,7 @@ async function fetchCardFromDB(cardName) {
               ROW_NUMBER() OVER (ORDER BY credit_score) AS rn,
               COUNT(*) OVER () AS cnt
             FROM records
-            WHERE card_id = ? AND result = 1 AND admin_review = 1
+            WHERE card_id = ? AND result = 1 AND admin_review = 1 AND credit_score IS NOT NULL
           ) t WHERE rn IN (FLOOR((cnt + 1) / 2), CEIL((cnt + 1) / 2))
           ) as approved_median_credit_score,
           (SELECT ROUND(AVG(val)) FROM (
@@ -78,7 +78,7 @@ async function fetchCardFromDB(cardName) {
               ROW_NUMBER() OVER (ORDER BY listed_income) AS rn,
               COUNT(*) OVER () AS cnt
             FROM records
-            WHERE card_id = ? AND result = 1 AND admin_review = 1
+            WHERE card_id = ? AND result = 1 AND admin_review = 1 AND listed_income IS NOT NULL
           ) t WHERE rn IN (FLOOR((cnt + 1) / 2), CEIL((cnt + 1) / 2))
           ) as approved_median_income,
           (SELECT ROUND(AVG(val)) FROM (
@@ -86,7 +86,7 @@ async function fetchCardFromDB(cardName) {
               ROW_NUMBER() OVER (ORDER BY length_credit) AS rn,
               COUNT(*) OVER () AS cnt
             FROM records
-            WHERE card_id = ? AND result = 1 AND admin_review = 1
+            WHERE card_id = ? AND result = 1 AND admin_review = 1 AND length_credit IS NOT NULL
           ) t WHERE rn IN (FLOOR((cnt + 1) / 2), CEIL((cnt + 1) / 2))
           ) as approved_median_length_credit
         FROM records
