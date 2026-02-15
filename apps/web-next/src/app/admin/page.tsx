@@ -624,13 +624,13 @@ function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<stri
     const now = new Date();
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
   });
-  const [lengthCredit, setLengthCredit] = useState(5);
+  const [lengthCredit, setLengthCredit] = useState<number | null>(null);
   const [bankCustomer, setBankCustomer] = useState(false);
-  const [inquiries3, setInquiries3] = useState(0);
-  const [inquiries12, setInquiries12] = useState(0);
-  const [inquiries24, setInquiries24] = useState(0);
+  const [inquiries3, setInquiries3] = useState<number | null>(null);
+  const [inquiries12, setInquiries12] = useState<number | null>(null);
+  const [inquiries24, setInquiries24] = useState<number | null>(null);
   const [result, setResult] = useState(true);
-  const [startingCreditLimit, setStartingCreditLimit] = useState(0);
+  const [startingCreditLimit, setStartingCreditLimit] = useState<number | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -662,13 +662,13 @@ function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<stri
     setIncome(50000);
     const now = new Date();
     setDateApplied(`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`);
-    setLengthCredit(5);
+    setLengthCredit(null);
     setBankCustomer(false);
-    setInquiries3(0);
-    setInquiries12(0);
-    setInquiries24(0);
+    setInquiries3(null);
+    setInquiries12(null);
+    setInquiries24(null);
     setResult(true);
-    setStartingCreditLimit(0);
+    setStartingCreditLimit(null);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -702,13 +702,13 @@ function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<stri
         credit_score_source: creditScoreSource,
         result,
         listed_income: income,
-        length_credit: lengthCredit,
-        starting_credit_limit: result ? startingCreditLimit : undefined,
+        length_credit: lengthCredit ?? undefined,
+        starting_credit_limit: result && startingCreditLimit != null ? startingCreditLimit : undefined,
         date_applied: dateAppliedValue,
         bank_customer: bankCustomer,
-        inquiries_3: inquiries3,
-        inquiries_12: inquiries12,
-        inquiries_24: inquiries24,
+        inquiries_3: inquiries3 ?? undefined,
+        inquiries_12: inquiries12 ?? undefined,
+        inquiries_24: inquiries24 ?? undefined,
         submitter_name: submitterName.trim(),
       }, token);
 
@@ -879,12 +879,12 @@ function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<stri
           <label className="block text-sm font-medium text-gray-700 mb-1">Age of Oldest Account (Years)</label>
           <input
             type="number"
-            value={lengthCredit}
-            onChange={(e) => setLengthCredit(parseInt(e.target.value) || 0)}
+            value={lengthCredit ?? ''}
+            onChange={(e) => setLengthCredit(e.target.value === '' ? null : parseInt(e.target.value))}
             min={0}
             max={100}
+            placeholder="Optional"
             className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
-            required
           />
         </div>
 
@@ -910,10 +910,11 @@ function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<stri
               <label className="block text-xs text-gray-500 mb-1">Last 3 months</label>
               <input
                 type="number"
-                value={inquiries3}
-                onChange={(e) => setInquiries3(parseInt(e.target.value) || 0)}
+                value={inquiries3 ?? ''}
+                onChange={(e) => setInquiries3(e.target.value === '' ? null : parseInt(e.target.value))}
                 min={0}
                 max={50}
+                placeholder="-"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
               />
             </div>
@@ -921,10 +922,11 @@ function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<stri
               <label className="block text-xs text-gray-500 mb-1">Last 12 months</label>
               <input
                 type="number"
-                value={inquiries12}
-                onChange={(e) => setInquiries12(parseInt(e.target.value) || 0)}
+                value={inquiries12 ?? ''}
+                onChange={(e) => setInquiries12(e.target.value === '' ? null : parseInt(e.target.value))}
                 min={0}
                 max={50}
+                placeholder="-"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
               />
             </div>
@@ -932,10 +934,11 @@ function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<stri
               <label className="block text-xs text-gray-500 mb-1">Last 24 months</label>
               <input
                 type="number"
-                value={inquiries24}
-                onChange={(e) => setInquiries24(parseInt(e.target.value) || 0)}
+                value={inquiries24 ?? ''}
+                onChange={(e) => setInquiries24(e.target.value === '' ? null : parseInt(e.target.value))}
                 min={0}
                 max={50}
+                placeholder="-"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
               />
             </div>
@@ -968,10 +971,11 @@ function SubmitRecordTab({ getToken, onSuccess }: { getToken: () => Promise<stri
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Starting Credit Limit</label>
             <NumericFormat
-              value={startingCreditLimit}
-              onValueChange={(values) => setStartingCreditLimit(values.floatValue || 0)}
+              value={startingCreditLimit ?? ''}
+              onValueChange={(values) => setStartingCreditLimit(values.floatValue ?? null)}
               thousandSeparator
               prefix="$"
+              placeholder="Optional"
               className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>

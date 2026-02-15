@@ -206,14 +206,14 @@ exports.AdminRecordsHandler = async (event) => {
           credit_score_source: yup.number().integer().min(0).max(4).required(),
           result: yup.boolean().required(),
           listed_income: yup.number().integer().min(0).max(1000000).required(),
-          length_credit: yup.number().integer().min(0).max(100).required(),
-          starting_credit_limit: yup.number().integer().min(0).max(1000000),
+          length_credit: yup.number().integer().min(0).max(100).nullable(),
+          starting_credit_limit: yup.number().integer().min(0).max(1000000).nullable(),
           reason_denied: yup.string().max(254),
           date_applied: yup.date().required(),
           bank_customer: yup.boolean().required(),
-          inquiries_3: yup.number().integer().min(0).max(50),
-          inquiries_12: yup.number().integer().min(0).max(50),
-          inquiries_24: yup.number().integer().min(0).max(50),
+          inquiries_3: yup.number().integer().min(0).max(50).nullable(),
+          inquiries_12: yup.number().integer().min(0).max(50).nullable(),
+          inquiries_24: yup.number().integer().min(0).max(50).nullable(),
         });
 
         const value = await recordSchema.validate(recordData);
